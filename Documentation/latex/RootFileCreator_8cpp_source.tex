@@ -1,0 +1,73 @@
+\hypertarget{RootFileCreator_8cpp_source}{}\doxysection{Root\+File\+Creator.\+cpp}
+\label{RootFileCreator_8cpp_source}\index{SourceFiles/RootFileCreator.cpp@{SourceFiles/RootFileCreator.cpp}}
+\mbox{\hyperlink{RootFileCreator_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00024}00024 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{RootFileCreator_8h}{HeaderFiles/RootFileCreator.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00025}00025 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{PrintFuncInfo_8h}{HeaderFiles/PrintFuncInfo.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00027}\mbox{\hyperlink{RootFileCreator_8h_a724ba5f4b176d26e73905ce68cad46dc}{00027}} \textcolor{keywordtype}{int} \mbox{\hyperlink{RootFileCreator_8cpp_a051ab26d5cc0e48597c5a517e5a8dfea}{RootFileCreatorFilterer}}(pair<string, string> data\_holder,}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00028}00028                             \textcolor{keywordtype}{string} output\_filename,}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00029}00029                             \textcolor{keywordtype}{string} cut,}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00030}00030                             \textcolor{keywordtype}{string} output\_path,}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00031}00031                             chrono::\_V2::system\_clock::time\_point start,}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00032}00032                             \textcolor{keywordtype}{bool} outputprint,}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00033}00033                             \textcolor{keywordtype}{bool} debug)}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00034}00034 \{}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00035}00035     \textcolor{comment}{// Enabling implicit Multi-\/threading}}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00036}00036     ROOT::EnableImplicitMT();}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00038}00038     \textcolor{comment}{// Defining the quantities that will be used}}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00039}00039     ROOT::RDataFrame *dataset = NULL;}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00041}00041     \textcolor{comment}{// Defining the name of the file and the name of the tree}}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00042}00042     \textcolor{keywordtype}{char} *filename = data\_holder.first.data();}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00043}00043     \textcolor{keywordtype}{char} *treename = data\_holder.second.data();}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00045}00045     \textcolor{comment}{// Purging the input filename from the input path and its extension to collect a pure name}}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00046}00046     \textcolor{keywordtype}{string} filename\_clean = data\_holder.first;}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00047}00047     \textcolor{keywordtype}{size\_t} inputpath\_name\_position = filename\_clean.rfind(\textcolor{stringliteral}{"{}/"{}});}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00048}00048     \textcolor{keywordflow}{if} (inputpath\_name\_position != string::npos)}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00049}00049         filename\_clean.erase(0, inputpath\_name\_position+1);}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00050}00050     \textcolor{keywordtype}{size\_t} extension\_name\_position = filename\_clean.find(\textcolor{stringliteral}{"{}.root"{}});}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00051}00051     \textcolor{keywordflow}{if} (extension\_name\_position != string::npos)}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00052}00052         filename\_clean.erase(extension\_name\_position, \textcolor{keywordtype}{string}(\textcolor{stringliteral}{"{}.root"{}}).length());}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00053}00053     \textcolor{keywordflow}{if} (outputprint == \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00054}00054         cout << filename\_clean.data() << endl;}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00056}00056     \textcolor{comment}{// Checking if the file and the tree do exist}}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00057}00057     \textcolor{keywordtype}{bool} fileexist = TFile(filename).IsZombie();}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00058}00058     \textcolor{keywordtype}{bool} treeexist = TTree(filename, treename).IsZombie();}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00060}00060     \textcolor{comment}{// If the file and the tree do exist, extract a RDataFrame}}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00061}00061     \textcolor{keywordflow}{if} (fileexist == \textcolor{keyword}{false} \&\& treeexist == \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00062}00062         dataset = \textcolor{keyword}{new} ROOT::RDataFrame(treename, filename);}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00064}00064     \textcolor{comment}{// Filtering the new dataset using the cut given as a input to the function}}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00065}00065     ROOT::RDF::RNode dataset\_filtered = dataset-\/>Filter(cut);}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00067}00067     \textcolor{comment}{// Looping over the columns that will be stored}}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00068}00068     vector<string> columnnames\_todataset;}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00069}00069     \textcolor{keyword}{auto} columnnames\_fromdataset = dataset\_filtered.GetColumnNames();}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00070}00070     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&\&colname : columnnames\_fromdataset)}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00071}00071         columnnames\_todataset.push\_back(colname);}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00073}00073     \textcolor{comment}{// Modifying write options of the root data frame to overwrite other trees}}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00074}00074     ROOT::RDF::RSnapshotOptions snapopt;}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00075}00075     snapopt.fMode = \textcolor{stringliteral}{"{}UPDATE"{}};}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00076}00076     snapopt.fOverwriteIfExists = \textcolor{stringliteral}{"{}TRUE"{}};}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00078}00078     \textcolor{comment}{// Write the new dataset to a new file. The tree name is the original one}}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00079}00079     \textcolor{comment}{// Check if an output file name is specified, otherwise "{}\_CREATED"{} is appended to the original one}}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00080}00080     \textcolor{keywordflow}{if} (output\_filename.compare(\textcolor{stringliteral}{"{}"{}})==0)}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00081}00081         dataset\_filtered.Snapshot(treename, (output\_path+filename\_clean+\textcolor{stringliteral}{"{}\_CREATED.root"{}}).data(), dataset\_filtered.GetColumnNames(), snapopt);}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00082}00082     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00083}00083         dataset\_filtered.Snapshot(treename, (output\_path+output\_filename+\textcolor{stringliteral}{"{}.root"{}}).data(), columnnames\_todataset, snapopt);}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00084}00084     }
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00085}00085     \textcolor{comment}{// Disabling implicit Multi-\/threading}}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00086}00086     ROOT::DisableImplicitMT();}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00088}00088     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{RootFileCreator_8cpp_source_l00089}00089 \}}
+
+\end{DoxyCode}

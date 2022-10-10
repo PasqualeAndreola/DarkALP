@@ -1,0 +1,89 @@
+/*!
+ *  \file RootFileCreator.cpp
+ *  \brief Source file for some functions used to create *.root files
+ */
+
+/*!
+ *  \fn RootFileCreatorFilterer(pair<string, string> data_holder,
+                            string output_file,
+                            string cut,
+                            chrono::_V2::system_clock::time_point start = chrono::_V2::system_clock::now(),
+                            bool outputprint = false,
+                            bool debug = false) "";
+ *  \brief Function used to produce *.root files choosing cuts or defining new columns
+ *
+ *  \param data_holder The first name of the pair represents the input file\n
+ *                     The second name of the pair represents the name of the tree that holds the variables
+ *  \param output_filename The name of the root file that will be produced. If not specified, it will be the original filename+"_CREATED"
+ *  \param cut Strings that express the cuts being used to produce the new *.root file
+ *  \param output_path The name of the path where the output file will be written to (default is "OutputFiles/")
+ *  \param start Starting time of the main function (default is the starting time of the function itself)
+ *  \param outputprint Flag to decide to print the output to terminal
+ *  \param debug Flag to acrivate debug mode
+ */
+#include "HeaderFiles/RootFileCreator.h"
+#include "HeaderFiles/PrintFuncInfo.h"
+
+int RootFileCreatorFilterer(pair<string, string> data_holder,
+                            string output_filename,
+                            string cut,
+                            string output_path,
+                            chrono::_V2::system_clock::time_point start,
+                            bool outputprint,
+                            bool debug)
+{
+    // Enabling implicit Multi-threading
+    ROOT::EnableImplicitMT();
+
+    // Defining the quantities that will be used
+    ROOT::RDataFrame *dataset = NULL;
+
+    // Defining the name of the file and the name of the tree
+    char *filename = data_holder.first.data();
+    char *treename = data_holder.second.data();
+
+    // Purging the input filename from the input path and its extension to collect a pure name
+    string filename_clean = data_holder.first;
+    size_t inputpath_name_position = filename_clean.rfind("/");
+    if (inputpath_name_position != string::npos)
+        filename_clean.erase(0, inputpath_name_position+1);
+    size_t extension_name_position = filename_clean.find(".root");
+    if (extension_name_position != string::npos)
+        filename_clean.erase(extension_name_position, string(".root").length());
+    if (outputprint == false)
+        cout << filename_clean.data() << endl;
+
+    // Checking if the file and the tree do exist
+    bool fileexist = TFile(filename).IsZombie();
+    bool treeexist = TTree(filename, treename).IsZombie();
+
+    // If the file and the tree do exist, extract a RDataFrame
+    if (fileexist == false && treeexist == false)
+        dataset = new ROOT::RDataFrame(treename, filename);
+
+    // Filtering the new dataset using the cut given as a input to the function
+    ROOT::RDF::RNode dataset_filtered = dataset->Filter(cut);
+
+    // Looping over the columns that will be stored
+    vector<string> columnnames_todataset;
+    auto columnnames_fromdataset = dataset_filtered.GetColumnNames();
+    for (auto &&colname : columnnames_fromdataset)
+        columnnames_todataset.push_back(colname);
+
+    // Modifying write options of the root data frame to overwrite other trees
+    ROOT::RDF::RSnapshotOptions snapopt;
+    snapopt.fMode = "UPDATE";
+    snapopt.fOverwriteIfExists = "TRUE";
+
+    // Write the new dataset to a new file. The tree name is the original one
+    // Check if an output file name is specified, otherwise "_CREATED" is appended to the original one
+    if (output_filename.compare("")==0)
+        dataset_filtered.Snapshot(treename, (output_path+filename_clean+"_CREATED.root").data(), dataset_filtered.GetColumnNames(), snapopt);
+    else
+        dataset_filtered.Snapshot(treename, (output_path+output_filename+".root").data(), columnnames_todataset, snapopt);
+    
+    // Disabling implicit Multi-threading
+    ROOT::DisableImplicitMT();
+
+    return 0;
+}

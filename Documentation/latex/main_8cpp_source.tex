@@ -1,0 +1,344 @@
+\hypertarget{main_8cpp_source}{}\doxysection{main.\+cpp}
+\label{main_8cpp_source}\index{SourceFiles/main.cpp@{SourceFiles/main.cpp}}
+\mbox{\hyperlink{main_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00015}00015 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{AnalysisVariable_8h}{HeaderFiles/AnalysisVariable.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00016}00016 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{EfficienciesAnalyzer_8h}{HeaderFiles/EfficienciesAnalyzer.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00017}00017 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{EfficienciesRatioAnalyzer_8h}{HeaderFiles/EfficienciesRatioAnalyzer.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00018}00018 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{PrintFuncInfo_8h}{HeaderFiles/PrintFuncInfo.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00019}00019 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{RootFileCreator_8h}{HeaderFiles/RootFileCreator.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00020}00020 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{VariablePlotter_8h}{HeaderFiles/VariablePlotter.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00021}00021 \textcolor{preprocessor}{\#include <filesystem>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00022}00022 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00023}00023 \textcolor{preprocessor}{\#include <ostream>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00024}00024 \textcolor{preprocessor}{\#include <RooFit.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00025}00025 \textcolor{preprocessor}{\#include <RooWorkspace.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00026}00026 \textcolor{preprocessor}{\#include <RooRealVar.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00027}00027 \textcolor{preprocessor}{\#include <RooDataHist.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00028}00028 \textcolor{preprocessor}{\#include <RooAbsPdf.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00029}00029 \textcolor{preprocessor}{\#include <RooPlot.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00030}00030 \textcolor{preprocessor}{\#include <RooGaussian.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00031}00031 \textcolor{preprocessor}{\#include <RooDataSet.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00032}00032 \textcolor{preprocessor}{\#include <RooChi2Var.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00033}00033 \textcolor{preprocessor}{\#include <RooChebychev.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00034}00034 \textcolor{preprocessor}{\#include <RooArgusBG.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00035}00035 \textcolor{preprocessor}{\#include <RooFFTConvPdf.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00036}00036 \textcolor{preprocessor}{\#include <RooAddPdf.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00037}00037 \textcolor{preprocessor}{\#include <TChain.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00038}00038 \textcolor{preprocessor}{\#include <TArrow.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00039}00039 \textcolor{preprocessor}{\#include <TPad.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00040}00040 \textcolor{preprocessor}{\#include <TF1.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00041}00041 \textcolor{preprocessor}{\#include <TMVA/Config.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00042}00042 \textcolor{preprocessor}{\#include <TMVA/Configurable.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00043}00043 \textcolor{preprocessor}{\#include <TMVA/DataLoader.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00044}00044 \textcolor{preprocessor}{\#include <TMVA/Factory.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00045}00045 \textcolor{preprocessor}{\#include "{}TMVA/Reader.h"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00046}00046 \textcolor{preprocessor}{\#include <TMVA/TMVAGui.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00047}00047 \textcolor{preprocessor}{\#include <TMVA/RReader.hxx>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00048}00048 \textcolor{preprocessor}{\#include "{}Blue.h"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00049}00049 \textcolor{preprocessor}{\#include <TMatrixD.h>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00050}00050 \textcolor{preprocessor}{\#include <chrono>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00051}00051 \textcolor{preprocessor}{\#include <ctime>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00053}00053 \textcolor{comment}{//It can be useful to use these namespaces}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00054}00054 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00055}00055 \textcolor{keyword}{using namespace }RooFit;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00057}\mbox{\hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{00057}} \textcolor{keywordtype}{int} \mbox{\hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main}}(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} *argv[])}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00058}00058 \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00059}00059   gErrorIgnoreLevel = kWarning;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00060}00060   \textcolor{keywordtype}{int} colors\_palette[3];}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00061}00061   colors\_palette[0] = kBlue;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00062}00062   colors\_palette[1] = kGreen + 1;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00063}00063   colors\_palette[2] = kRed;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00064}00064   gStyle-\/>SetPalette(3, colors\_palette);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00065}00065   \textcolor{keywordtype}{bool} cuts\_as\_analysis\_variables = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00066}00066   \textcolor{keywordtype}{bool} files\_with\_stripping\_cuts = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00068}00068   \textcolor{keyword}{auto} start = chrono::system\_clock::now();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00069}00069   \textcolor{keyword}{auto} end = chrono::system\_clock::now();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00070}00070   time\_t start\_time = chrono::system\_clock::to\_time\_t(start);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00071}00071   time\_t end\_time = chrono::system\_clock::to\_time\_t(end);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00073}00073   cout << endl}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00074}00074        << \textcolor{stringliteral}{"{}Program compiled correctly."{}} << endl}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00075}00075        << \textcolor{stringliteral}{"{}Starting date: "{}} << ctime(\&start\_time) << endl; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00077}00077   unordered\_map<string, pair<string, string>> data\_holder;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00079}00079   \textcolor{keywordflow}{if} (files\_with\_stripping\_cuts == \textcolor{keyword}{true})}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00080}00080   \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00081}00081     data\_holder[\textcolor{stringliteral}{"{}KPi3Pi\_SIM\_100ps"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/KPi3Pi\_SIM\_100ps.root"{}}, \textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00082}00082     data\_holder[\textcolor{stringliteral}{"{}KPi3Pi\_SIM\_1ps"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/KPi3Pi\_SIM\_1ps.root"{}}, \textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00083}00083     data\_holder[\textcolor{stringliteral}{"{}KPi3Pi\_SIM\_Omega"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/KPi3Pi\_SIM\_Omega.root"{}}, \textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00084}00084     data\_holder[\textcolor{stringliteral}{"{}KPiEtaPiPi\_SIM\_100ps"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/KPiEtaPiPi\_SIM\_100ps.root"{}}, \textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00085}00085     data\_holder[\textcolor{stringliteral}{"{}KPiEtaPiPi\_SIM\_1ps"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/KPiEtaPiPi\_SIM\_1ps.root"{}}, \textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00086}00086     data\_holder[\textcolor{stringliteral}{"{}KPiEtaPiPi\_SIM\_Etapr"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/KPiEtaPiPi\_SIM\_Etapr.root"{}},\textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00087}00087     data\_holder[\textcolor{stringliteral}{"{}KPi3Pi\_2015\_md\_minCuts"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/KPi3Pi\_2015\_md\_minCuts.root"{}}, \textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00088}00088     data\_holder[\textcolor{stringliteral}{"{}KPiEtaPiPi\_2015\_md\_minCuts"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/KPiEtaPiPi\_2015\_md\_minCuts.root"{}}, \textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00089}00089   \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00090}00090   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00091}00091   \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00092}00092     data\_holder[\textcolor{stringliteral}{"{}KPi3Pi\_SIM\_100ps"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/kpi3pi-\/sim-\/100ps.root"{}}, \textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00093}00093     data\_holder[\textcolor{stringliteral}{"{}KPi3Pi\_SIM\_1ps"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/kpi3pi-\/sim-\/1ps.root"{}}, \textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00094}00094     data\_holder[\textcolor{stringliteral}{"{}KPi3Pi\_SIM\_Omega"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/kpi3pi-\/sim-\/omega.root"{}}, \textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00095}00095     data\_holder[\textcolor{stringliteral}{"{}KPiEtaPiPi\_SIM\_100ps"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/kpietapipi-\/sim-\/100ps.root"{}}, \textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00096}00096     data\_holder[\textcolor{stringliteral}{"{}KPiEtaPiPi\_SIM\_1ps"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/kpietapipi-\/sim-\/1ps.root"{}}, \textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00097}00097     data\_holder[\textcolor{stringliteral}{"{}KPiEtaPiPi\_SIM\_Etapr"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/kpietapipi-\/sim-\/etapr.root"{}},\textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00098}00098     data\_holder[\textcolor{stringliteral}{"{}KPi3Pi\_2015\_md\_minCuts"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/kpi3pi\_2015\_md\_minCuts.root"{}}, \textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00099}00099     data\_holder[\textcolor{stringliteral}{"{}KPiEtaPiPi\_2015\_md\_minCuts"{}}] = pair(\textcolor{stringliteral}{"{}InputFiles/kpietapipi\_2015\_md\_minCuts.root"{}}, \textcolor{stringliteral}{"{}T"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00100}00100   \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00101}00101   }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00102}00102   \textcolor{comment}{/*MISSING X\_DIRA AND XETA\_CL AND XPIZ\_CL*/}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00103}00103   \textcolor{keywordtype}{string} stripping\_cuts = \textcolor{stringliteral}{"{}\&\& xpip\_prb\_ghost<0.3 \&\& xpip\_p>3000 \&\& xpip\_ip\_chi2\_best>36 \&\& xpip\_pt>250 \&\& xpip\_pnn\_pi>0.2"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00104}00104                           \textcolor{stringliteral}{"{}\&\& xpim\_prb\_ghost<0.3 \&\& xpim\_p>3000 \&\& xpim\_ip\_chi2\_best>36 \&\& xpim\_pt>250 \&\& xpim\_pnn\_pi>0.2"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00105}00105                           \textcolor{stringliteral}{"{}\&\& x\_m<5000 \&\& x\_pt>2000 \&\& x\_maxdoca<0.2 \&\& x\_fd\_chi2>25 \&\& x\_vtx\_chi2/x\_vtx\_ndof<10"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00106}00106                           \textcolor{stringliteral}{"{}\&\& k\_pnn\_k>0.1 \&\& k\_p>2000 \&\& k\_ip\_chi2\_best>9 \&\& k\_pt>250"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00107}00107                           \textcolor{stringliteral}{"{}\&\& pi\_pnn\_pi>0.2 \&\& pi\_p>2000 \&\& pi\_ip\_chi2\_best>9 \&\& pi\_pt>250"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00108}00108                           \textcolor{stringliteral}{"{}\&\& (b\_m>4800 || b\_m<5800) \&\& b\_pt>3000 \&\& b\_vtx\_chi2/b\_vtx\_ndof<15 \&\& b\_tau>0.0002 \&\& b\_ip\_chi2<10 \&\& b\_dira>0"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00109}00109   \textcolor{keywordtype}{string} stripping\_cuts\_xeta = stripping\_cuts+\textcolor{stringliteral}{"{}\&\& xeta\_p>2000 \&\& (xeta\_m>450||xeta\_m<650) \&\& xeta\_pt>500"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00110}00110   \textcolor{keywordtype}{string} stripping\_cuts\_xpiz = stripping\_cuts+\textcolor{stringliteral}{"{}\&\& xpiz\_pt>500 "{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00112}00112   \textcolor{keywordtype}{string} mincuts, cuts, cutspretty;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00113}00113   unordered\_map<string, string> mapofcuts;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00115}00115   vector<AnalysisVariable>* vec\_analysisvariables = \textcolor{keyword}{new} vector<AnalysisVariable>;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00116}00116   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} B0\_true\_energy;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00117}00117   B0\_true\_energy.\mbox{\hyperlink{classAnalysisVariable_a25c49c9818a849531e54afc235465374}{variable\_name}} = \textcolor{stringliteral}{"{}b\_true\_e"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00118}00118   B0\_true\_energy.\mbox{\hyperlink{classAnalysisVariable_a41ead7da7df09aa6285b5a06166678a8}{variable\_expression}} = \textcolor{stringliteral}{"{}b\_true\_e"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00119}00119   B0\_true\_energy.\mbox{\hyperlink{classAnalysisVariable_a2b57563e92fd932cb27fa84a05adb031}{variable\_prettyname}} = \textcolor{stringliteral}{"{}E\_\{B\string^\{0\}\}"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00120}00120   B0\_true\_energy.\mbox{\hyperlink{classAnalysisVariable_a2c53972c8bfa678630f35ec1d41861f1}{variable\_dimension}} = \textcolor{stringliteral}{"{}GeV"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00121}00121   B0\_true\_energy.\mbox{\hyperlink{classAnalysisVariable_af3306cacb40eca3bfd3f3a2ab93ffb93}{SetVarCutOpt}}(100, 1e6);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00122}00122   B0\_true\_energy.\mbox{\hyperlink{classAnalysisVariable_a8a81f706840be06181bc7dea58ee6191}{SetVarBinningOpt}}(15,0,1e6);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00123}00123   B0\_true\_energy.\mbox{\hyperlink{classAnalysisVariable_aa7b8a6b1dae770fee5101f17d64eda32}{variable\_plot\_flag}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00124}00124   \textcolor{comment}{//vec\_analysisvariables-\/>push\_back(B0\_true\_energy);}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00126}00126   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} B0\_true\_p;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00127}00127   B0\_true\_p.\mbox{\hyperlink{classAnalysisVariable_a25c49c9818a849531e54afc235465374}{variable\_name}} = \textcolor{stringliteral}{"{}b\_true\_p"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00128}00128   B0\_true\_p.\mbox{\hyperlink{classAnalysisVariable_a41ead7da7df09aa6285b5a06166678a8}{variable\_expression}} = \textcolor{stringliteral}{"{}b\_true\_p"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00129}00129   B0\_true\_p.\mbox{\hyperlink{classAnalysisVariable_a2b57563e92fd932cb27fa84a05adb031}{variable\_prettyname}} = \textcolor{stringliteral}{"{}p\_\{B\string^\{0\}\}"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00130}00130   B0\_true\_p.\mbox{\hyperlink{classAnalysisVariable_a2c53972c8bfa678630f35ec1d41861f1}{variable\_dimension}} = \textcolor{stringliteral}{"{}GeV"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00131}00131   B0\_true\_p.\mbox{\hyperlink{classAnalysisVariable_af3306cacb40eca3bfd3f3a2ab93ffb93}{SetVarCutOpt}}(100, 1e6);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00132}00132   B0\_true\_p.\mbox{\hyperlink{classAnalysisVariable_a8a81f706840be06181bc7dea58ee6191}{SetVarBinningOpt}}(15,0,1e6);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00133}00133   B0\_true\_p.\mbox{\hyperlink{classAnalysisVariable_aa7b8a6b1dae770fee5101f17d64eda32}{variable\_plot\_flag}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00134}00134   \textcolor{comment}{//vec\_analysisvariables-\/>push\_back(B0\_true\_p);}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00135}00135 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00136}00136   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} B0\_mass;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00137}00137   B0\_mass.\mbox{\hyperlink{classAnalysisVariable_a25c49c9818a849531e54afc235465374}{variable\_name}} = \textcolor{stringliteral}{"{}b\_m"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00138}00138   B0\_mass.\mbox{\hyperlink{classAnalysisVariable_a41ead7da7df09aa6285b5a06166678a8}{variable\_expression}} = \textcolor{stringliteral}{"{}b\_m"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00139}00139   B0\_mass.\mbox{\hyperlink{classAnalysisVariable_af3306cacb40eca3bfd3f3a2ab93ffb93}{SetVarCutOpt}}(4800, 5800);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00140}00140   vec\_analysisvariables-\/>push\_back(B0\_mass);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00141}00141 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00142}00142   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} B0\_masscorr;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00143}00143   B0\_masscorr.\mbox{\hyperlink{classAnalysisVariable_a25c49c9818a849531e54afc235465374}{variable\_name}} = \textcolor{stringliteral}{"{}b\_mcor"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00144}00144   B0\_masscorr.\mbox{\hyperlink{classAnalysisVariable_a41ead7da7df09aa6285b5a06166678a8}{variable\_expression}} = \textcolor{stringliteral}{"{}b\_mcor"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00145}00145   B0\_masscorr.\mbox{\hyperlink{classAnalysisVariable_af3306cacb40eca3bfd3f3a2ab93ffb93}{SetVarCutOpt}}(4000, 10000);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00146}00146   vec\_analysisvariables-\/>push\_back(B0\_masscorr);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00147}00147 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00148}00148   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} B0\_pt;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00149}00149   B0\_pt.\mbox{\hyperlink{classAnalysisVariable_a25c49c9818a849531e54afc235465374}{variable\_name}} = \textcolor{stringliteral}{"{}b\_pt"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00150}00150   B0\_pt.\mbox{\hyperlink{classAnalysisVariable_a41ead7da7df09aa6285b5a06166678a8}{variable\_expression}} = \textcolor{stringliteral}{"{}b\_pt"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00151}00151   B0\_pt.\mbox{\hyperlink{classAnalysisVariable_a1d0d5adb9563cecf166c13873cc86d88}{SetVarCutOptMin}}(3000);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00152}00152   vec\_analysisvariables-\/>push\_back(B0\_pt);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00153}00153 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00154}00154   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} B0\_dira;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00155}00155   B0\_dira.\mbox{\hyperlink{classAnalysisVariable_a749d3abdb04a5c2b9ef312f56e5e3a12}{SetVarNames}}(\textcolor{stringliteral}{"{}b\_dira"{}}, \textcolor{stringliteral}{"{}b\_dira"{}}, \textcolor{stringliteral}{"{}b\_dira"{}}, \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00156}00156   B0\_dira.\mbox{\hyperlink{classAnalysisVariable_a1d0d5adb9563cecf166c13873cc86d88}{SetVarCutOptMin}}(0.9995);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00157}00157   B0\_dira.\mbox{\hyperlink{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}{variable\_cutchecker}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00158}00158   vec\_analysisvariables-\/>push\_back(B0\_dira);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00159}00159 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00160}00160   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} B0\_vtx\_quality;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00161}00161   B0\_vtx\_quality.\mbox{\hyperlink{classAnalysisVariable_a749d3abdb04a5c2b9ef312f56e5e3a12}{SetVarNames}}(\textcolor{stringliteral}{"{}b\_vtx\_quality"{}}, \textcolor{stringliteral}{"{}b\_vtx\_quality"{}}, \textcolor{stringliteral}{"{}(b\_vtx\_chi2)/(b\_vtx\_ndof)"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00162}00162   B0\_vtx\_quality.\mbox{\hyperlink{classAnalysisVariable_ac40b5c5437ef5673cb75f0cbb3a82db2}{SetVarCutOptMax}}(6);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00163}00163   B0\_vtx\_quality.\mbox{\hyperlink{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}{variable\_cutchecker}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00164}00164   vec\_analysisvariables-\/>push\_back(B0\_vtx\_quality);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00165}00165   }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00166}00166   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} B0\_doca\_kpi;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00167}00167   B0\_doca\_kpi.\mbox{\hyperlink{classAnalysisVariable_a749d3abdb04a5c2b9ef312f56e5e3a12}{SetVarNames}}(\textcolor{stringliteral}{"{}b\_doca\_kpi"{}}, \textcolor{stringliteral}{"{}b\_doca\_kpi"{}}, \textcolor{stringliteral}{"{}b\_doca\_kpi"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00168}00168   B0\_doca\_kpi.\mbox{\hyperlink{classAnalysisVariable_ac40b5c5437ef5673cb75f0cbb3a82db2}{SetVarCutOptMax}}(0.2);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00169}00169   B0\_doca\_kpi.\mbox{\hyperlink{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}{variable\_cutchecker}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00170}00170   vec\_analysisvariables-\/>push\_back(B0\_doca\_kpi);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00171}00171 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00172}00172   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} B0\_fd;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00173}00173   B0\_fd.\mbox{\hyperlink{classAnalysisVariable_a749d3abdb04a5c2b9ef312f56e5e3a12}{SetVarNames}}(\textcolor{stringliteral}{"{}b\_fd"{}}, \textcolor{stringliteral}{"{}"{}}, \textcolor{stringliteral}{"{}b\_fd"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00174}00174   B0\_fd.\mbox{\hyperlink{classAnalysisVariable_a1d0d5adb9563cecf166c13873cc86d88}{SetVarCutOptMin}}(3);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00175}00175   B0\_fd.\mbox{\hyperlink{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}{variable\_cutchecker}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00176}00176   vec\_analysisvariables-\/>push\_back(B0\_fd);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00177}00177 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00178}00178   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} B0\_fd\_chi2;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00179}00179   B0\_fd\_chi2.\mbox{\hyperlink{classAnalysisVariable_a749d3abdb04a5c2b9ef312f56e5e3a12}{SetVarNames}}(\textcolor{stringliteral}{"{}b\_fd\_chi2"{}}, \textcolor{stringliteral}{"{}b\_fd\_chi2"{}}, \textcolor{stringliteral}{"{}b\_fd\_chi2"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00180}00180   B0\_fd\_chi2.\mbox{\hyperlink{classAnalysisVariable_a1d0d5adb9563cecf166c13873cc86d88}{SetVarCutOptMin}}(500);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00181}00181   B0\_fd\_chi2.\mbox{\hyperlink{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}{variable\_cutchecker}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00182}00182   \textcolor{comment}{//vec\_analysisvariables-\/>push\_back(B0\_fd\_chi2);}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00183}00183 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00184}00184   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} X\_fd\_chi2;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00185}00185   X\_fd\_chi2.\mbox{\hyperlink{classAnalysisVariable_a749d3abdb04a5c2b9ef312f56e5e3a12}{SetVarNames}}(\textcolor{stringliteral}{"{}x\_fd\_chi2"{}}, \textcolor{stringliteral}{"{}x\_fd\_chi2"{}}, \textcolor{stringliteral}{"{}x\_fd\_chi2"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00186}00186   X\_fd\_chi2.\mbox{\hyperlink{classAnalysisVariable_a1d0d5adb9563cecf166c13873cc86d88}{SetVarCutOptMin}}(500);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00187}00187   X\_fd\_chi2.\mbox{\hyperlink{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}{variable\_cutchecker}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00188}00188   \textcolor{comment}{//vec\_analysisvariables-\/>push\_back(X\_fd\_chi2);}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00190}00190   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} bx\_fd\_chi2;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00191}00191   bx\_fd\_chi2.\mbox{\hyperlink{classAnalysisVariable_a749d3abdb04a5c2b9ef312f56e5e3a12}{SetVarNames}}(\textcolor{stringliteral}{"{}b\_plus\_x\_fd\_chi2"{}}, \textcolor{stringliteral}{"{}"{}}, \textcolor{stringliteral}{"{}b\_fd\_chi2+x\_fd\_chi2"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00192}00192   bx\_fd\_chi2.\mbox{\hyperlink{classAnalysisVariable_a1d0d5adb9563cecf166c13873cc86d88}{SetVarCutOptMin}}(500);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00193}00193   bx\_fd\_chi2.\mbox{\hyperlink{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}{variable\_cutchecker}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00194}00194   vec\_analysisvariables-\/>push\_back(bx\_fd\_chi2);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00195}00195 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00196}00196   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} X\_vtx\_quality;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00197}00197   X\_vtx\_quality.\mbox{\hyperlink{classAnalysisVariable_a749d3abdb04a5c2b9ef312f56e5e3a12}{SetVarNames}}(\textcolor{stringliteral}{"{}x\_vtx\_quality"{}}, \textcolor{stringliteral}{"{}x\_vtx\_quality"{}}, \textcolor{stringliteral}{"{}(x\_vtx\_chi2)/(x\_vtx\_ndof)"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00198}00198   X\_vtx\_quality.\mbox{\hyperlink{classAnalysisVariable_ac40b5c5437ef5673cb75f0cbb3a82db2}{SetVarCutOptMax}}(5);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00199}00199   X\_vtx\_quality.\mbox{\hyperlink{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}{variable\_cutchecker}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00200}00200   vec\_analysisvariables-\/>push\_back(X\_vtx\_quality);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00201}00201 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00202}00202   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} XforwardofB0\_or\_XpromptfromB;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00203}00203   XforwardofB0\_or\_XpromptfromB.\mbox{\hyperlink{classAnalysisVariable_aff4ff0de93636777462d1a63b8ee4719}{variable\_stringcut}} = \textcolor{stringliteral}{"{}((x\_z-\/b\_z > -\/20) ||"{}} }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00204}00204                                                     \textcolor{stringliteral}{"{}( (b\_maxdoca > 0.2) \&\& (x\_z-\/b\_z > 0) ) ||"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00205}00205                                                     \textcolor{stringliteral}{"{}( (b\_maxdoca < 1) \&\& (x\_z-\/b\_z >20) ))"{}} ;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00206}00206   XforwardofB0\_or\_XpromptfromB.\mbox{\hyperlink{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}{variable\_cutchecker}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00207}00207   vec\_analysisvariables-\/>push\_back(XforwardofB0\_or\_XpromptfromB);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00208}00208 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00209}00209   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} kpixpipxpim\_pt;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00210}00210   kpixpipxpim\_pt.\mbox{\hyperlink{classAnalysisVariable_aff4ff0de93636777462d1a63b8ee4719}{variable\_stringcut}} = \textcolor{stringliteral}{"{}((k\_pt > 100 )||"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00211}00211                                       \textcolor{stringliteral}{"{}(pi\_pt > 100)||"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00212}00212                                       \textcolor{stringliteral}{"{}(xpip\_pt > 100)||"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00213}00213                                       \textcolor{stringliteral}{"{}(xpim\_pt > 100))"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00214}00214   vec\_analysisvariables-\/>push\_back(kpixpipxpim\_pt);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00215}00215 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00216}00216   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} kpixpipxpim\_p;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00217}00217   kpixpipxpim\_p.\mbox{\hyperlink{classAnalysisVariable_aff4ff0de93636777462d1a63b8ee4719}{variable\_stringcut}} = \textcolor{stringliteral}{"{}((k\_p > 1500 )||"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00218}00218                                       \textcolor{stringliteral}{"{}(pi\_p > 1500)||"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00219}00219                                       \textcolor{stringliteral}{"{}(xpip\_p > 1500)||"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00220}00220                                       \textcolor{stringliteral}{"{}(xpim\_p > 1500))"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00221}00221   vec\_analysisvariables-\/>push\_back(kpixpipxpim\_p);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00222}00222 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00223}00223   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} kpixpipxpim\_ip\_chi2\_best;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00224}00224   kpixpipxpim\_ip\_chi2\_best.\mbox{\hyperlink{classAnalysisVariable_aff4ff0de93636777462d1a63b8ee4719}{variable\_stringcut}} = \textcolor{stringliteral}{"{}(k\_ip\_chi2\_best>10 || pi\_ip\_chi2\_best>10 || xpip\_ip\_chi2\_best>10 || xpim\_ip\_chi2\_best>10)"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00225}00225   kpixpipxpim\_ip\_chi2\_best.\mbox{\hyperlink{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}{variable\_cutchecker}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00226}00226   vec\_analysisvariables-\/>push\_back(kpixpipxpim\_ip\_chi2\_best);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00227}00227 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00228}00228   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} kpi\_ip\_chi2\_bvtx;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00229}00229   kpi\_ip\_chi2\_bvtx.\mbox{\hyperlink{classAnalysisVariable_aff4ff0de93636777462d1a63b8ee4719}{variable\_stringcut}} = \textcolor{stringliteral}{"{}(k\_ip\_chi2\_bvtx < 10 || pi\_ip\_chi2\_bvtx < 10)"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00230}00230   kpi\_ip\_chi2\_bvtx.\mbox{\hyperlink{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}{variable\_cutchecker}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00231}00231   vec\_analysisvariables-\/>push\_back(kpi\_ip\_chi2\_bvtx);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00232}00232 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00233}00233   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} kpipxpipxpim\_prb\_ghost;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00234}00234   kpipxpipxpim\_prb\_ghost.\mbox{\hyperlink{classAnalysisVariable_aff4ff0de93636777462d1a63b8ee4719}{variable\_stringcut}} = \textcolor{stringliteral}{"{}(k\_prb\_ghost < 0.1 || pi\_prb\_ghost < 0.1 || xpip\_prb\_ghost < 0.1 || xpim\_prb\_ghost < 0.1)"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00235}00235   kpipxpipxpim\_prb\_ghost.\mbox{\hyperlink{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}{variable\_cutchecker}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00236}00236   vec\_analysisvariables-\/>push\_back(kpipxpipxpim\_prb\_ghost);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00237}00237 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00238}00238   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} k\_pnn\_k;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00239}00239   k\_pnn\_k.\mbox{\hyperlink{classAnalysisVariable_a749d3abdb04a5c2b9ef312f56e5e3a12}{SetVarNames}}(\textcolor{stringliteral}{"{}k\_pnn\_k"{}}, \textcolor{stringliteral}{"{}"{}}, \textcolor{stringliteral}{"{}k\_pnn\_k"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00240}00240   k\_pnn\_k.\mbox{\hyperlink{classAnalysisVariable_a1d0d5adb9563cecf166c13873cc86d88}{SetVarCutOptMin}}(0.3);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00241}00241   k\_pnn\_k.\mbox{\hyperlink{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}{variable\_cutchecker}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00242}00242   vec\_analysisvariables-\/>push\_back(k\_pnn\_k);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00243}00243 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00244}00244   \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} kpixpipxpim\_sum\_ip\_chi2\_best;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00245}00245   kpixpipxpim\_sum\_ip\_chi2\_best.\mbox{\hyperlink{classAnalysisVariable_aff4ff0de93636777462d1a63b8ee4719}{variable\_stringcut}} = \textcolor{stringliteral}{"{}(k\_ip\_chi2\_best+pi\_ip\_chi2\_best+xpip\_ip\_chi2\_best+xpim\_ip\_chi2\_best > 200.)"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00246}00246   vec\_analysisvariables-\/>push\_back(kpixpipxpim\_sum\_ip\_chi2\_best);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00247}00247 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00248}00248   cout << \textcolor{stringliteral}{"{}The cuts are: "{}} << endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00249}00249   \textcolor{keywordflow}{for} (vector<AnalysisVariable>::iterator analvarcutiterator =  vec\_analysisvariables-\/>begin(); analvarcutiterator != vec\_analysisvariables-\/>end(); analvarcutiterator ++)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00250}00250   \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00251}00251     \textcolor{keywordflow}{if} (analvarcutiterator!= vec\_analysisvariables-\/>begin()) cuts.append(\textcolor{stringliteral}{"{}\&\&"{}}); }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00252}00252     \textcolor{keywordflow}{if} ((analvarcutiterator!= vec\_analysisvariables-\/>begin()) \&\& (analvarcutiterator-\/1)-\/>variable\_cutchecker==\textcolor{keyword}{false}) mincuts.append(\textcolor{stringliteral}{"{}\&\&"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00253}00253     \textcolor{keywordflow}{if} (analvarcutiterator-\/>variable\_stringcut.compare(\textcolor{stringliteral}{"{}"{}}) != 0) }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00254}00254     \{ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00255}00255       cuts.append(analvarcutiterator-\/>variable\_stringcut);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00256}00256       \textcolor{keywordflow}{if} (analvarcutiterator-\/>variable\_cutchecker == \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00257}00257       \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00258}00258         mincuts.append(analvarcutiterator-\/>variable\_stringcut);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00259}00259         cout << analvarcutiterator-\/>variable\_stringcut << \textcolor{stringliteral}{"{} (Minimal Cut)"{}} << endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00260}00260       \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00261}00261       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00262}00262       \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00263}00263         cout << analvarcutiterator-\/>variable\_stringcut << endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00264}00264       \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00265}00265     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00266}00266     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ( (analvarcutiterator-\/>variable\_cut\_pidflag==\textcolor{keyword}{true}) \&\& (analvarcutiterator-\/>variable\_cut\_pid!=0) )}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00267}00267     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00268}00268       cuts.append(analvarcutiterator-\/>variable\_cut);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00269}00269       \textcolor{keywordflow}{if} (analvarcutiterator-\/>variable\_cutchecker == \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00270}00270       \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00271}00271         mincuts.append(analvarcutiterator-\/>variable\_cut);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00272}00272         cout << analvarcutiterator-\/>variable\_cut << \textcolor{stringliteral}{"{} (Minimal Cut)"{}} << endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00273}00273       \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00274}00274       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00275}00275       \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00276}00276         cout << analvarcutiterator-\/>variable\_cut << endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00277}00277       \}  }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00278}00278     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00279}00279     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ( (analvarcutiterator-\/>variable\_cut\_pidflag==\textcolor{keyword}{false}) \&\& (analvarcutiterator-\/>variable\_cut\_pid!=0) )}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00280}00280     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00281}00281       cuts.append(analvarcutiterator-\/>variable\_cut);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00282}00282       \textcolor{keywordflow}{if} (analvarcutiterator-\/>variable\_cutchecker == \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00283}00283       \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00284}00284         mincuts.append(analvarcutiterator-\/>variable\_cut);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00285}00285         cout << analvarcutiterator-\/>variable\_cut << \textcolor{stringliteral}{"{} (Minimal Cut)"{}} << endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00286}00286       \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00287}00287       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00288}00288       \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00289}00289         cout << analvarcutiterator-\/>variable\_cut << endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00290}00290       \}    }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00291}00291     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00292}00292     \textcolor{keywordflow}{else} }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00293}00293     \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00294}00294       cuts.append(analvarcutiterator-\/>variable\_cut);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00295}00295       \textcolor{keywordflow}{if} (analvarcutiterator-\/>variable\_cutchecker == \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00296}00296       \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00297}00297         mincuts.append(analvarcutiterator-\/>variable\_cut);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00298}00298         cout << analvarcutiterator-\/>variable\_cut << \textcolor{stringliteral}{"{} (Minimal Cut)"{}} << endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00299}00299       \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00300}00300       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00301}00301       \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00302}00302         cout << analvarcutiterator-\/>variable\_cut << endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00303}00303       \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00304}00304     \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00305}00305   \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00306}00306   cout << endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00307}00307 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00308}00308   mapofcuts[\textcolor{stringliteral}{"{}MinCuts"{}}] = mincuts;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00309}00309   mapofcuts[\textcolor{stringliteral}{"{}Cuts"{}}] = cuts;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00310}00310   \textcolor{comment}{//EfficienciesAnalyzer(data\_holder, mapofcuts);}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00311}00311 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00312}00312   \mbox{\hyperlink{PrintFuncInfo_8h_a28a91585a96a6cac52a877b1ae6b223a}{ElapsedTimeStamper}}(start);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00313}00313   \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00314}00314 \textcolor{comment}{  for(unordered\_map<string, pair<string, string>>::iterator dataholder\_iterator = data\_holder.begin(); dataholder\_iterator != data\_holder.end(); dataholder\_iterator++)}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00315}00315 \textcolor{comment}{  \{}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00316}00316 \textcolor{comment}{    if (dataholder\_iterator-\/>first.find("{}KPiEtaPiPi"{})!=string::npos)}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00317}00317 \textcolor{comment}{    \{}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00318}00318 \textcolor{comment}{      RootFileCreatorFilterer(dataholder\_iterator-\/>second, dataholder\_iterator-\/>first.data(), mincuts+stripping\_cuts\_xeta);}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00319}00319 \textcolor{comment}{    \}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00320}00320 \textcolor{comment}{    if (dataholder\_iterator-\/>first.find("{}KPi3Pi"{})!=string::npos)}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00321}00321 \textcolor{comment}{    \{}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00322}00322 \textcolor{comment}{      RootFileCreatorFilterer(dataholder\_iterator-\/>second, dataholder\_iterator-\/>first.data(), mincuts+stripping\_cuts\_xpiz);}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00323}00323 \textcolor{comment}{    \}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00324}00324 \textcolor{comment}{  \}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00325}00325 \textcolor{comment}{  */}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00326}00326   }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00327}00327   ofstream csv\_efficiencies\_ratios\_file;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00328}00328   csv\_efficiencies\_ratios\_file.open(\textcolor{stringliteral}{"{}Efficiencies\_Ratios\_vs\_Cut.csv"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00329}00329   csv\_efficiencies\_ratios\_file << \textcolor{stringliteral}{"{}Cut, "{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00330}00330                                   \textcolor{stringliteral}{"{}KPi3Pi\_SIM\_100ps, Ratio(KPi3Pi\_SIM\_100ps), KPi3Pi\_SIM\_1ps, Ratio(KPi3Pi\_SIM\_1ps), KPi3Pi\_SIM\_Omega, Ratio(KPi3Pi\_SIM\_Omega), KPi3Pi\_2015\_md\_minCuts, ,"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00331}00331                                   \textcolor{stringliteral}{"{}KPiEtaPiPi\_SIM\_100ps, Ratio(KPiEtaPiPi\_SIM\_100ps), KPiEtaPiPi\_SIM\_1ps, Ratio(KPiEtaPiPi\_SIM\_1ps), KPiEtaPiPi\_SIM\_Etapr, Ratio(KPiEtaPiPi\_SIM\_Etapr), KPiEtaPiPi\_2015\_md\_minCuts"{}} }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00332}00332                                << endl; }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00333}00333 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00334}00334   \textcolor{keywordflow}{if} (cuts\_as\_analysis\_variables == \textcolor{keyword}{true})}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00335}00335   \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00336}00336     \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} analvar\_mincuts;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00337}00337     analvar\_mincuts.\mbox{\hyperlink{classAnalysisVariable_aff4ff0de93636777462d1a63b8ee4719}{variable\_stringcut}} = mincuts;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00338}00338     vec\_analysisvariables-\/>push\_back(analvar\_mincuts);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00339}00339     \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} analvar\_cuts;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00340}00340     analvar\_cuts.\mbox{\hyperlink{classAnalysisVariable_aff4ff0de93636777462d1a63b8ee4719}{variable\_stringcut}} = cuts;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00341}00341     vec\_analysisvariables-\/>push\_back(analvar\_cuts);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00342}00342   \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00343}00343   }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00344}00344   \mbox{\hyperlink{EfficienciesRatioAnalyzer_8cpp_a430a77e75c38f6b769c9291434b25b32}{EfficienciesRatioAnalyzer}}(vec\_analysisvariables, csv\_efficiencies\_ratios\_file, data\_holder);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00345}00345 }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00346}00346   \mbox{\hyperlink{PrintFuncInfo_8h_a28a91585a96a6cac52a877b1ae6b223a}{ElapsedTimeStamper}}(start);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00347}00347   end = chrono::system\_clock::now();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00348}00348   end\_time = chrono::system\_clock::to\_time\_t(end);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00349}00349   cout << \textcolor{stringliteral}{"{}Ending date: "{}} << ctime(\&end\_time) << endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00350}00350   \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00351}00351 \}}
+
+\end{DoxyCode}

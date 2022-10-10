@@ -1,0 +1,46 @@
+/*! 
+ *  \file RootFileCreator.h 
+ *  \brief Header file for some functions used to create *.root files
+ */
+
+#ifndef ROOTFILECREATOR_H
+#define ROOTFILECREATOR_H
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <TROOT.h>
+#include "ROOT/RDataFrame.hxx"
+#include <TString.h>
+#include <TFile.h>
+#include <TTree.h>
+#include <TH1F.h>
+#include <THStack.h>
+#include <TH2F.h>
+#include <TGraph.h>
+#include <TCanvas.h>
+#include <TLegend.h>
+#include <TLegendEntry.h>
+#include <TPaveStats.h>
+#include <TLorentzVector.h>
+#include <TColor.h>
+#include <TStyle.h>
+#include <TGraphErrors.h>
+#include <TFrame.h>
+#include <TRatioPlot.h>
+#include <TPaveText.h>
+#include <TMultiGraph.h>
+#include "AnalysisVariable.h"
+
+/*These namespaces can be useful*/
+using namespace std;
+
+int RootFileCreatorFilterer(pair<string, string> data_holder,
+                            string output_filename,
+                            string cut,
+                            string output_path = "OutputFiles/",
+                            chrono::_V2::system_clock::time_point start = chrono::_V2::system_clock::now(),
+                            bool outputprint = false,
+                            bool debug = false);
+
+#endif
