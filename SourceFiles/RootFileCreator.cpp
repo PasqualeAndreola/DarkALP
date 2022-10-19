@@ -14,7 +14,7 @@
  *
  *  \param data_holder The first name of the pair represents the input file\n
  *                     The second name of the pair represents the name of the tree that holds the variables
- *  \param output_filename The name of the root file that will be produced. If not specified, it will be the original filename+"_CREATED"
+ *  \param output_filename The name of the root file that will be produced (without the extension). If not specified, it will be the original filename+"_CREATED"
  *  \param cut Strings that express the cuts being used to produce the new *.root file
  *  \param output_path The name of the path where the output file will be written to (default is "OutputFiles/")
  *  \param start Starting time of the main function (default is the starting time of the function itself)
@@ -54,11 +54,11 @@ int RootFileCreatorFilterer(pair<string, string> data_holder,
         cout << filename_clean.data() << endl;
 
     // Checking if the file and the tree do exist
-    bool fileexist = TFile(filename).IsZombie();
-    bool treeexist = TTree(filename, treename).IsZombie();
+    bool filezombie = TFile(filename).IsZombie();
+    bool treezombie = TTree(filename, treename).IsZombie();
 
     // If the file and the tree do exist, extract a RDataFrame
-    if (fileexist == false && treeexist == false)
+    if (filezombie == false && treezombie == false)
         dataset = new ROOT::RDataFrame(treename, filename);
 
     // Filtering the new dataset using the cut given as a input to the function
@@ -86,4 +86,89 @@ int RootFileCreatorFilterer(pair<string, string> data_holder,
     ROOT::DisableImplicitMT();
 
     return 0;
+}
+
+/*!
+ *  \fn RootFileCreatorTree(TTree *treetobewritten,
+                            string output_filename,
+                            string output_path,
+                            chrono::_V2::system_clock::time_point start = chrono::_V2::system_clock::now(),
+                            bool outputprint = false,
+                            bool debug = false) "";
+ *  \brief Function used to produce *.root files choosing cuts or defining new columns
+ *
+ *  \param treetobewritten Pointer to the tree that has to be written in the file\n
+ *  \param output_filename The name of the root file that will be produced (without the extension). If not specified, it will be the original filename+"_CREATED"
+ *  \param output_path The name of the path where the output file will be written to (default is "OutputFiles/")
+ *  \param start Starting time of the main function (default is the starting time of the function itself)
+ *  \param outputprint Flag to decide to print the output to terminal
+ *  \param debug Flag to acrivate debug mode
+ */
+
+int RootFileCreatorTree(TTree *treetobewritten,
+                            string output_filename,
+                            string output_path,
+                            chrono::_V2::system_clock::time_point start,
+                            bool outputprint,
+                            bool debug)
+{
+    // Enabling implicit Multi-threading
+    ROOT::EnableImplicitMT();
+
+    // Purging the input filename from the tree and its extension to collect a pure name
+    string filename_clean;
+    if (output_filename.compare("")==0)
+        filename_clean = treetobewritten->GetCurrentFile()->GetName();
+    else
+        filename_clean = output_filename;
+
+    RootFileCreatorExtensionPathPurger(&filename_clean);
+    if (outputprint == false)
+        cout << filename_clean.data() << endl;
+
+    // Opening the output file and changing directory
+    TFile *outputfile;
+
+    // Write the tree to a new file. The tree name is the original one
+    // Check if an output file name is specified, otherwise "_CREATED" is appended to the original one
+    if (output_filename.compare("")==0)
+        outputfile = TFile::Open(string(output_path+filename_clean+"_CREATED.root").data(), "UPDATE");
+    else
+        outputfile = TFile::Open(string(output_path+filename_clean+".root").data(), "UPDATE");
+    
+    outputfile->cd();
+    cout << "Tree current file: " << gFile->GetName() << endl;
+    TTree *treetobewritten_clone = treetobewritten->CloneTree();
+    treetobewritten_clone->Write("", TObject::kOverwrite);
+    outputfile->Close();
+    
+    // Disabling implicit Multi-threading
+    ROOT::DisableImplicitMT();
+
+    return 0;
+}
+
+int RootFileCreatorExtensionPathPurger(string *stringtobepurged)
+{
+    size_t inputpath_name_position = stringtobepurged->rfind("/");
+    if (inputpath_name_position != string::npos)
+        stringtobepurged->erase(0, inputpath_name_position+1);
+    size_t extension_name_position = stringtobepurged->find(".root");
+    if (extension_name_position != string::npos)
+        stringtobepurged->erase(extension_name_position, string(".root").length());
+    
+    return 0;
+}
+
+string RootFileCreatorExtensionPathPurger(string stringtobepurged)
+{
+    string stringpurged = stringtobepurged;
+    size_t inputpath_name_position = stringpurged.rfind("/");
+    if (inputpath_name_position != string::npos)
+        stringpurged.erase(0, inputpath_name_position+1);
+    size_t extension_name_position = stringpurged.find(".root");
+    if (extension_name_position != string::npos)
+        stringpurged.erase(extension_name_position, string(".root").length());
+    
+    return stringpurged;
 }

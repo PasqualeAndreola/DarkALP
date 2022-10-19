@@ -14,6 +14,7 @@
 #include <TLegend.h>
 #include <TPad.h>
 #include <iostream>
+#include <chrono>
 
 //It can be useful to use these namespaces
 using namespace std;
@@ -31,6 +32,7 @@ public:
     Float_t variable_cut_pid = 0;              /*!< Particle identification number (please refer to PDG for further information) */
     bool variable_cut_pidflag = false;           /*!< If true, the particle has to be the one with this particle identification number if false, the particle has to be different from the one with this particle identification*/
     bool variable_cutchecker = false;           /*!< If true, the event has to pass through the \ref variable_cut (if so, it is not a minimal cut)*/
+    bool variable_mvacutfeature = false;           /*!< If true, the variable is used as a feature in the training of the MVA algorithm that optimizes the cut*/
     string variable_cut = "";                   /*!< String describing a linear cut between minimum and maximum or particle identification(has to be set with the constructor \ref SetVarCutOpt)*/
     string variable_stringcut = "";             /*!< String describing an additional cut (or a particularly complex one, if needed)*/
     Float_t variable_bins = 100;               /*!< Number of bins of the histogram that will represent the variable */
@@ -45,6 +47,9 @@ public:
     char const * variable_histplotfolder = "OutputFiles/PNGPlots/Variables"; /*!< Folder which will store the plot of the histogram of the variable. Default is: "OutputFiles/PNGPlots/Variables/" */
     bool variable_plot_flag = false;            /*!< If true, \ref EfficienciesAnalyzer will be used to plot an histogram of the variable in \ref */
     bool variable_logscale_flag = false;        /*!< If true, the histogram of the variable will be plot in a log scale */
+
+    string filename = "";
+    string treename = "";
 
     //! SetLegendPos returns the legend built from the four different vertices given by the user
     /*!
@@ -252,7 +257,10 @@ public:
         \param name Name of the variable that will be plotted
         \param dimension Dimension of the variable that will be plotted
     */
-    TString Xlabel(char const* name, char const* dimension) {return TString::Format("%s[%s]", name, dimension);}; 
+    TString Xlabel(char const* name, char const* dimension) 
+    {
+        return TString::Format("%s[%s]", name, dimension);
+    }; 
 
     //! Xlabel returns the string formed by \ref variable name and \ref variable_dimension
     /*!
@@ -260,6 +268,7 @@ public:
         \param variable_dimension Dimension of the variable that will be plotted (\ref variable_dimension)
     */
     TString Xlabel() {return Xlabel(variable_prettyname, variable_dimension);};
-};
 
+    int VariablePlotter(pair<string, string> *data_holder, AnalysisVariable *var_to_be_analyzed, string cut = "", chrono::_V2::system_clock::time_point start = chrono::system_clock::now(), bool debug = false);
+};
 #endif

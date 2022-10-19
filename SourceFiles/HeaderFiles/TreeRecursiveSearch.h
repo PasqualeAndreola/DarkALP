@@ -1,10 +1,10 @@
-/*! 
- *  \file VariablePlotter.h 
- *  \brief Header file for \ref VariablePlotter function
+/*!
+ *  \file TreeRecursiveSearch.h
+ *  \brief Header file for \ref TreeRecursiveSearch function
  */
 
-#ifndef VARIABLEPLOTTER_H
-#define VARIABLEPLOTTER_H
+#ifndef TREERECURSIVESEARCH_H
+#define TREERECURSIVESEARCH_H
 
 #include <iostream>
 #include <vector>
@@ -26,19 +26,23 @@
 #include <TColor.h>
 #include <TStyle.h>
 #include <TGraphErrors.h>
+#include <TF1.h>
 #include <TFrame.h>
 #include <TRatioPlot.h>
 #include <TPaveText.h>
-#include <TMultiGraph.h>
-#include "AnalysisVariable.h"
+#include <TMVA/DataLoader.h>
+#include <TMVA/RReader.hxx>
+#include <TMVA/Factory.h>
+#include <TMVA/Config.h>
+#include <TMVA/Configurable.h>
+#include <TMVA/TMVAGui.h>
+#include "TMVAMethod.h"
+#include <TMVA/Reader.h>
+#include <TLine.h>
 
 /*These namespaces can be useful*/
 using namespace std;
 
-int VariablePlotter(unordered_map<string, pair<string, string>> data_holder,
-                        vector<AnalysisVariable> *tobediscriminated,
-                        string cuts,
-                        chrono::_V2::system_clock::time_point start = chrono::_V2::system_clock::now(),
-                        bool debug = false);
+int TreeRecursiveSearch(TDirectory *directory_to_explore, vector<pair<string, string>> *treeinthefile, TList *treelist);
 
 #endif

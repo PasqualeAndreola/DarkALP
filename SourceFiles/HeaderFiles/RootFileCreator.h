@@ -1,5 +1,5 @@
-/*! 
- *  \file RootFileCreator.h 
+/*!
+ *  \file RootFileCreator.h
  *  \brief Header file for some functions used to create *.root files
  */
 
@@ -42,5 +42,16 @@ int RootFileCreatorFilterer(pair<string, string> data_holder,
                             chrono::_V2::system_clock::time_point start = chrono::_V2::system_clock::now(),
                             bool outputprint = false,
                             bool debug = false);
+
+int RootFileCreatorTree(TTree *treetobewritten,
+                        string output_filename = "",
+                        string output_path = "OutputFiles/",
+                        chrono::_V2::system_clock::time_point start = chrono::_V2::system_clock::now(),
+                        bool outputprint = false,
+                        bool debug = false);
+
+int RootFileCreatorExtensionPathPurger(string *stringtobepurged);
+
+string RootFileCreatorExtensionPathPurger(string stringtobepurged);
 
 #endif

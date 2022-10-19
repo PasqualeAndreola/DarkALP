@@ -27,6 +27,12 @@ int EfficienciesRatioAnalyzer(vector<AnalysisVariable> *vec_analysisvariables, o
     Double_t efficiencyratio;
     unordered_map<string, Double_t> SingleCutEfficiency_Dataset;
 
+    csv_efficiencies_ratios_file.open("Efficiencies_Ratios_vs_Cut.csv");
+    csv_efficiencies_ratios_file << "Cut, "
+                                    "KPi3Pi_SIM_100ps, Ratio(KPi3Pi_SIM_100ps), KPi3Pi_SIM_1ps, Ratio(KPi3Pi_SIM_1ps), KPi3Pi_SIM_Omega, Ratio(KPi3Pi_SIM_Omega), KPi3Pi_2015_md_minCuts, ,"
+                                    "KPiEtaPiPi_SIM_100ps, Ratio(KPiEtaPiPi_SIM_100ps), KPiEtaPiPi_SIM_1ps, Ratio(KPiEtaPiPi_SIM_1ps), KPiEtaPiPi_SIM_Etapr, Ratio(KPiEtaPiPi_SIM_Etapr), KPiEtaPiPi_2015_md_minCuts" 
+                                << endl; 
+
     for (vector<AnalysisVariable>::iterator analvar_iterator = vec_analysisvariables->begin(); analvar_iterator != vec_analysisvariables->end(); analvar_iterator++)
     {
         string singlecut = "";
@@ -96,6 +102,7 @@ int EfficienciesRatioAnalyzer(vector<AnalysisVariable> *vec_analysisvariables, o
         printf("\033[1;36mKPiEtaPiPi_2015_md_minCuts\033[m efficiency = \033[1;32m%.4f\033[0m\n", SingleCutEfficiency_Dataset["KPiEtaPiPi_2015_md_minCuts"]);
         csv_efficiencies_ratios_file << endl;
     }
+    csv_efficiencies_ratios_file.close();
     cout << endl;
 
     return 0;
