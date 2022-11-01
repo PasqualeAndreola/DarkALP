@@ -32,7 +32,9 @@ int \mbox{\hyperlink{classAnalysisVariable_a749d3abdb04a5c2b9ef312f56e5e3a12}{Se
 TString \mbox{\hyperlink{classAnalysisVariable_a16258ba209deb83d2ee909b06050c2d6}{Xlabel}} (char const $\ast$name, char const $\ast$dimension)
 \begin{DoxyCompactList}\small\item\em Xlabel returns the string formed by a variable name and a variable\+\_\+dimension. \end{DoxyCompactList}\item 
 TString \mbox{\hyperlink{classAnalysisVariable_a522a7d0f659d673fb624b2cbfe153d26}{Xlabel}} ()
-\begin{DoxyCompactList}\small\item\em Xlabel returns the string formed by variable name and \mbox{\hyperlink{classAnalysisVariable_a2c53972c8bfa678630f35ec1d41861f1}{variable\+\_\+dimension}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Xlabel returns the string formed by variable name and \mbox{\hyperlink{classAnalysisVariable_a2c53972c8bfa678630f35ec1d41861f1}{variable\+\_\+dimension}}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classAnalysisVariable_ac5250fd1ce8693b06cdd4ce79824f34f}{Variable\+Plotter}} (pair$<$ string, string $>$ $\ast$data\+\_\+holder, \mbox{\hyperlink{classAnalysisVariable}{Analysis\+Variable}} $\ast$var\+\_\+to\+\_\+be\+\_\+analyzed, string cut=\char`\"{}\char`\"{}, chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point start=chrono\+::system\+\_\+clock\+::now(), bool debug=false)
+\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -53,6 +55,8 @@ Float\+\_\+t \mbox{\hyperlink{classAnalysisVariable_a90e419b837b059243d7410ca5d1
 bool \mbox{\hyperlink{classAnalysisVariable_ae15afd3c7f991efffeb3852a131e015e}{variable\+\_\+cut\+\_\+pidflag}} = false
 \item 
 bool \mbox{\hyperlink{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}{variable\+\_\+cutchecker}} = false
+\item 
+bool \mbox{\hyperlink{classAnalysisVariable_a9c7e4287b5bccf4752551a3a25d353d5}{variable\+\_\+mvacutfeature}} = false
 \item 
 string \mbox{\hyperlink{classAnalysisVariable_abddc7f6df6917eab3e5ad0b8ddf8eba5}{variable\+\_\+cut}} = \char`\"{}\char`\"{}
 \item 
@@ -77,13 +81,17 @@ char const  $\ast$ \mbox{\hyperlink{classAnalysisVariable_a85901a05020e7c95ab321
 bool \mbox{\hyperlink{classAnalysisVariable_aa7b8a6b1dae770fee5101f17d64eda32}{variable\+\_\+plot\+\_\+flag}} = false
 \item 
 bool \mbox{\hyperlink{classAnalysisVariable_a4209449ed3ca832184dbf1112c924257}{variable\+\_\+logscale\+\_\+flag}} = false
+\item 
+string \mbox{\hyperlink{classAnalysisVariable_a7182b06958efe0e21d80834c679d3928}{filename}} = \char`\"{}\char`\"{}
+\item 
+string \mbox{\hyperlink{classAnalysisVariable_a0ef115b535da78f42f6e1d8f06d648db}{treename}} = \char`\"{}\char`\"{}
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00021}{21}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00022}{22}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 
 
@@ -111,7 +119,7 @@ Set\+Legend\+Pos returns the legend built from the four different vertices given
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00056}{56}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00061}{61}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a25d05df33b44f2ba0ce4c744d83836de}\label{classAnalysisVariable_a25d05df33b44f2ba0ce4c744d83836de}} 
 \index{AnalysisVariable@{AnalysisVariable}!SetLegendPosAuto@{SetLegendPosAuto}}
@@ -121,7 +129,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00056}{56}} of f
 
 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00107}{107}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00112}{112}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a9b8e2210fc912d6c843fb1c63adc6b7a}\label{classAnalysisVariable_a9b8e2210fc912d6c843fb1c63adc6b7a}} 
 \index{AnalysisVariable@{AnalysisVariable}!SetLegendPosAuto@{SetLegendPosAuto}}
@@ -142,7 +150,7 @@ Set\+Legend\+Pos\+Auto returns the legend built from the different characteristi
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00090}{90}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00095}{95}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a3faa7ae2770aa6ed4585b0cb1c887193}\label{classAnalysisVariable_a3faa7ae2770aa6ed4585b0cb1c887193}} 
 \index{AnalysisVariable@{AnalysisVariable}!SetLegendPosAuto@{SetLegendPosAuto}}
@@ -167,7 +175,7 @@ Set\+Legend\+Pos\+Auto returns the legend built from the different characteristi
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00068}{68}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00073}{73}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a8a81f706840be06181bc7dea58ee6191}\label{classAnalysisVariable_a8a81f706840be06181bc7dea58ee6191}} 
 \index{AnalysisVariable@{AnalysisVariable}!SetVarBinningOpt@{SetVarBinningOpt}}
@@ -190,7 +198,7 @@ Set\+Var\+Binning\+Opt is the default constructor used to set up the number of b
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00118}{118}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00123}{123}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_af3306cacb40eca3bfd3f3a2ab93ffb93}\label{classAnalysisVariable_af3306cacb40eca3bfd3f3a2ab93ffb93}} 
 \index{AnalysisVariable@{AnalysisVariable}!SetVarCutOpt@{SetVarCutOpt}}
@@ -211,7 +219,7 @@ Set\+Var\+Cut\+Opt is the default constructor used to set up the cuts of the var
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00131}{131}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00136}{136}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a8b8dbfe55933bbcbc0c37973b447d503}\label{classAnalysisVariable_a8b8dbfe55933bbcbc0c37973b447d503}} 
 \index{AnalysisVariable@{AnalysisVariable}!SetVarCutOptFalsePId@{SetVarCutOptFalsePId}}
@@ -234,7 +242,7 @@ Set\+Var\+Cut\+Opt\+False\+PId is the default constructor used to set up the cut
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00208}{208}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00213}{213}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_ac40b5c5437ef5673cb75f0cbb3a82db2}\label{classAnalysisVariable_ac40b5c5437ef5673cb75f0cbb3a82db2}} 
 \index{AnalysisVariable@{AnalysisVariable}!SetVarCutOptMax@{SetVarCutOptMax}}
@@ -253,7 +261,7 @@ Set\+Var\+Cut\+Opt\+Max is the default constructor used to set up the upper cuts
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00156}{156}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00161}{161}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a1d0d5adb9563cecf166c13873cc86d88}\label{classAnalysisVariable_a1d0d5adb9563cecf166c13873cc86d88}} 
 \index{AnalysisVariable@{AnalysisVariable}!SetVarCutOptMin@{SetVarCutOptMin}}
@@ -272,7 +280,7 @@ Set\+Var\+Cut\+Opt\+Min is the default constructor used to set up the bottom cut
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00165}{165}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00170}{170}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a54abd662c23819d8c2b8c3ab53819953}\label{classAnalysisVariable_a54abd662c23819d8c2b8c3ab53819953}} 
 \index{AnalysisVariable@{AnalysisVariable}!SetVarCutOptTruePId@{SetVarCutOptTruePId}}
@@ -295,7 +303,7 @@ Set\+Var\+Cut\+Opt\+True\+PId is the default constructor used to set up the cuts
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00176}{176}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00181}{181}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a749d3abdb04a5c2b9ef312f56e5e3a12}\label{classAnalysisVariable_a749d3abdb04a5c2b9ef312f56e5e3a12}} 
 \index{AnalysisVariable@{AnalysisVariable}!SetVarNames@{SetVarNames}}
@@ -320,7 +328,17 @@ Set\+Var\+Names is the default constructor used to set up the name (both plain a
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00241}{241}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00246}{246}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_ac5250fd1ce8693b06cdd4ce79824f34f}\label{classAnalysisVariable_ac5250fd1ce8693b06cdd4ce79824f34f}} 
+\index{AnalysisVariable@{AnalysisVariable}!VariablePlotter@{VariablePlotter}}
+\index{VariablePlotter@{VariablePlotter}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{VariablePlotter()}{VariablePlotter()}}
+{\footnotesize\ttfamily int Analysis\+Variable\+::\+Variable\+Plotter (\begin{DoxyParamCaption}\item[{pair$<$ string, string $>$ $\ast$}]{data\+\_\+holder,  }\item[{\mbox{\hyperlink{classAnalysisVariable}{Analysis\+Variable}} $\ast$}]{var\+\_\+to\+\_\+be\+\_\+analyzed,  }\item[{string}]{cut = {\ttfamily \char`\"{}\char`\"{}},  }\item[{chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point}]{start = {\ttfamily chrono\+:\+:system\+\_\+clock\+:\+:now()},  }\item[{bool}]{debug = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariablePlotter_8cpp_source_l00024}{24}} of file \mbox{\hyperlink{AnalysisVariablePlotter_8cpp_source}{Analysis\+Variable\+Plotter.\+cpp}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a522a7d0f659d673fb624b2cbfe153d26}\label{classAnalysisVariable_a522a7d0f659d673fb624b2cbfe153d26}} 
 \index{AnalysisVariable@{AnalysisVariable}!Xlabel@{Xlabel}}
@@ -341,7 +359,7 @@ Xlabel returns the string formed by variable name and \mbox{\hyperlink{classAnal
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00262}{262}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00270}{270}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a16258ba209deb83d2ee909b06050c2d6}\label{classAnalysisVariable_a16258ba209deb83d2ee909b06050c2d6}} 
 \index{AnalysisVariable@{AnalysisVariable}!Xlabel@{Xlabel}}
@@ -362,11 +380,31 @@ Xlabel returns the string formed by a variable name and a variable\+\_\+dimensio
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00255}{255}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00260}{260}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 
 
 \doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classAnalysisVariable_a7182b06958efe0e21d80834c679d3928}\label{classAnalysisVariable_a7182b06958efe0e21d80834c679d3928}} 
+\index{AnalysisVariable@{AnalysisVariable}!filename@{filename}}
+\index{filename@{filename}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{filename}{filename}}
+{\footnotesize\ttfamily string Analysis\+Variable\+::filename = \char`\"{}\char`\"{}}
+
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00051}{51}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a0ef115b535da78f42f6e1d8f06d648db}\label{classAnalysisVariable_a0ef115b535da78f42f6e1d8f06d648db}} 
+\index{AnalysisVariable@{AnalysisVariable}!treename@{treename}}
+\index{treename@{treename}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{treename}{treename}}
+{\footnotesize\ttfamily string Analysis\+Variable\+::treename = \char`\"{}\char`\"{}}
+
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00052}{52}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
 \mbox{\Hypertarget{classAnalysisVariable_a82e87ff173a11bedd22dd71bc2e41066}\label{classAnalysisVariable_a82e87ff173a11bedd22dd71bc2e41066}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_bins@{variable\_bins}}
 \index{variable\_bins@{variable\_bins}!AnalysisVariable@{AnalysisVariable}}
@@ -375,7 +413,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00255}{255}} of 
 
 Number of bins of the histogram that will represent the variable 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00036}{36}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00038}{38}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_abddc7f6df6917eab3e5ad0b8ddf8eba5}\label{classAnalysisVariable_abddc7f6df6917eab3e5ad0b8ddf8eba5}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_cut@{variable\_cut}}
@@ -385,7 +423,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00036}{36}} of f
 
 String describing a linear cut between minimum and maximum or particle identification(has to be set with the constructor \mbox{\hyperlink{classAnalysisVariable_af3306cacb40eca3bfd3f3a2ab93ffb93}{Set\+Var\+Cut\+Opt}}) 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00034}{34}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00036}{36}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a6c991faf9a44bb06f26882182d182b9d}\label{classAnalysisVariable_a6c991faf9a44bb06f26882182d182b9d}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_cut\_max@{variable\_cut\_max}}
@@ -395,7 +433,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00034}{34}} of f
 
 Maximum of the variable\+: only values lower than this are considered 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00030}{30}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00031}{31}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a3a5d61c0c7ff6ce56e5a72ddada96caf}\label{classAnalysisVariable_a3a5d61c0c7ff6ce56e5a72ddada96caf}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_cut\_min@{variable\_cut\_min}}
@@ -405,7 +443,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00030}{30}} of f
 
 Minimum of the variable\+: only values greater than this are considered 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00029}{29}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00030}{30}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a90e419b837b059243d7410ca5d1d13b5}\label{classAnalysisVariable_a90e419b837b059243d7410ca5d1d13b5}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_cut\_pid@{variable\_cut\_pid}}
@@ -415,7 +453,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00029}{29}} of f
 
 Particle identification number (please refer to PDG for further information) 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00031}{31}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00032}{32}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_ae15afd3c7f991efffeb3852a131e015e}\label{classAnalysisVariable_ae15afd3c7f991efffeb3852a131e015e}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_cut\_pidflag@{variable\_cut\_pidflag}}
@@ -425,7 +463,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00031}{31}} of f
 
 If true, the particle has to be the one with this particle identification number if false, the particle has to be different from the one with this particle identification 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00032}{32}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00033}{33}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}\label{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_cutchecker@{variable\_cutchecker}}
@@ -435,7 +473,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00032}{32}} of f
 
 If true, the event has to pass through the \mbox{\hyperlink{classAnalysisVariable_abddc7f6df6917eab3e5ad0b8ddf8eba5}{variable\+\_\+cut}} (if so, it is not a minimal cut) 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00033}{33}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00034}{34}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a2c53972c8bfa678630f35ec1d41861f1}\label{classAnalysisVariable_a2c53972c8bfa678630f35ec1d41861f1}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_dimension@{variable\_dimension}}
@@ -445,7 +483,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00033}{33}} of f
 
 Unit of measurement of the variable 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00027}{27}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00028}{28}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a41ead7da7df09aa6285b5a06166678a8}\label{classAnalysisVariable_a41ead7da7df09aa6285b5a06166678a8}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_expression@{variable\_expression}}
@@ -455,7 +493,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00027}{27}} of f
 
 Expression by which the variable can be comined to form a new variable 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00025}{25}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00026}{26}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_ac1a869969d95260b2be97c6057b5ec51}\label{classAnalysisVariable_ac1a869969d95260b2be97c6057b5ec51}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_histmax@{variable\_histmax}}
@@ -465,7 +503,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00025}{25}} of f
 
 Maximum of bins of the histogram that will represent the variable 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00038}{38}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00040}{40}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a0a3e014548f02fad0c3c309d8097d6a8}\label{classAnalysisVariable_a0a3e014548f02fad0c3c309d8097d6a8}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_histmin@{variable\_histmin}}
@@ -475,7 +513,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00038}{38}} of f
 
 Minimum of the histogram that will represent the variable 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00037}{37}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00039}{39}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a85901a05020e7c95ab321939e07419da}\label{classAnalysisVariable_a85901a05020e7c95ab321939e07419da}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_histplotfolder@{variable\_histplotfolder}}
@@ -485,7 +523,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00037}{37}} of f
 
 Folder which will store the plot of the histogram of the variable. Default is\+: \char`\"{}\+Output\+Files/\+PNGPlots/\+Variables/\char`\"{} 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00045}{45}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00047}{47}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_ae5e1615620dab9270e280a3565770b5a}\label{classAnalysisVariable_ae5e1615620dab9270e280a3565770b5a}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_legendstringposition@{variable\_legendstringposition}}
@@ -495,7 +533,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00045}{45}} of f
 
 String used to set the position of the legend in the canvas (Default\+: TR, top right). The possible arguments are\+: TR (top right), TL (top left) 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00040}{40}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00042}{42}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a53cbe9ea68dc7798d9abbb69330cea29}\label{classAnalysisVariable_a53cbe9ea68dc7798d9abbb69330cea29}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_legentryyheight@{variable\_legentryyheight}}
@@ -505,7 +543,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00040}{40}} of f
 
 Height of each entry in the legend (Default is 0.\+04) 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00043}{43}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00045}{45}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_ac72fe08b7d3538d2ac7e98d6f96444da}\label{classAnalysisVariable_ac72fe08b7d3538d2ac7e98d6f96444da}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_legxlength@{variable\_legxlength}}
@@ -515,7 +553,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00043}{43}} of f
 
 Length of the legend pad (Default is 0.\+2) 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00042}{42}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00044}{44}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a4209449ed3ca832184dbf1112c924257}\label{classAnalysisVariable_a4209449ed3ca832184dbf1112c924257}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_logscale\_flag@{variable\_logscale\_flag}}
@@ -525,7 +563,17 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00042}{42}} of f
 
 If true, the histogram of the variable will be plot in a log scale 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00047}{47}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00049}{49}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a9c7e4287b5bccf4752551a3a25d353d5}\label{classAnalysisVariable_a9c7e4287b5bccf4752551a3a25d353d5}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_mvacutfeature@{variable\_mvacutfeature}}
+\index{variable\_mvacutfeature@{variable\_mvacutfeature}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_mvacutfeature}{variable\_mvacutfeature}}
+{\footnotesize\ttfamily bool Analysis\+Variable\+::variable\+\_\+mvacutfeature = false}
+
+If true, the variable is used as a feature in the training of the MVA algorithm that optimizes the cut 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00035}{35}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a25c49c9818a849531e54afc235465374}\label{classAnalysisVariable_a25c49c9818a849531e54afc235465374}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_name@{variable\_name}}
@@ -535,7 +583,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00047}{47}} of f
 
 Expression by which the variable is stored in the input files 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00024}{24}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00025}{25}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a05efdd0ae94b5a50d7636ac914f77489}\label{classAnalysisVariable_a05efdd0ae94b5a50d7636ac914f77489}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_numberofentries@{variable\_numberofentries}}
@@ -545,7 +593,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00024}{24}} of f
 
 Number of entries in the legend (Default is 1) 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00041}{41}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00043}{43}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_aa7b8a6b1dae770fee5101f17d64eda32}\label{classAnalysisVariable_aa7b8a6b1dae770fee5101f17d64eda32}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_plot\_flag@{variable\_plot\_flag}}
@@ -555,7 +603,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00041}{41}} of f
 
 If true, \mbox{\hyperlink{EfficienciesAnalyzer_8cpp_a9af7de9eca56f919b2a52b425135a26d}{Efficiencies\+Analyzer}} will be used to plot an histogram of the variable in 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00046}{46}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00048}{48}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_a2b57563e92fd932cb27fa84a05adb031}\label{classAnalysisVariable_a2b57563e92fd932cb27fa84a05adb031}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_prettyname@{variable\_prettyname}}
@@ -565,7 +613,7 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00046}{46}} of f
 
 Name that will be used as plot label (La\+Tex expression can be written) 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00026}{26}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00027}{27}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 \mbox{\Hypertarget{classAnalysisVariable_aff4ff0de93636777462d1a63b8ee4719}\label{classAnalysisVariable_aff4ff0de93636777462d1a63b8ee4719}} 
 \index{AnalysisVariable@{AnalysisVariable}!variable\_stringcut@{variable\_stringcut}}
@@ -575,10 +623,11 @@ Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00026}{26}} of f
 
 String describing an additional cut (or a particularly complex one, if needed) 
 
-Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00035}{35}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00037}{37}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
 
 
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-Source\+Files/\+Header\+Files/\mbox{\hyperlink{AnalysisVariable_8h}{Analysis\+Variable.\+h}}\end{DoxyCompactItemize}
+Source\+Files/\+Header\+Files/\mbox{\hyperlink{AnalysisVariable_8h}{Analysis\+Variable.\+h}}\item 
+Source\+Files/\mbox{\hyperlink{AnalysisVariablePlotter_8cpp}{Analysis\+Variable\+Plotter.\+cpp}}\end{DoxyCompactItemize}

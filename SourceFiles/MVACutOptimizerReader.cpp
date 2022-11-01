@@ -23,8 +23,9 @@ int MVACutOptimizerReader(string mva_cut_factory_filename,
     for (unordered_map<string, pair<string, string>>::iterator fileit = files_to_be_read.begin(); fileit != files_to_be_read.end(); fileit++)
     {
         string inputfilename = fileit->second.first;
+        string inputfiletitle = RootFileCreatorExtensionPathPurger(fileit->second.first);
         string inputtreename = fileit->second.second;
-        TFile *eventinputfile = TFile::Open(inputfilename.data());
+        TFile *eventinputfile = TFile::Open(inputfilename.data(), "UPDATE");
         ROOT::RDataFrame *dataframe_inputfile = new ROOT::RDataFrame(inputtreename.data(), inputfilename.data());
         vector<string> features_inputfile = dataframe_inputfile->GetColumnNames();
 
@@ -93,7 +94,7 @@ int MVACutOptimizerReader(string mva_cut_factory_filename,
                 Event->GetEntry(readerindex);
                 for (vector<string>::iterator mvavar = features_datareader.begin(); mvavar < features_datareader.end(); mvavar++)
                 {
-                    MVA_feature_var[mvavar->data()] = (Float_t)Input_feature_var[distance(features_datareader.begin(), mvavar)];
+                    MVA_feature_var[mvavar->data()] = (Double_t)Input_feature_var[distance(features_datareader.begin(), mvavar)];
                 }
                 mvacut_weight = reader->EvaluateMVA(methoditname);
                 mva_cut_proba = reader->GetProba(methoditname);
@@ -102,7 +103,10 @@ int MVACutOptimizerReader(string mva_cut_factory_filename,
                 Branch_Proba->Fill();
                 Branch_Rarity->Fill();
             }
-            RootFileCreatorTree(Event, fileit->second.first);
+            string fileitname = RootFileCreatorExtensionPathPurger(fileit->second.first);
+            TFile *outputfile = TFile::Open(TString::Format("OutputFiles/%s_reader.root", fileitname.data()), "RECREATE");
+            outputfile->Close();
+            RootFileCreatorTree(Event, inputfiletitle+string("_reader.root"));
             Branch_Weight->ResetAddress();
             Branch_Proba->ResetAddress();
             Branch_Rarity->ResetAddress();

@@ -35,6 +35,10 @@
 /*These namespaces can be useful*/
 using namespace std;
 
+int RootFileCreatorDefine(pair<string, string> input_file_tree_name,
+                          pair<string, string> output_file_tree_name,
+                          unordered_map<string, vector<string>> anvar_tobedefined_variables);
+                          
 int RootFileCreatorFilterer(pair<string, string> data_holder,
                             string output_filename,
                             string cut,

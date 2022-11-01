@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['variable_5fbins_0',['variable_bins',['../classAnalysisVariable.html#a82e87ff173a11bedd22dd71bc2e41066',1,'AnalysisVariable']]],
+  ['variable_5fcut_1',['variable_cut',['../classAnalysisVariable.html#abddc7f6df6917eab3e5ad0b8ddf8eba5',1,'AnalysisVariable']]],
+  ['variable_5fcut_5fmax_2',['variable_cut_max',['../classAnalysisVariable.html#a6c991faf9a44bb06f26882182d182b9d',1,'AnalysisVariable']]],
+  ['variable_5fcut_5fmin_3',['variable_cut_min',['../classAnalysisVariable.html#a3a5d61c0c7ff6ce56e5a72ddada96caf',1,'AnalysisVariable']]],
+  ['variable_5fcut_5fpid_4',['variable_cut_pid',['../classAnalysisVariable.html#a90e419b837b059243d7410ca5d1d13b5',1,'AnalysisVariable']]],
+  ['variable_5fcut_5fpidflag_5',['variable_cut_pidflag',['../classAnalysisVariable.html#ae15afd3c7f991efffeb3852a131e015e',1,'AnalysisVariable']]],
+  ['variable_5fcutchecker_6',['variable_cutchecker',['../classAnalysisVariable.html#aac97c7cc9aea8bd2ccdf3b06c58bdc10',1,'AnalysisVariable']]],
+  ['variable_5fdimension_7',['variable_dimension',['../classAnalysisVariable.html#a2c53972c8bfa678630f35ec1d41861f1',1,'AnalysisVariable']]],
+  ['variable_5fexpression_8',['variable_expression',['../classAnalysisVariable.html#a41ead7da7df09aa6285b5a06166678a8',1,'AnalysisVariable']]],
+  ['variable_5fhistmax_9',['variable_histmax',['../classAnalysisVariable.html#ac1a869969d95260b2be97c6057b5ec51',1,'AnalysisVariable']]],
+  ['variable_5fhistmin_10',['variable_histmin',['../classAnalysisVariable.html#a0a3e014548f02fad0c3c309d8097d6a8',1,'AnalysisVariable']]],
+  ['variable_5fhistplotfolder_11',['variable_histplotfolder',['../classAnalysisVariable.html#a85901a05020e7c95ab321939e07419da',1,'AnalysisVariable']]],
+  ['variable_5flegendstringposition_12',['variable_legendstringposition',['../classAnalysisVariable.html#ae5e1615620dab9270e280a3565770b5a',1,'AnalysisVariable']]],
+  ['variable_5flegentryyheight_13',['variable_legentryyheight',['../classAnalysisVariable.html#a53cbe9ea68dc7798d9abbb69330cea29',1,'AnalysisVariable']]],
+  ['variable_5flegxlength_14',['variable_legxlength',['../classAnalysisVariable.html#ac72fe08b7d3538d2ac7e98d6f96444da',1,'AnalysisVariable']]],
+  ['variable_5flogscale_5fflag_15',['variable_logscale_flag',['../classAnalysisVariable.html#a4209449ed3ca832184dbf1112c924257',1,'AnalysisVariable']]],
+  ['variable_5fmvacutfeature_16',['variable_mvacutfeature',['../classAnalysisVariable.html#a9c7e4287b5bccf4752551a3a25d353d5',1,'AnalysisVariable']]],
+  ['variable_5fname_17',['variable_name',['../classAnalysisVariable.html#a25c49c9818a849531e54afc235465374',1,'AnalysisVariable']]],
+  ['variable_5fnumberofentries_18',['variable_numberofentries',['../classAnalysisVariable.html#a05efdd0ae94b5a50d7636ac914f77489',1,'AnalysisVariable']]],
+  ['variable_5fplot_5fflag_19',['variable_plot_flag',['../classAnalysisVariable.html#aa7b8a6b1dae770fee5101f17d64eda32',1,'AnalysisVariable']]],
+  ['variable_5fprettyname_20',['variable_prettyname',['../classAnalysisVariable.html#a2b57563e92fd932cb27fa84a05adb031',1,'AnalysisVariable']]],
+  ['variable_5fstringcut_21',['variable_stringcut',['../classAnalysisVariable.html#aff4ff0de93636777462d1a63b8ee4719',1,'AnalysisVariable']]]
+];

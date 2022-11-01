@@ -448,13 +448,13 @@ int main(int argc, char *argv[])
   }
   */
   /*
-  pair<string, string> signal_kpi3pi_data_holder = pair("InputFiles/kpi3pi-sim-jpsi.root", "T");
-  RootFileCreatorFilterer(signal_kpi3pi_data_holder, string("KPi3Pi_SIM_JPsi"), cuts+stripping_cuts_xpiz);
-  pair<string, string> background_data_holder = pair("InputFiles/kpietapipi-sim-jpsi.root", "T");
-  RootFileCreatorFilterer(background_data_holder, string("KPiEtaPiPi_SIM_JPsi"), cuts+stripping_cuts_xeta);
-  */
-  ofstream csv_efficiencies_ratios_file;
-
+  pair<string, string> signal_kpi3pi_data_holder = pair("InputFiles/kpi3pi-sim-omega.root", "T");
+  RootFileCreatorFilterer(signal_kpi3pi_data_holder, string("KPi3Pi_Signal"), cuts+stripping_cuts_xpiz, "InputFiles/");
+  pair<string, string> kpi3pi_jpsi_data_holder = pair("InputFiles/kpi3pi-sim-jpsi.root", "T");
+  RootFileCreatorFilterer(kpi3pi_jpsi_data_holder, string("KPi3Pi_SIM_JPsi"), cuts+stripping_cuts_xpiz, "InputFiles/");
+  pair<string, string> background_data_holder = pair("InputFiles/kpi3pi_2015_md_minCuts.root", "T");
+  RootFileCreatorFilterer(background_data_holder, string("KPi3Pi_2015_md_Cuts"), cuts+stripping_cuts_xpiz, "InputFiles/");*/
+ 
   if (cuts_as_analysis_variables == true)
   {
     AnalysisVariable analvar_mincuts;
@@ -465,6 +465,7 @@ int main(int argc, char *argv[])
     vec_analysisvariables->push_back(analvar_cuts);
   }
 
+  ofstream csv_efficiencies_ratios_file;
   // EfficienciesRatioAnalyzer(vec_analysisvariables, csv_efficiencies_ratios_file, data_holder);
 
   vector<string> *fake_factory_names = new vector<string>; /*!< 0 = MC signal path, 1-2= in/out file, 3-4= pass/fail trees, 5-6 pass/fail closure test trees*/
@@ -474,17 +475,71 @@ int main(int argc, char *argv[])
   kpi3pi_mvacut_factory_files["Signal"] = pair("InputFiles/KPi3Pi_Signal.root", "T");
   kpi3pi_mvacut_factory_files["Background"] = pair("InputFiles/KPi3Pi_Data_Sidebands.root", "T");
   kpi3pi_mvacut_factory_files["Output"] = pair("OutputFiles/kpi3pi_MVACutFactory.root", "T");
-  // MVACutOptimizerFactory(kpi3pi_mvacut_factory_files, features, vec_analysisvariables, tmvamethods, start, true);
-  // kpi3pi_mvacut_reader_files["KPi3PiJPsi_Reader"] = pair("InputFiles/KPi3Pi_SIM_JPsi.root", "T");
-  kpi3pi_mvacut_reader_files["KPi3PiJPsi_Reader"] = pair("OutputFiles/KPi3Pi_SIM_JPsi.root", "T");
-  // MVACutOptimizerReader(kpi3pi_mvacut_factory_files["Output"].first, kpi3pi_mvacut_reader_files, tmvamethods);
+  //MVACutOptimizerFactory(kpi3pi_mvacut_factory_files, features, vec_analysisvariables, tmvamethods, start, true);
 
-  B0_masscorr.SetVarBinningOpt(15, 5000, 6000);
-  B0_masscorr.SetVarNames("b_mcor", "B^{0}_{m,cor}", "b_mcor", "MeV");
+  B0_masscorr.SetVarBinningOpt(30, 5000, 5600);
+  B0_masscorr.SetVarNames("b_m", "m#left(J/#psiK#pi#right)", "b_m", "#frac{MeV}{c^{2}}");
   //B0_masscorr.VariablePlotter(&(kpi3pi_mvacut_reader_files["KPi3PiJPsi_Reader"]), &B0_masscorr, string("mvacut_kbdt1>0.5"));
   
-  ROOT::RDataFrame dataframe_KPi3Pi_JPsi_SIM = ROOT::RDataFrame("T", "OutputFiles/KPi3Pi_SIM_JPsi.root");
-  FitterMass(&dataframe_KPi3Pi_JPsi_SIM, &B0_masscorr);
+  pair<string, string> data_fit_file_tree = pair("OutputFiles/KPi3Pi_SIM_JPsi.root", "T");
+  //FitterMass(&data_fit_file_tree, &B0_masscorr);
+
+  unordered_map<string, vector<string>> var_tobe_defined;
+  var_tobe_defined["b_m_jpsiconstrained"] = {
+    "x_px", "x_py", "x_pz",
+    "k_px", "k_py", "k_pz", "k_e",
+    "pi_px", "pi_py", "pi_pz", "pi_e"
+    };
+
+  var_tobe_defined["x_m_pi0constrained"] = {
+    "xpiz_px", "xpiz_py", "xpiz_pz",
+    "xpip_px", "xpip_py", "xpip_pz", "xpip_e",
+    "xpim_px", "xpim_py", "xpim_pz", "xpim_e"
+    };
+  pair<string, string> kpi3pi_data_2015_mincuts = pair("InputFiles/kpi3pi_2015_md_minCuts.root", "T");
+  pair<string, string> kpi3pi_data_2015_cutsstrip = pair("OutputFiles/KPi3Pi_2015_md_Cuts.root", "T");
+  pair<string, string> kpi3pi_data_2015_preselstripp_newvars = pair("OutputFiles/KPi3Pi_2015_md_Cuts_newvars.root", "T");
+  pair<string, string> kpi3pi_jpsisim_preselstripp = pair("OutputFiles/KPi3Pi_SIM_JPsi.root", "T");
+  pair<string, string> kpi3pi_jpsisim_preselstripp_newvars = pair("OutputFiles/KPi3Pi_SIM_JPsi_newvars.root", "T");
+  //RootFileCreatorFilterer(kpi3pi_data_2015_mincuts, "KPi3Pi_2015_md_Cuts.root", cuts+stripping_cuts_xpiz);  
+  //RootFileCreatorDefine(kpi3pi_jpsisim_preselstripp, kpi3pi_jpsisim_preselstripp_newvars, var_tobe_defined);
+  //kpi3pi_mvacut_reader_files["KPi3PiJPsi_Reader"] = pair("InputFiles/KPi3Pi_SIM_JPsi.root", "T");
+  kpi3pi_mvacut_reader_files["KPi3Pi_DATA_Cuts_Reader"] = pair("OutputFiles/KPi3Pi_2015_md_Cuts_newvars.root", "T");
+  kpi3pi_mvacut_reader_files["KPi3Pi_JPsi_SIM_Cuts"] = pair("OutputFiles/KPi3Pi_SIM_JPsi_newvars.root", "T");
+  //MVACutOptimizerReader(kpi3pi_mvacut_factory_files["Output"].first, kpi3pi_mvacut_reader_files, tmvamethods);
+  
+  pair<string, string> kpi3pi_data_2015_reader = pair("OutputFiles/KPi3Pi_2015_md_Cuts_newvars_reader.root", "T");
+  pair<string, string> kpi3pi_jpsi_sim_reader = pair("OutputFiles/KPi3Pi_SIM_JPsi_newvars.root", "T");
+
+  AnalysisVariable x_mass;
+  x_mass.SetVarBinningOpt(25, 2900, 3300);
+  x_mass.SetVarNames("x_m", "m_{X}", "x_m", "#frac{MeV}{c^{2}}");  
+  x_mass.LegendPositionConstructor(5, 1);
+  x_mass.BoxHeaderPositionConstructor(3, 1, 0.14, 0.03);
+  x_mass.VariablePlotter(&(kpi3pi_data_2015_reader), &x_mass, string("x_m>2900 && x_m<3300"));
+
+  AnalysisVariable X_mass_pi0contstrained;
+  X_mass_pi0contstrained.SetVarBinningOpt(25, 2900, 3300);
+  X_mass_pi0contstrained.SetVarNames("x_m_pi0constrained", "m_{X}#left(#pi^{0}_{fix}#right)", "x_m_pi0constrained", "#frac{MeV}{c^{2}}");  
+  X_mass_pi0contstrained.LegendPositionConstructor(5, 1);
+  X_mass_pi0contstrained.VariablePlotter(&(kpi3pi_data_2015_reader), &X_mass_pi0contstrained, string("x_m_pi0constrained>2900 && x_m_pi0constrained<3300"));
+  //X_mass_pi0contstrained.SetVarBinningOpt(50, 2400, 3800);
+ // X_mass_pi0contstrained.VariablePlotter(&(kpi3pi_jpsi_sim_reader), &X_mass_pi0contstrained);
+
+  AnalysisVariable B0_mass_jpsicontstrained;
+  B0_mass_jpsicontstrained.SetVarBinningOpt(25, 5000, 6000);
+  B0_mass_jpsicontstrained.SetVarNames("b_m_jpsiconstrained", "m_{Constrained}#left(J/#psiK#pi#right)", "b_m_jpsiconstrained", "#frac{MeV}{c^{2}}");  
+  B0_mass_jpsicontstrained.LegendPositionConstructor(1, 1);
+  B0_mass_jpsicontstrained.BoxHeaderPositionConstructor(5, 1, 0.14, 0.03);
+  //B0_mass_jpsicontstrained.VariablePlotter(&(kpi3pi_data_2015_reader), &B0_mass_jpsicontstrained, string("mvacut_kbdt1>0.5 && x_m_pi0constrained>3400 && x_m<3600"));
+  FitterMass(&kpi3pi_data_2015_reader, &B0_mass_jpsicontstrained, string("mvacut_kbdt1>0.5 && x_m_pi0constrained>2900 && x_m_pi0constrained<3300"));
+
+  AnalysisVariable B_mass;
+  B_mass.SetVarBinningOpt(40, 4800, 5800);
+  B_mass.SetVarNames("b_m", "m#left(J/#psiK#pi#right)", "b_m", "#frac{MeV}{c^{2}}");  
+  B_mass.BoxHeaderPositionConstructor(2, 1, 0.14, 0.03);
+  //B_mass.VariablePlotter(&(kpi3pi_data_2015_reader), &B_mass, string("mvacut_kbdt1>0.5 && x_m_pi0constrained>3400 && x_m<3600"));
+  //FitterMass(&kpi3pi_data_2015_reader, &B_mass, string("mvacut_kbdt1>0.5 && x_m_pi0constrained>2900 && x_m<3300"));
 
   ElapsedTimeStamper(start);
   end = chrono::system_clock::now();

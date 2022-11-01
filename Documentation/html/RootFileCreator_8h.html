@@ -95,12 +95,59 @@ $(function() {
 Functions</h2></td></tr>
 <tr class="memitem:a724ba5f4b176d26e73905ce68cad46dc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RootFileCreator_8h.html#a724ba5f4b176d26e73905ce68cad46dc">RootFileCreatorFilterer</a> (pair&lt; string, string &gt; data_holder, string output_filename, string cut, string output_path=&quot;OutputFiles/&quot;, chrono::_V2::system_clock::time_point start=chrono::_V2::system_clock::now(), bool outputprint=false, bool debug=false)</td></tr>
 <tr class="separator:a724ba5f4b176d26e73905ce68cad46dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3e46a745ce80ff63a74b9e37d190b85"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RootFileCreator_8h.html#aa3e46a745ce80ff63a74b9e37d190b85">RootFileCreatorTree</a> (TTree *treetobewritten, string output_filename=&quot;&quot;, string output_path=&quot;OutputFiles/&quot;, chrono::_V2::system_clock::time_point start=chrono::_V2::system_clock::now(), bool outputprint=false, bool debug=false)</td></tr>
+<tr class="memdesc:aa3e46a745ce80ff63a74b9e37d190b85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function used to produce *.root files choosing cuts or defining new columns.  <a href="RootFileCreator_8h.html#aa3e46a745ce80ff63a74b9e37d190b85">More...</a><br /></td></tr>
+<tr class="separator:aa3e46a745ce80ff63a74b9e37d190b85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52fb67ec670a690fd91604758afbcf45"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RootFileCreator_8h.html#a52fb67ec670a690fd91604758afbcf45">RootFileCreatorExtensionPathPurger</a> (string *stringtobepurged)</td></tr>
+<tr class="separator:a52fb67ec670a690fd91604758afbcf45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace083758b3150deaf558c74710104038"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RootFileCreator_8h.html#ace083758b3150deaf558c74710104038">RootFileCreatorExtensionPathPurger</a> (string stringtobepurged)</td></tr>
+<tr class="separator:ace083758b3150deaf558c74710104038"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Header file for some functions used to create *.root files. </p>
 
 <p class="definition">Definition in file <a class="el" href="RootFileCreator_8h_source.html">RootFileCreator.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a52fb67ec670a690fd91604758afbcf45" name="a52fb67ec670a690fd91604758afbcf45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52fb67ec670a690fd91604758afbcf45">&#9670;&#160;</a></span>RootFileCreatorExtensionPathPurger() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RootFileCreatorExtensionPathPurger </td>
+          <td>(</td>
+          <td class="paramtype">string *&#160;</td>
+          <td class="paramname"><em>stringtobepurged</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="RootFileCreator_8cpp_source.html#l00151">151</a> of file <a class="el" href="RootFileCreator_8cpp_source.html">RootFileCreator.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ace083758b3150deaf558c74710104038" name="ace083758b3150deaf558c74710104038"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace083758b3150deaf558c74710104038">&#9670;&#160;</a></span>RootFileCreatorExtensionPathPurger() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string RootFileCreatorExtensionPathPurger </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>stringtobepurged</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="RootFileCreator_8cpp_source.html#l00163">163</a> of file <a class="el" href="RootFileCreator_8cpp_source.html">RootFileCreator.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a724ba5f4b176d26e73905ce68cad46dc" name="a724ba5f4b176d26e73905ce68cad46dc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a724ba5f4b176d26e73905ce68cad46dc">&#9670;&#160;</a></span>RootFileCreatorFilterer()</h2>
 
@@ -158,6 +205,74 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="RootFileCreator_8cpp_source.html#l00027">27</a> of file <a class="el" href="RootFileCreator_8cpp_source.html">RootFileCreator.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aa3e46a745ce80ff63a74b9e37d190b85" name="aa3e46a745ce80ff63a74b9e37d190b85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3e46a745ce80ff63a74b9e37d190b85">&#9670;&#160;</a></span>RootFileCreatorTree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">RootFileCreatorTree </td>
+          <td>(</td>
+          <td class="paramtype">TTree *&#160;</td>
+          <td class="paramname"><em>treetobewritten</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>output_filename</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>output_path</em> = <code>&quot;OutputFiles/&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">chrono::_V2::system_clock::time_point&#160;</td>
+          <td class="paramname"><em>start</em> = <code>chrono::_V2::system_clock::now()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>outputprint</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>debug</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Function used to produce *.root files choosing cuts or defining new columns. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">treetobewritten</td><td>Pointer to the tree that has to be written in the file<br  />
+</td></tr>
+    <tr><td class="paramname">output_filename</td><td>The name of the root file that will be produced (without the extension). If not specified, it will be the original filename+"_CREATED" </td></tr>
+    <tr><td class="paramname">output_path</td><td>The name of the path where the output file will be written to (default is "OutputFiles/") </td></tr>
+    <tr><td class="paramname">start</td><td>Starting time of the main function (default is the starting time of the function itself) </td></tr>
+    <tr><td class="paramname">outputprint</td><td>Flag to decide to print the output to terminal </td></tr>
+    <tr><td class="paramname">debug</td><td>Flag to acrivate debug mode </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="RootFileCreator_8cpp_source.html#l00108">108</a> of file <a class="el" href="RootFileCreator_8cpp_source.html">RootFileCreator.cpp</a>.</p>
 
 </div>
 </div>

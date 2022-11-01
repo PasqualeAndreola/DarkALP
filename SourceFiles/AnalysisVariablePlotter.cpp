@@ -50,13 +50,21 @@ int AnalysisVariable::VariablePlotter(pair<string, string> *data_holder,
     if (dataframe_analysisvariable->HasColumn(var_to_be_analyzed->variable_name) == false)
         return 0;
 
-    histogram_analysisvariable = dataframe_analysisvariable->Filter(cut.data()).Fill(TH1F(TString::Format("%s_sig", var_to_be_analyzed->variable_prettyname), TString::Format("%s_sig", var_to_be_analyzed->variable_name),
+    if (cut.compare("") != 0)
+    {
+        histogram_analysisvariable = dataframe_analysisvariable->Filter(cut.data()).Fill(TH1F(TString::Format("%s", filelabel.data()), TString::Format("%s", filelabel.data()),
                                                                        bins, min, max),
                                                                   {var_to_be_analyzed->variable_name});
-
+    }
+    else
+    {
+        histogram_analysisvariable = dataframe_analysisvariable->Fill(TH1F(TString::Format("%s", filelabel.data()), TString::Format("%s", filelabel.data()),
+                                                                       bins, min, max),
+                                                                  {var_to_be_analyzed->variable_name});        
+    }
     // Computing efficiencies and purities
     histogram_analysisvariable->Sumw2();
-    histogram_analysisvariable->Scale(1 / histogram_analysisvariable->Integral());
+    //histogram_analysisvariable->Scale(1 / histogram_analysisvariable->Integral());
 
     // Plotting
 
@@ -64,7 +72,7 @@ int AnalysisVariable::VariablePlotter(pair<string, string> *data_holder,
 
     canvas_analysisvariable.cd();
     canvas_analysisvariable.Clear();
-    histogram_analysisvariable->SetStats(false);
+    histogram_analysisvariable->SetStats(true);
     histogram_analysisvariable->SetFillStyle(1001);
     histogram_analysisvariable->SetMarkerStyle(kFullSquare);
     histogram_analysisvariable->SetMarkerSize(1);
@@ -75,7 +83,7 @@ int AnalysisVariable::VariablePlotter(pair<string, string> *data_holder,
     canvas_analysisvariable.Update();
 
     // Adjusting the legend
-    TLegend *legend = var_to_be_analyzed->SetLegendPosAuto("TR", 1);
+    TLegend *legend = var_to_be_analyzed->SetLegendPosAuto();
     legend->AddEntry(histogram_analysisvariable->GetName(), TString::Format("%s", var_to_be_analyzed->variable_prettyname), "PLC PMC");
     legend->SetTextSize(0.025);
     legend->Draw("SAME");
@@ -86,6 +94,16 @@ int AnalysisVariable::VariablePlotter(pair<string, string> *data_holder,
         gPad->SetLogy();
     }
     canvas_analysisvariable.Update();
+
+    TPaveStats *pavestat = (TPaveStats *)(histogram_analysisvariable->GetListOfFunctions()->FindObject("stats"));
+    pavestat->SetOptStat(111111);
+    pavestat->SetX1NDC(legend->GetX1NDC());
+    pavestat->SetX2NDC(legend->GetX2NDC());
+    pavestat->SetY1NDC(legend->GetY1NDC() - 0.04 * 5);
+    pavestat->SetY2NDC(legend->GetY1NDC());
+    pavestat->Draw("SAME");
+    canvas_analysisvariable.Update();
+
     canvas_analysisvariable.Print(TString::Format("%s/%s_%s.png", var_to_be_analyzed->variable_histplotfolder, var_to_be_analyzed->variable_name, filelabel.data()));
     canvas_analysisvariable.Clear();
     legend->Clear();

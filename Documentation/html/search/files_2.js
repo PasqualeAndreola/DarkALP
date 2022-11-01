@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['main_2ecpp_0',['main.cpp',['../main_8cpp.html',1,'']]]
+  ['fitter_2eh_0',['Fitter.h',['../Fitter_8h.html',1,'']]],
+  ['fittermass_2ecpp_1',['FitterMass.cpp',['../FitterMass_8cpp.html',1,'']]]
 ];

@@ -56,13 +56,18 @@
 #include <RooCBShape.h>
 #include <RooCrystalBall.h>
 #include <RooExponential.h>
+#include <RooPolynomial.h>
+#include <RooAbsDataHelper.h>
 #include "AnalysisVariable.h"
+#include "RootFileCreator.h"
 
 /*These namespaces can be useful*/
 using namespace std;
 
-int FitterMass(ROOT::RDataFrame *input_dataframe,
+int FitterMass(pair<string, string> *input_file_tree,
                AnalysisVariable *analvar_tobefit,
+               string selection_cut = "",
+               string mc_selection_cut = "",
                bool debug = false,
                string closuretest = "");
 

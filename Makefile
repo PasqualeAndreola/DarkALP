@@ -46,8 +46,7 @@ INCLUDES     := $(INCROOT)
 
 #Libraries that has to be linked
 LIBSROOT     := -L/home/pasqualeandreola/Blue-2.4.0
-LIBSROOT 	 += $(shell root-config --libs)
-LIBSROOT     += -L/home/pasqualeandreola/ROOT/lib -lRooFitCore -lRooFit -lTMVA -lTMVAGui -lXMLIO -lMathMore -lSPlot -lRooStats 
+LIBSROOT 	 += $(shell root-config --libs) -lRooFitCore -lRooFit -lTMVA -lTMVAGui -lXMLIO -lMathMore -lSPlot -lRooStats 
 LIBS 	 	 := $(LIBSROOT)
 
 #Sources and objects research

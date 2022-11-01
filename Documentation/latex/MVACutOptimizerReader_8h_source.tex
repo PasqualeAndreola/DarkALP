@@ -1,0 +1,52 @@
+\hypertarget{MVACutOptimizerReader_8h_source}{}\doxysection{MVACut\+Optimizer\+Reader.\+h}
+\label{MVACutOptimizerReader_8h_source}\index{SourceFiles/HeaderFiles/MVACutOptimizerReader.h@{SourceFiles/HeaderFiles/MVACutOptimizerReader.h}}
+\mbox{\hyperlink{MVACutOptimizerReader_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00006}00006 \textcolor{preprocessor}{\#ifndef MVACUTOPTIMIZERREADER\_H}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00007}00007 \textcolor{preprocessor}{\#define MVACUTOPTIMIZERREADER\_H}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00010}00010 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00011}00011 \textcolor{preprocessor}{\#include <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00012}00012 \textcolor{preprocessor}{\#include <TROOT.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00013}00013 \textcolor{preprocessor}{\#include "{}ROOT/RDataFrame.hxx"{}}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00014}00014 \textcolor{preprocessor}{\#include <TString.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00015}00015 \textcolor{preprocessor}{\#include <TFile.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00016}00016 \textcolor{preprocessor}{\#include <TTree.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00017}00017 \textcolor{preprocessor}{\#include <TH1F.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00018}00018 \textcolor{preprocessor}{\#include <THStack.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00019}00019 \textcolor{preprocessor}{\#include <TH2F.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00020}00020 \textcolor{preprocessor}{\#include <TGraph.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00021}00021 \textcolor{preprocessor}{\#include <TCanvas.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00022}00022 \textcolor{preprocessor}{\#include <TLegend.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00023}00023 \textcolor{preprocessor}{\#include <TLegendEntry.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00024}00024 \textcolor{preprocessor}{\#include <TPaveStats.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00025}00025 \textcolor{preprocessor}{\#include <TLorentzVector.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00026}00026 \textcolor{preprocessor}{\#include <TColor.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00027}00027 \textcolor{preprocessor}{\#include <TStyle.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00028}00028 \textcolor{preprocessor}{\#include <TGraphErrors.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00029}00029 \textcolor{preprocessor}{\#include <TF1.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00030}00030 \textcolor{preprocessor}{\#include <TFrame.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00031}00031 \textcolor{preprocessor}{\#include <TRatioPlot.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00032}00032 \textcolor{preprocessor}{\#include <TPaveText.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00033}00033 \textcolor{preprocessor}{\#include <TMVA/DataLoader.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00034}00034 \textcolor{preprocessor}{\#include <TMVA/RReader.hxx>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00035}00035 \textcolor{preprocessor}{\#include <TMVA/Factory.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00036}00036 \textcolor{preprocessor}{\#include <TMVA/Config.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00037}00037 \textcolor{preprocessor}{\#include <TMVA/Configurable.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00038}00038 \textcolor{preprocessor}{\#include <TMVA/TMVAGui.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00039}00039 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{TMVAMethod_8h}{TMVAMethod.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00040}00040 \textcolor{preprocessor}{\#include <TMVA/Reader.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00041}00041 \textcolor{preprocessor}{\#include <TLine.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00043}00043 \textcolor{comment}{/*These namespaces can be useful*/}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00044}00044 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00046}00046 \textcolor{keywordtype}{int} \mbox{\hyperlink{MVACutOptimizerReader_8h_aeb7f550278ea92ec0c7f696dc8181e0d}{MVACutOptimizerReader}}(\textcolor{keywordtype}{string} mva\_cut\_factory\_filename,}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00047}00047                           unordered\_map<\textcolor{keywordtype}{string}, pair<string, string>> files\_to\_be\_read,}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00048}00048                           vector<TMVAMethod> tmvamethods);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8h_source_l00050}00050 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

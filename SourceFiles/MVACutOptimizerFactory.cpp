@@ -110,9 +110,9 @@ int MVACutOptimizerFactory(unordered_map<string, pair<string, string>> mva_cut_f
     }
     Float_t train_test_treshold = 0.8;
     long unsigned int ntrainsign = signal->GetEntries()*train_test_treshold; /*!< Number of events used to train signal identification in the sample */
-    long unsigned int ntrainback = background->GetEntries()*train_test_treshold/350; /*!< Number of events used to train background identification in the sample */
+    long unsigned int ntrainback = background->GetEntries()*train_test_treshold/65; /*!< Number of events used to train background identification in the sample */
     long unsigned int ntestsign = signal->GetEntries()*(1-train_test_treshold);  /*!< Number of events used to test signal identification in the sample */
-    long unsigned int ntestback = background->GetEntries()*(1-train_test_treshold)/350;  /*!< Number of events used to test background identification in the sample */
+    long unsigned int ntestback = background->GetEntries()*(1-train_test_treshold)/65;  /*!< Number of events used to test background identification in the sample */
     TString dataString = TString::Format("nTrain_Signal=%lu", ntrainsign);
     dataString.Append(TString::Format(":nTrain_Background=%lu", ntrainback));
     dataString.Append(TString::Format(":nTest_Signal=%lu", ntestsign));

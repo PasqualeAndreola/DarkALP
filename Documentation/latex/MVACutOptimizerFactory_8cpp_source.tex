@@ -1,0 +1,133 @@
+\hypertarget{MVACutOptimizerFactory_8cpp_source}{}\doxysection{MVACut\+Optimizer\+Factory.\+cpp}
+\label{MVACutOptimizerFactory_8cpp_source}\index{SourceFiles/MVACutOptimizerFactory.cpp@{SourceFiles/MVACutOptimizerFactory.cpp}}
+\mbox{\hyperlink{MVACutOptimizerFactory_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00014}00014 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{MVACutOptimizerFactory_8h}{HeaderFiles/MVACutOptimizerFactory.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00015}00015 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00016}\mbox{\hyperlink{MVACutOptimizerFactory_8h_a63b85242d15223992dc8de0ae5352437}{00016}} \textcolor{keywordtype}{int} \mbox{\hyperlink{MVACutOptimizerFactory_8cpp_affe38335d55e18e33310818a49645489}{MVACutOptimizerFactory}}(unordered\_map<\textcolor{keywordtype}{string}, pair<string, string>> mva\_cut\_factory\_files,}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00017}00017                   vector<string> features,}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00018}00018                   vector<AnalysisVariable> *vartobefit,}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00019}00019                   vector<TMVAMethod> tmvamethods,}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00020}00020                   chrono::\_V2::system\_clock::time\_point start,}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00021}00021                   \textcolor{keywordtype}{bool} debug\_variableranking)}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00022}00022 \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00023}00023     \textcolor{comment}{// Initializing some variables }}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00024}00024     \textcolor{keywordtype}{int} num\_threads = 0;   \textcolor{comment}{// use by default all threads}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00025}00025     \textcolor{comment}{// do enable MT running}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00026}00026     \textcolor{keywordflow}{if} (num\_threads >= 0) \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00027}00027         ROOT::EnableImplicitMT(num\_threads);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00028}00028         \textcolor{keywordflow}{if} (num\_threads > 0) gSystem-\/>Setenv(\textcolor{stringliteral}{"{}OMP\_NUM\_THREADS"{}}, TString::Format(\textcolor{stringliteral}{"{}\%d"{}},num\_threads));}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00029}00029     \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00030}00030     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00031}00031         gSystem-\/>Setenv(\textcolor{stringliteral}{"{}OMP\_NUM\_THREADS"{}}, \textcolor{stringliteral}{"{}1"{}});}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00032}00032   }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00033}00033     TMVA::Config::Instance();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00034}00034   }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00035}00035     std::cout << \textcolor{stringliteral}{"{}Running with nthreads  = "{}} << ROOT::GetThreadPoolSize() << std::endl;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00036}00036     }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00037}00037     \textcolor{comment}{// Printing on terminal the name of the file used as signal/background}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00038}00038     cout << mva\_cut\_factory\_files[\textcolor{stringliteral}{"{}Signal"{}}].first.data() << endl;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00040}00040     \textcolor{comment}{// Creating dataframes from the signal/background}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00041}00041     ROOT::RDataFrame* signal\_dataframe = \textcolor{keyword}{new} ROOT::RDataFrame(mva\_cut\_factory\_files[\textcolor{stringliteral}{"{}Signal"{}}].second.data(), mva\_cut\_factory\_files[\textcolor{stringliteral}{"{}Signal"{}}].first.data());}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00042}00042     ROOT::RDataFrame* background\_dataframe = \textcolor{keyword}{new} ROOT::RDataFrame(mva\_cut\_factory\_files[\textcolor{stringliteral}{"{}Background"{}}].second.data(), mva\_cut\_factory\_files[\textcolor{stringliteral}{"{}Background"{}}].first.data());}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00044}00044     Float\_t closure\_test\_threshold = 1;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00046}00046     cout << \textcolor{stringliteral}{"{}"{}} << endl;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00047}00047     cout << \textcolor{stringliteral}{"{}Model"{}} << endl;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00048}00048     cout << \textcolor{stringliteral}{"{}"{}} << endl;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00050}00050     vector<string> features\_ct = features;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00051}00051     features\_ct.push\_back(\textcolor{stringliteral}{"{}Target"{}});}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00053}00053     \textcolor{comment}{// Defining input/output files and trees}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00054}00054     TFile *input\_signal\_file = TFile::Open(mva\_cut\_factory\_files[\textcolor{stringliteral}{"{}Signal"{}}].first.data(), \textcolor{stringliteral}{"{}read"{}});}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00055}00055     TTree *signal = (TTree *)input\_signal\_file-\/>Get(mva\_cut\_factory\_files[\textcolor{stringliteral}{"{}Signal"{}}].second.data());}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00056}00056     TFile *input\_background\_file = TFile::Open(mva\_cut\_factory\_files[\textcolor{stringliteral}{"{}Background"{}}].first.data(), \textcolor{stringliteral}{"{}read"{}});}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00057}00057     TTree *background = (TTree *)input\_background\_file-\/>Get(mva\_cut\_factory\_files[\textcolor{stringliteral}{"{}Background"{}}].second.data());}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00058}00058     TFile *outputfile = TFile::Open(mva\_cut\_factory\_files[\textcolor{stringliteral}{"{}Output"{}}].first.data(), \textcolor{stringliteral}{"{}recreate"{}});}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00059}00059     }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00060}00060     \textcolor{comment}{// Setting up the MVA Factory}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00061}00061     Double\_t signalweight = 1.0, backgroundweight = 1.0;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00062}00062     TMVA::gConfig().GetIONames().fWeightFileDirPrefix = \textcolor{stringliteral}{"{}TMVAResults"{}};}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00063}00063     TMVA::gConfig().GetIONames().fWeightFileDir = \textcolor{stringliteral}{"{}Weights"{}};}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00064}00064     TMVA::DataLoader *loader = \textcolor{keyword}{new} TMVA::DataLoader(\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00065}00065     TMVA::Factory *factory = \textcolor{keyword}{new} TMVA::Factory(\textcolor{stringliteral}{"{}TMVAClassification"{}}, outputfile, \textcolor{stringliteral}{"{}AnalysisType=Classification"{}});}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00066}00066     loader-\/>AddSignalTree(signal, signalweight);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00067}00067     loader-\/>AddBackgroundTree(background, backgroundweight);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00068}00068     \textcolor{keywordflow}{if} (debug\_variableranking == \textcolor{keyword}{true})}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00069}00069     \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00070}00070       vector<string> dataframenames = signal\_dataframe-\/>GetColumnNames();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00071}00071       \textcolor{keywordflow}{for} (vector<string>::iterator mvavar = dataframenames.begin(); mvavar < dataframenames.end(); mvavar++)}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00072}00072       \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00073}00073         \textcolor{keywordflow}{if} ( (signal\_dataframe-\/>HasColumn(mvavar-\/>data()) == \textcolor{keyword}{true}) \&\& ( (background\_dataframe-\/>HasColumn(mvavar-\/>data())) == \textcolor{keyword}{true}) )}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00074}00074         \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00075}00075             \textcolor{keywordtype}{bool} variablesnan = (mvavar-\/>find(\textcolor{stringliteral}{"{}\_ip\_chi2\_bvtx"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00076}00076             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_m"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00077}00077             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_e"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00078}00078             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_q"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00079}00079             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_mcor"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00080}00080             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_x"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00081}00081             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_y"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00082}00082             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_z"{}}) != string::npos);            }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00083}00083             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_px"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00084}00084             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_py"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00085}00085             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_pz"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00086}00086             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_pid"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00087}00087             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_hcal"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00088}00088             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_l0"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00089}00089             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_is\_mu"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00090}00090             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_pnn"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00091}00091             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_prb\_ghost"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00092}00092             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_ecal"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00093}00093             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_vid"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00094}00094             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}\_best"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00095}00095             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}x\_tau"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00096}00096             variablesnan = variablesnan || (mvavar-\/>find(\textcolor{stringliteral}{"{}iCand"{}}) != string::npos);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00097}00097             \textcolor{keywordflow}{if} (variablesnan==\textcolor{keyword}{false}) loader-\/>AddVariable(mvavar-\/>data(), mvavar-\/>data(), \textcolor{stringliteral}{"{}"{}}, \textcolor{charliteral}{'F'});}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00098}00098         \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00099}00099       \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00100}00100     \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00101}00101     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00102}00102     \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00103}00103       \textcolor{keywordflow}{for} (vector<string>::iterator mvavar = features.begin(); mvavar < features.end(); mvavar++)}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00104}00104       \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00105}00105         \textcolor{keywordflow}{if} ( (signal\_dataframe-\/>HasColumn(mvavar-\/>data()) == \textcolor{keyword}{true}) \&\& ( (background\_dataframe-\/>HasColumn(mvavar-\/>data())) == \textcolor{keyword}{true}) )}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00106}00106         \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00107}00107             loader-\/>AddVariable(mvavar-\/>data(), mvavar-\/>data(), \textcolor{stringliteral}{"{}"{}}, \textcolor{charliteral}{'F'});}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00108}00108         \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00109}00109       \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00110}00110     \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00111}00111     Float\_t train\_test\_treshold = 0.8;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00112}00112     \textcolor{keywordtype}{long} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} ntrainsign = signal-\/>GetEntries()*train\_test\_treshold; }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00113}00113     \textcolor{keywordtype}{long} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} ntrainback = background-\/>GetEntries()*train\_test\_treshold/350; }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00114}00114     \textcolor{keywordtype}{long} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} ntestsign = signal-\/>GetEntries()*(1-\/train\_test\_treshold);  }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00115}00115     \textcolor{keywordtype}{long} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} ntestback = background-\/>GetEntries()*(1-\/train\_test\_treshold)/350;  }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00116}00116     TString dataString = TString::Format(\textcolor{stringliteral}{"{}nTrain\_Signal=\%lu"{}}, ntrainsign);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00117}00117     dataString.Append(TString::Format(\textcolor{stringliteral}{"{}:nTrain\_Background=\%lu"{}}, ntrainback));}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00118}00118     dataString.Append(TString::Format(\textcolor{stringliteral}{"{}:nTest\_Signal=\%lu"{}}, ntestsign));}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00119}00119     dataString.Append(TString::Format(\textcolor{stringliteral}{"{}:nTest\_Background=\%lu"{}}, ntestback));}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00120}00120     dataString.Append(\textcolor{stringliteral}{"{}:SplitMode=Random:NormMode=NumEvents:!V"{}});}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00121}00121     loader-\/>PrepareTrainingAndTestTree(\textcolor{stringliteral}{"{}"{}}, \textcolor{stringliteral}{"{}"{}}, dataString);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00122}00122     TMVA::DataLoader *loader\_with\_variance\_threshold = loader-\/>VarTransform(\textcolor{stringliteral}{"{}VT(0.0)"{}});}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00123}00123     \textcolor{comment}{//loader\_with\_variance\_threshold-\/>SetName("{}FakeReweighting"{});}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00124}00124     cout << loader\_with\_variance\_threshold-\/>GetName() << endl;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00126}00126     \textcolor{keywordflow}{for} (vector<TMVAMethod>::iterator tmvamethit = tmvamethods.begin(); tmvamethit < tmvamethods.end(); tmvamethit++)}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00127}00127     \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00128}00128       factory-\/>BookMethod(loader\_with\_variance\_threshold, tmvamethit-\/>tmvamethodtype, tmvamethit-\/>tmvamethodname, tmvamethit-\/>tmvamethodconfiguration);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00129}00129     \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00130}00130     factory-\/>TrainAllMethods();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00131}00131     factory-\/>TestAllMethods();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00132}00132     factory-\/>EvaluateAllMethods();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00133}00133     input\_signal\_file-\/>Close();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00134}00134     input\_background\_file-\/>Close();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00135}00135     outputfile-\/>Close();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00136}00136     \textcolor{keywordflow}{if}(!gROOT-\/>IsBatch()) TMVA::TMVAGui(outputfile-\/>GetName());}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00138}00138     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8cpp_source_l00139}00139 \}}
+
+\end{DoxyCode}
