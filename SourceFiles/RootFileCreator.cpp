@@ -117,7 +117,47 @@ int RootFileCreatorFilterer(pair<string, string> data_holder,
     if (output_filename.compare("") == 0)
         dataset_filtered.Snapshot(treename, (output_path + filename_clean + "_CREATED.root").data(), dataset_filtered.GetColumnNames(), snapopt);
     else
-        dataset_filtered.Snapshot(treename, (output_path + output_filename + ".root").data(), columnnames_todataset, snapopt);
+        dataset_filtered.Snapshot(treename, (output_path + output_filename).data(), columnnames_todataset, snapopt);
+
+    // Disabling implicit Multi-threading
+    ROOT::DisableImplicitMT();
+
+    return 0;
+}
+
+int RootFileCreatorFilterer(TChain *treechain_to_filter,
+                            string output_filename,
+                            string cut,
+                            chrono::_V2::system_clock::time_point start,
+                            bool outputprint,
+                            bool debug)
+{
+    // Enabling implicit Multi-threading
+    ROOT::EnableImplicitMT();
+
+    // Defining useful quantities
+    const char *treename = treechain_to_filter->GetName();
+    // Filtering the new dataset using the cut given as a input to the function
+    ROOT::RDataFrame *dataset = new ROOT::RDataFrame(*treechain_to_filter);
+    ROOT::RDF::RNode dataset_filtered = dataset->Filter(cut);
+
+    // Looping over the columns that will be stored
+    vector<string> columnnames_todataset;
+    auto columnnames_fromdataset = dataset_filtered.GetColumnNames();
+    for (auto &&colname : columnnames_fromdataset)
+        columnnames_todataset.push_back(colname);
+
+    // Modifying write options of the root data frame to overwrite other trees
+    ROOT::RDF::RSnapshotOptions snapopt;
+    snapopt.fMode = "UPDATE";
+    snapopt.fOverwriteIfExists = "TRUE";
+
+    // Write the new dataset to a new file. The tree name is the original one
+    // Check if an output file name is specified, otherwise "_CREATED" is appended to the original one
+    if (output_filename.compare("") == 0)
+        dataset_filtered.Snapshot(treename, (string(treename) + "CHAIN_CREATED.root").data(), dataset_filtered.GetColumnNames(), snapopt);
+    else
+        dataset_filtered.Snapshot(treename, (output_filename).data(), columnnames_todataset, snapopt);
 
     // Disabling implicit Multi-threading
     ROOT::DisableImplicitMT();

@@ -44,6 +44,11 @@
 using namespace std;
 
 int MVACutOptimizerReader(string mva_cut_factory_filename,
+                          pair<string, string> file_to_be_read,
+                          vector<TMVAMethod> tmvamethods,
+                          string outputfile_name = "");
+
+int MVACutOptimizerReader(string mva_cut_factory_filename,
                           unordered_map<string, pair<string, string>> files_to_be_read,
                           vector<TMVAMethod> tmvamethods);
 

@@ -47,6 +47,13 @@ int RootFileCreatorFilterer(pair<string, string> data_holder,
                             bool outputprint = false,
                             bool debug = false);
 
+int RootFileCreatorFilterer(TChain *treechain_to_filter,
+                            string output_filename,
+                            string cut,
+                            chrono::_V2::system_clock::time_point start = chrono::_V2::system_clock::now(),
+                            bool outputprint = false,
+                            bool debug = false);
+
 int RootFileCreatorTree(TTree *treetobewritten,
                         string output_filename = "",
                         string output_path = "OutputFiles/",

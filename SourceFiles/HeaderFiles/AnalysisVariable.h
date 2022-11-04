@@ -16,6 +16,8 @@
 #include <iostream>
 #include <chrono>
 #include <TPaveText.h>
+#include <TPaveStats.h>
+#include <TStyle.h>
 
 //It can be useful to use these namespaces
 using namespace std;
@@ -40,15 +42,26 @@ public:
     Float_t variable_histmin = 0;              /*!< Minimum of bins of the histogram that will represent the variable */
     Float_t variable_histmax = 1;              /*!< Maximum of bins of the histogram that will represent the variable */
 
+    int variable_padtextfont = 10;         /*!< Font of the text displayed in the various pads*/
+    Float_t variable_padtextsize = 0.03;   /*!< Size of the text displayed in the various pads*/
+
     int     variable_padposition = 1;            /*!< Integer used to set the position of the legend in the canvas (1: top right -default; 2: top left; 3: bottom left; 4: bottom right)*/
     Float_t variable_numberofentries = 1;        /*!< Number of entries in the pad (Default is 1) */
     Float_t variable_padxlength = 0.2;           /*!< Length of the  pad (Default is 0.2) */
     Float_t variable_padentryyheight = 0.04;     /*!< Height of each entry in the pad (Default is 0.04) */
+    vector<Float_t> variable_padvertices = {0, 0, 0, 0}; /*!< Vector holding the vertices of the pad (x0, x1, y0, y1)*/
 
     int     variable_headerposition = 1;          /*!< Integer used to set the position of the text header box in the canvas (1: top right -default; 2: top left; 3: bottom left; 4: bottom right)*/
     Float_t variable_headernumberofentries = 1;   /*!< Number of entries in the header box (Default is 1) */
     Float_t variable_textpadxlength = 0.2;           /*!< Length of the text  pad (Default is 0.2) */
     Float_t variable_textpadentryyheight = 0.04;     /*!< Height of each entry in the text pad (Default is 0.04) */
+    vector<Float_t> variable_textpadvertices = {0, 0, 0, 0}; /*!< Vector holding the vertices of the text pad (x0, x1, y0, y1)*/
+
+    int     variable_statposition = 1;         /*!< Position of the stat pad (1: top right -default; 2: top left; 3: bottom left; 4: bottom right)*/
+    int     variable_statoptions = 1;          /*!< Stats that have to be printed in the stat pad (please refer to TPaveStats class)*/
+    Float_t variable_statxlength = 0.2;        /*!< Width of the stat pad*/
+    Float_t variable_statentryyheight = 0.04;  /*!< Height of each entry in the stat pad*/
+    vector<Float_t> variable_statpadvertices = {0, 0, 0, 0}; /*!< Vector holding the vertices of the stat pad (x0, x1, y0, y1)*/
 
     char const * variable_histplotfolder = "OutputFiles/PNGPlots/Variables"; /*!< Folder which will store the plot of the histogram of the variable. Default is: "OutputFiles/PNGPlots/Variables/" */
     bool variable_plot_flag = false;            /*!< If true, \ref VariablePlotter will be used to plot an histogram of the variable in \ref variable_histplotfolder*/
@@ -56,6 +69,7 @@ public:
 
     string filename = ""; /*!< Name of the file that holds the variable to be analyzed*/
     string treename = ""; /*!< Name of the tree that holds the variable to be analyzed*/
+    string sampledata = "2015"; /*!< Data when the sample that holds the variable to be analyzed has been collected*/
 
     //! LegendPositionConstructor let the user construct the fields of the class used to plot the legend
     /*!
@@ -74,6 +88,23 @@ public:
         return 0;
     }
 
+    //! StatPositionConstructor let the user construct the fields of the class used to plot the stat pad
+    /*!
+        \param statposition        Position of the stat pad (1: top right -default; 2: top left; 3: bottom left; 4: bottom right)
+        \param statoptions         Stats that have to be printed in the stat pad (please refer to TPaveStats class)
+        \param statxlength         Width of the stat pad
+        \param statentryyheight    Height of each entry in the stat pad
+    */
+    int StatPositionConstructor(int statposition, int statoptions = 1, Float_t statxlength = 0.2, Float_t statentryyheight = 0.04)
+    {
+        variable_statposition = statposition;
+        variable_statoptions = statoptions;
+        variable_statxlength = statxlength;
+        variable_statentryyheight = statentryyheight;
+        
+        return 0;
+    }
+    
     //! BoxHeaderPositionConstructor let the user construct the fields of the class used to plot the text header box
     /*!
         \param legposition         Position of the legend pad (1: top right -default; 2: top left; 3: bottom left; 4: bottom right)
@@ -100,6 +131,7 @@ public:
     */
     TLegend* SetLegendPos(Float_t x0, Float_t x1, Float_t y0, Float_t y1) 
     {
+        variable_padvertices = {x0, x1, y0, y1};
         return new TLegend(x0, y0, x1, y1);
     };   
 
@@ -149,6 +181,7 @@ public:
                 break;        
         }
 
+        variable_padvertices = {x0, x1, y0, y1};
         return new TLegend(x0, y0, x1, y1);
     };
 
@@ -156,6 +189,114 @@ public:
     TLegend* SetLegendPosAuto()
     {
         return SetLegendPosAuto(variable_padposition, variable_numberofentries, variable_padxlength, variable_padentryyheight);
+    };
+
+    //! SetStatPos returns the stat pad built from the four different vertices given by the user
+    /*!
+        \param x0 Left margin position
+        \param x1 Right margin position
+        \param y0 Bottom margin position
+        \param y1 Top margin position
+    */
+    TPaveStats* SetStatPos(Float_t x0, Float_t x1, Float_t y0, Float_t y1) 
+    {
+        variable_statpadvertices = {x0, x1, y0, y1};
+        return new TPaveStats(x0, y0, x1, y1);
+    };   
+
+    //! SetStatAuto returns the stat pad built from the different characteristics chosen by the user
+    /*!
+        \param variable_statposition         Position of the stat pad (1: top right -default; 2: top left; 3: bottom left; 4: bottom right; -1: below the legend)
+        \param variable_statxlength          Width of the stat pad
+        \param variable_statentryyheight     Height of each entry in the stat pad
+    */
+    TPaveStats* SetStatAuto(TH1* varfithist, TLegend *legend, int variable_statposition, Float_t variable_statxlength, Float_t variable_statentryyheight)
+    {
+        Float_t x0 = 0, x1 = 0, y0 = 0, y1 = 0;
+        TPaveStats *pavestat = (TPaveStats *)(varfithist->GetListOfFunctions()->FindObject("stats"));
+        int statpad_numberofentries = pavestat->GetListOfLines()->GetSize();
+        switch (variable_statposition)
+        {
+            case -1: 
+            {
+                if ((variable_padvertices[2] < 0.1 + variable_statentryyheight))
+                {
+                    cout << "GattoConGliStivali" << endl;
+                    variable_padvertices = {variable_padvertices[0], variable_padvertices[1],
+                                            variable_padvertices[2]+variable_statentryyheight*statpad_numberofentries, variable_padvertices[3]+variable_statentryyheight*statpad_numberofentries};
+                    legend->SetX1NDC(variable_padvertices[0]);
+                    legend->SetX2NDC(variable_padvertices[1]); 
+                    legend->SetY1NDC(variable_padvertices[2]); 
+                    legend->SetY2NDC(variable_padvertices[3]);
+                    legend->Draw("SAME");
+                    gPad->Update();
+                    gPad->Modified();
+                }
+                x0 = variable_padvertices[0];
+                x1 = variable_padvertices[1];
+                y0 = variable_padvertices[2]-variable_statentryyheight*statpad_numberofentries;
+                y1 = variable_padvertices[2];
+                break;
+            }
+            case 1: 
+            {
+                x1 = 1-gPad->GetRightMargin(); x0 = x1 - variable_statxlength;
+                y1 = 0.9; y0 = y1 - variable_statentryyheight*statpad_numberofentries;
+                break;
+            }
+            case 2:
+            {
+                x0 = gPad->GetLeftMargin(); x1 = x0 + variable_statxlength;
+                y1 = 0.9; y0 = y1 - variable_statentryyheight*statpad_numberofentries;
+                break;
+            }     
+            case 3: 
+            {
+                x0 = gPad->GetLeftMargin(); x1 = x0 + variable_statxlength;
+                y0 = 0.1; y1 = y0 + variable_statentryyheight*statpad_numberofentries;
+                break;
+            }
+            case 4:
+            {
+                x1 = 1-gPad->GetRightMargin(); x0 = x1 - variable_statxlength;
+                y0 = 0.1; y1 = y0 + variable_statentryyheight*statpad_numberofentries;
+                break;
+            }
+            case 5:
+            {
+                x1 = 1-gPad->GetRightMargin(); x0 = x1 - variable_statxlength;
+                y1 = 0.5; y0 = y1 - variable_statentryyheight; 
+                break;
+            }
+            default:
+                break;        
+        }
+
+        variable_statpadvertices = {x0, x1, y0, y1};
+        pavestat->SetX1NDC(x0);
+        pavestat->SetX2NDC(x1);
+        pavestat->SetY1NDC(y0);
+        pavestat->SetY2NDC(y1);
+
+        return pavestat;
+    };
+
+    //! SetStatAuto returns a Stat Pad with the different fields stored in the instance of the class
+    /*!
+        \param varfithist Histogram which statistics have to be used
+    */
+    TPaveStats* SetStatAuto(TH1 *varfithist)
+    {
+        return SetStatAuto(varfithist, NULL, variable_statposition, variable_statxlength, variable_statentryyheight);
+    };
+
+    //! SetStatAuto returns a Stat Pad with the different fields stored in the instance of the class
+    /*!
+        \param varfithist Histogram which statistics have to be used
+    */
+    TPaveStats* SetStatAuto(TH1 *varfithist, TLegend *legend)
+    {
+        return SetStatAuto(varfithist, legend, variable_statposition, variable_statxlength, variable_statentryyheight);
     };
 
     //! SetTextBox returns the text pad built from the four different vertices given by the user
@@ -167,6 +308,7 @@ public:
     */
     TPaveText* SetTextBox(Float_t x0, Float_t x1, Float_t y0, Float_t y1) 
     {
+        variable_textpadvertices = {x0, x1, y0, y1};
         return new TPaveText(x0, y0, x1, y1);
     };   
     
@@ -211,6 +353,7 @@ public:
                 break;        
         }
 
+        variable_textpadvertices = {x0, x1, y0, y1};
         return new TPaveText(x0, y0, x1, y1, "NDC");
     };
 
@@ -258,6 +401,7 @@ public:
                 break;        
         }
 
+        variable_textpadvertices = {x0, x1, y0, y1};
         return new TPaveText(x0, y0, x1, y1, "NDC");
     };
 
@@ -279,6 +423,14 @@ public:
         Float_t x0 = 0, x1 = 0, y0 = 0, y1 = 0;
         switch (variable_boxheaderposition)
         {
+            case -1: 
+            {
+                x0 = variable_statpadvertices[1]-variable_padxlength;
+                x1 = variable_statpadvertices[1];
+                y0 = variable_statpadvertices[2]-variable_padentryyheight;
+                y1 = variable_statpadvertices[2];
+                break;
+            }
             case 2:
             {
                 x0 = gPad->GetLeftMargin(); x1 = x0 + variable_padxlength;
@@ -308,6 +460,7 @@ public:
                 break;
         }
 
+        variable_textpadvertices = {x0, x1, y0, y1};
         return new TPaveText(x0, y0, x1, y1, "NDC");
     };
 

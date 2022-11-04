@@ -16,15 +16,15 @@
 #include "HeaderFiles/TreeRecursiveSearch.h"
 
 int MVACutOptimizerReader(string mva_cut_factory_filename,
-                          unordered_map<string, pair<string, string>> files_to_be_read,
-                          vector<TMVAMethod> tmvamethods)
+                          pair<string, string> file_to_be_read,
+                          vector<TMVAMethod> tmvamethods,
+                          string outputfile_name)
 {
     // Looping over all the input files which should get a MVA cut variable
-    for (unordered_map<string, pair<string, string>>::iterator fileit = files_to_be_read.begin(); fileit != files_to_be_read.end(); fileit++)
-    {
-        string inputfilename = fileit->second.first;
-        string inputfiletitle = RootFileCreatorExtensionPathPurger(fileit->second.first);
-        string inputtreename = fileit->second.second;
+
+        string inputfilename = file_to_be_read.first;
+        string inputfiletitle = RootFileCreatorExtensionPathPurger(file_to_be_read.first);
+        string inputtreename = file_to_be_read.second;
         TFile *eventinputfile = TFile::Open(inputfilename.data(), "UPDATE");
         ROOT::RDataFrame *dataframe_inputfile = new ROOT::RDataFrame(inputtreename.data(), inputfilename.data());
         vector<string> features_inputfile = dataframe_inputfile->GetColumnNames();
@@ -103,16 +103,37 @@ int MVACutOptimizerReader(string mva_cut_factory_filename,
                 Branch_Proba->Fill();
                 Branch_Rarity->Fill();
             }
-            string fileitname = RootFileCreatorExtensionPathPurger(fileit->second.first);
-            TFile *outputfile = TFile::Open(TString::Format("OutputFiles/%s_reader.root", fileitname.data()), "RECREATE");
-            outputfile->Close();
-            RootFileCreatorTree(Event, inputfiletitle+string("_reader.root"));
+            if (outputfile_name.compare("") == 0)
+            {
+                TFile *outputfile = TFile::Open(TString::Format("OutputFiles/%s_reader.root", inputfiletitle.data()), "RECREATE");
+                outputfile->Close();
+                RootFileCreatorTree(Event, inputfiletitle+string("_reader.root"));
+            }
+            else
+            {
+                TFile *outputfile = TFile::Open(outputfile_name.data(), "RECREATE");
+                outputfile->Close();
+                RootFileCreatorTree(Event, outputfile_name.data());
+            }
             Branch_Weight->ResetAddress();
             Branch_Proba->ResetAddress();
             Branch_Rarity->ResetAddress();
+
             // Freeing memory allocated for the reader
             delete reader;
         }
+
+    return 0;
+}
+
+int MVACutOptimizerReader(string mva_cut_factory_filename,
+                          unordered_map<string, pair<string, string>> files_to_be_read,
+                          vector<TMVAMethod> tmvamethods)
+{
+    // Looping over all the input files which should get a MVA cut variable
+    for (unordered_map<string, pair<string, string>>::iterator fileit = files_to_be_read.begin(); fileit != files_to_be_read.end(); fileit++)
+    {
+        MVACutOptimizerReader(mva_cut_factory_filename, fileit->second, tmvamethods);
     }
     return 0;
 }

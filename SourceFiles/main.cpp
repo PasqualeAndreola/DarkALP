@@ -468,8 +468,6 @@ int main(int argc, char *argv[])
   ofstream csv_efficiencies_ratios_file;
   // EfficienciesRatioAnalyzer(vec_analysisvariables, csv_efficiencies_ratios_file, data_holder);
 
-  vector<string> *fake_factory_names = new vector<string>; /*!< 0 = MC signal path, 1-2= in/out file, 3-4= pass/fail trees, 5-6 pass/fail closure test trees*/
-
   // Initializing variables to set up the reader
   unordered_map<string, pair<string, string>> kpi3pi_mvacut_factory_files, kpi3pi_mvacut_reader_files;
   kpi3pi_mvacut_factory_files["Signal"] = pair("InputFiles/KPi3Pi_Signal.root", "T");
@@ -511,35 +509,114 @@ int main(int argc, char *argv[])
   pair<string, string> kpi3pi_data_2015_reader = pair("OutputFiles/KPi3Pi_2015_md_Cuts_newvars_reader.root", "T");
   pair<string, string> kpi3pi_jpsi_sim_reader = pair("OutputFiles/KPi3Pi_SIM_JPsi_newvars.root", "T");
 
-  AnalysisVariable x_mass;
-  x_mass.SetVarBinningOpt(25, 2900, 3300);
-  x_mass.SetVarNames("x_m", "m_{X}", "x_m", "#frac{MeV}{c^{2}}");  
-  x_mass.LegendPositionConstructor(5, 1);
-  x_mass.BoxHeaderPositionConstructor(3, 1, 0.14, 0.03);
-  x_mass.VariablePlotter(&(kpi3pi_data_2015_reader), &x_mass, string("x_m>2900 && x_m<3300"));
+  TChain kpi3pi_fulldataset_treechain("T");
+  bool kpi3pi_dataset_2015 = false, 
+       kpi3pi_dataset_2016 = false,
+       kpi3pi_dataset_2017 = false,
+       kpi3pi_dataset_2018 = false;
+  
+  if (kpi3pi_dataset_2015)
+  {     
+    pair<string, string> kpi3pi_2015_mdu = pair("OutputFiles/kpi3pi_2015_mdu.root", "T");
+    pair<string, string> kpi3pi_2015_mdu_rev = pair("OutputFiles/kpi3pi_2015_mdu_REV.root", "T");
+    pair<string, string> kpi3pi_2015_mdu_mva_rev = pair("OutputFiles/kpi3pi_2015_mdu_MVA_REV.root", "T");
+    TChain kpi3pi_2015_precuts_treechain("T");
+    kpi3pi_2015_precuts_treechain.Add("InputFiles/kpi3pi_2015_md.root");
+    kpi3pi_2015_precuts_treechain.Add("InputFiles/kpi3pi_2015_mu.root");
 
-  AnalysisVariable X_mass_pi0contstrained;
-  X_mass_pi0contstrained.SetVarBinningOpt(25, 2900, 3300);
-  X_mass_pi0contstrained.SetVarNames("x_m_pi0constrained", "m_{X}#left(#pi^{0}_{fix}#right)", "x_m_pi0constrained", "#frac{MeV}{c^{2}}");  
-  X_mass_pi0contstrained.LegendPositionConstructor(5, 1);
-  X_mass_pi0contstrained.VariablePlotter(&(kpi3pi_data_2015_reader), &X_mass_pi0contstrained, string("x_m_pi0constrained>2900 && x_m_pi0constrained<3300"));
-  //X_mass_pi0contstrained.SetVarBinningOpt(50, 2400, 3800);
- // X_mass_pi0contstrained.VariablePlotter(&(kpi3pi_jpsi_sim_reader), &X_mass_pi0contstrained);
+    RootFileCreatorFilterer(&kpi3pi_2015_precuts_treechain, kpi3pi_2015_mdu.first, cuts+stripping_cuts_xpiz);
+    RootFileCreatorDefine(kpi3pi_2015_mdu, kpi3pi_2015_mdu_rev, var_tobe_defined);
+    MVACutOptimizerReader(kpi3pi_mvacut_factory_files["Output"].first, kpi3pi_2015_mdu_rev, tmvamethods, kpi3pi_2015_mdu_mva_rev.first);
+  }
 
-  AnalysisVariable B0_mass_jpsicontstrained;
-  B0_mass_jpsicontstrained.SetVarBinningOpt(25, 5000, 6000);
-  B0_mass_jpsicontstrained.SetVarNames("b_m_jpsiconstrained", "m_{Constrained}#left(J/#psiK#pi#right)", "b_m_jpsiconstrained", "#frac{MeV}{c^{2}}");  
-  B0_mass_jpsicontstrained.LegendPositionConstructor(1, 1);
-  B0_mass_jpsicontstrained.BoxHeaderPositionConstructor(5, 1, 0.14, 0.03);
-  //B0_mass_jpsicontstrained.VariablePlotter(&(kpi3pi_data_2015_reader), &B0_mass_jpsicontstrained, string("mvacut_kbdt1>0.5 && x_m_pi0constrained>3400 && x_m<3600"));
-  FitterMass(&kpi3pi_data_2015_reader, &B0_mass_jpsicontstrained, string("mvacut_kbdt1>0.5 && x_m_pi0constrained>2900 && x_m_pi0constrained<3300"));
+  if (kpi3pi_dataset_2016)
+  {    
+    pair<string, string> kpi3pi_2016_mdu = pair("OutputFiles/kpi3pi_2016_mdu.root", "T");
+    pair<string, string> kpi3pi_2016_mdu_rev = pair("OutputFiles/kpi3pi_2016_mdu_REV.root", "T");
+    pair<string, string> kpi3pi_2016_mdu_mva_rev = pair("OutputFiles/kpi3pi_2016_mdu_MVA_REV.root", "T"); 
+    TChain kpi3pi_2016_precuts_treechain("T");
+    kpi3pi_2016_precuts_treechain.Add("InputFiles/kpi3pi_2016_md.root");
+    kpi3pi_2016_precuts_treechain.Add("InputFiles/kpi3pi_2016_mu.root");
+    
+    RootFileCreatorFilterer(&kpi3pi_2016_precuts_treechain, kpi3pi_2016_mdu.first, cuts+stripping_cuts_xpiz);
+    RootFileCreatorDefine(kpi3pi_2016_mdu, kpi3pi_2016_mdu_rev, var_tobe_defined);
+    MVACutOptimizerReader(kpi3pi_mvacut_factory_files["Output"].first, kpi3pi_2016_mdu_rev, tmvamethods, kpi3pi_2016_mdu_mva_rev.first);
+  }
+
+  if (kpi3pi_dataset_2017)
+  {    
+    pair<string, string> kpi3pi_2017_mdu = pair("OutputFiles/kpi3pi_2017_mdu.root", "T");
+    pair<string, string> kpi3pi_2017_mdu_rev = pair("OutputFiles/kpi3pi_2017_mdu_REV.root", "T");
+    pair<string, string> kpi3pi_2017_mdu_mva_rev = pair("OutputFiles/kpi3pi_2017_mdu_MVA_REV.root", "T"); 
+    TChain kpi3pi_2017_precuts_treechain("T");
+    kpi3pi_2017_precuts_treechain.Add("InputFiles/kpi3pi_2017_md.root");
+    kpi3pi_2017_precuts_treechain.Add("InputFiles/kpi3pi_2017_mu.root");
+    
+    RootFileCreatorFilterer(&kpi3pi_2017_precuts_treechain, kpi3pi_2017_mdu.first, cuts+stripping_cuts_xpiz);
+    RootFileCreatorDefine(kpi3pi_2017_mdu, kpi3pi_2017_mdu_rev, var_tobe_defined);
+    MVACutOptimizerReader(kpi3pi_mvacut_factory_files["Output"].first, kpi3pi_2017_mdu_rev, tmvamethods, kpi3pi_2017_mdu_mva_rev.first);
+  }
+
+  if (kpi3pi_dataset_2018)
+  {    
+    pair<string, string> kpi3pi_2018_mdu = pair("OutputFiles/kpi3pi_2018_mdu.root", "T");
+    pair<string, string> kpi3pi_2018_mdu_rev = pair("OutputFiles/kpi3pi_2018_mdu_REV.root", "T");
+    pair<string, string> kpi3pi_2018_mdu_mva_rev = pair("OutputFiles/kpi3pi_2018_mdu_MVA_REV.root", "T"); 
+    TChain kpi3pi_2018_precuts_treechain("T");
+    kpi3pi_2018_precuts_treechain.Add("InputFiles/kpi3pi_2018_md.root");
+    kpi3pi_2018_precuts_treechain.Add("InputFiles/kpi3pi_2018_mu.root");
+    
+    RootFileCreatorFilterer(&kpi3pi_2018_precuts_treechain, kpi3pi_2018_mdu.first, cuts+stripping_cuts_xpiz);
+    RootFileCreatorDefine(kpi3pi_2018_mdu, kpi3pi_2018_mdu_rev, var_tobe_defined);
+    MVACutOptimizerReader(kpi3pi_mvacut_factory_files["Output"].first, kpi3pi_2018_mdu_rev, tmvamethods, kpi3pi_2018_mdu_mva_rev.first);
+  }
+
+  pair<string, string> kpi3pi_2015_mdu_mva_rev = pair("OutputFiles/kpi3pi_2015_mdu_MVA_REV.root", "T");
+  pair<string, string> kpi3pi_2016_mdu_mva_rev = pair("OutputFiles/kpi3pi_2016_mdu_MVA_REV.root", "T");
+  pair<string, string> kpi3pi_2017_mdu_mva_rev = pair("OutputFiles/kpi3pi_2017_mdu_MVA_REV.root", "T");
+  pair<string, string> kpi3pi_2018_mdu_mva_rev = pair("OutputFiles/kpi3pi_2018_mdu_MVA_REV.root", "T");
+  pair<string, string> kpi3pi_2015_2018_mvacuts_output = pair("OutputFiles/kpi3pi_2015_2018_MVACut.root", "T");
+
+  TChain kpi3pi_2015_2018_mvacuts_treechain("T");
+  kpi3pi_2015_2018_mvacuts_treechain.Add("OutputFiles/kpi3pi_2015_mdu_MVA_REV.root");
+  kpi3pi_2015_2018_mvacuts_treechain.Add("OutputFiles/kpi3pi_2016_mdu_MVA_REV.root");
+  kpi3pi_2015_2018_mvacuts_treechain.Add("OutputFiles/kpi3pi_2017_mdu_MVA_REV.root");
+  kpi3pi_2015_2018_mvacuts_treechain.Add("OutputFiles/kpi3pi_2018_mdu_MVA_REV.root");
+  //RootFileCreatorFilterer(&kpi3pi_2015_2018_mvacuts_treechain, kpi3pi_2015_2018_mvacuts_output.first, "mvacut_kbdt1 > 0.5");
 
   AnalysisVariable B_mass;
-  B_mass.SetVarBinningOpt(40, 4800, 5800);
+  B_mass.SetVarBinningOpt(40, 5200, 5800);
   B_mass.SetVarNames("b_m", "m#left(J/#psiK#pi#right)", "b_m", "#frac{MeV}{c^{2}}");  
-  B_mass.BoxHeaderPositionConstructor(2, 1, 0.14, 0.03);
-  //B_mass.VariablePlotter(&(kpi3pi_data_2015_reader), &B_mass, string("mvacut_kbdt1>0.5 && x_m_pi0constrained>3400 && x_m<3600"));
-  //FitterMass(&kpi3pi_data_2015_reader, &B_mass, string("mvacut_kbdt1>0.5 && x_m_pi0constrained>2900 && x_m<3300"));
+  B_mass.LegendPositionConstructor(1, 3, 0.21);
+  B_mass.StatPositionConstructor(-1, 1111);
+  B_mass.BoxHeaderPositionConstructor(-1, 1, 0.14, 0.03);
+  B_mass.sampledata = "2018";
+  //B_mass.VariablePlotter(&(kpi3pi_data_2015_reader), &B_mass, string("x_m_pi0constrained>3400 && x_m<3600"));
+  //FitterMass(&kpi3pi_2015_2018_mvacuts_output, &B_mass, string("x_m_pi0constrained>2950 && x_m_pi0constrained<3250"));
+
+  AnalysisVariable B0_mass_jpsiconstrained;
+  B0_mass_jpsiconstrained.SetVarBinningOpt(40, 5200, 5500);
+  B0_mass_jpsiconstrained.SetVarNames("b_m_jpsiconstrained", "m_{Constrained}#left(J/#psiK#pi#right)", "b_m_jpsiconstrained", "#frac{MeV}{c^{2}}");  
+  B0_mass_jpsiconstrained.LegendPositionConstructor(1, 3, 0.22, 0.027);
+  B0_mass_jpsiconstrained.StatPositionConstructor(-1, 1111, 0.2, 0.027);
+  B0_mass_jpsiconstrained.BoxHeaderPositionConstructor(-1, 1, 0.22, 0.027);
+  B0_mass_jpsiconstrained.variable_padtextsize = 0.027;
+  B0_mass_jpsiconstrained.sampledata = "2015-2018";
+  //B0_mass_jpsiconstrained.VariablePlotter(&(kpi3pi_2015_2018_mvacuts_output), &B0_mass_jpsiconstrained, string("mvacut_kbdt1>0.5 && x_m_pi0constrained>3400 && x_m<3600"));
+  //FitterMass(&kpi3pi_2015_2018_mvacuts_output, &B0_mass_jpsiconstrained, string("x_m_pi0constrained>3071 && x_m_pi0constrained<3121"));
+
+  AnalysisVariable X_mass_pi0constrained;
+  X_mass_pi0constrained.SetVarBinningOpt(40, 3071, 3121);
+  X_mass_pi0constrained.SetVarNames("x_m_pi0constrained", "m_{Constrained}#left(3#pi#right)", "x_m_pi0constrained", "#frac{MeV}{c^{2}}");  
+  X_mass_pi0constrained.LegendPositionConstructor(4, 3, 0.22, 0.027);
+  X_mass_pi0constrained.StatPositionConstructor(-1, 1111, 0.2, 0.027);
+  X_mass_pi0constrained.BoxHeaderPositionConstructor(3, 1, 0.22, 0.027);
+  X_mass_pi0constrained.variable_padtextsize = 0.027;
+  X_mass_pi0constrained.sampledata = "2015-2018";
+  //X_mass_pi0constrained.VariablePlotter(&(kpi3pi_2015_2018_mvacuts_output), &X_mass_pi0constrained);
+  //FitterMass(&kpi3pi_2015_2018_mvacuts_output, &X_mass_pi0constrained, "x_m_pi0constrained>3071 && x_m_pi0constrained<3121");
+
+  Fitter2DMass(&kpi3pi_2015_2018_mvacuts_output, &B0_mass_jpsiconstrained, &X_mass_pi0constrained);
 
   ElapsedTimeStamper(start);
   end = chrono::system_clock::now();

@@ -18,7 +18,7 @@ int FitterMass(pair<string, string> *input_file_tree,
     const char *varfit_name = analvar_tobefit->variable_name;
     const char *varfit_title = analvar_tobefit->variable_prettyname;
     const char *varfit_dimension = analvar_tobefit->variable_dimension;
-
+    const char *varfit_sample_data = analvar_tobefit->sampledata.data();
     // Fit variable parameters
     Double_t bins = analvar_tobefit->variable_bins, minbin = analvar_tobefit->variable_histmin, maxbin = analvar_tobefit->variable_histmax, bin_width = (maxbin - minbin) / bins;
 
@@ -161,10 +161,10 @@ int FitterMass(pair<string, string> *input_file_tree,
     RooPlot *frame = varfit.frame();
     frame->SetTitle(TString::Format("Fit of the %s variable", varfit_title).Data());
     Int_t nbins = bins;
-    fulldata_varfithist->SetName(TString::Format("%s sample stats", varfit_title));
+    fulldata_varfithist->SetName(TString::Format("%s stats", varfit_title));
     fulldata_varfithist->Draw();
     fulldata.plotOn(frame, Name("Data"), RooFit::Binning(nbins), RooFit::MarkerSize(1.5));
-    gStyle->SetOptStat(1111);
+    gStyle->SetOptStat(analvar_tobefit->variable_statoptions);
 
     // fit
     // results_data = fit_function.fitTo(fulldata, RooFit.Extended(True), RooFit.Save())
@@ -183,26 +183,22 @@ int FitterMass(pair<string, string> *input_file_tree,
     c1.Update();
     // CMS_lumi(c1, 4, 0, cmsText = "CMS", extraText = "   Preliminary", lumi_13TeV = "60 fb^{-1}");
 
-    TLegend *leg = analvar_tobefit->SetLegendPosAuto(1, 3, 0.22);
+    Float_t padtextsize = analvar_tobefit->variable_padtextsize;
+    TLegend *leg = analvar_tobefit->SetLegendPosAuto();
     /*leg->SetBorderSize(0);
     leg->SetFillColor(0);
     leg->SetFillStyle(0);
     leg->SetTextFont(10);*/
-    leg->SetTextSize(0.03);
-    // leg->SetNColumns(3);
+    leg->SetTextSize(padtextsize);
     leg->AddEntry("signal_fit_function", "Fit function", "L");
     leg->AddEntry("signal_gauss", "B^{0}#rightarrowJ/#PsiK#pi", "L");
     leg->AddEntry("Data", "Data in the MC sample", "EP");
     leg->Draw("SAME");
     c1.Update();
 
-    TPaveStats *pavestat = (TPaveStats *)(fulldata_varfithist->GetListOfFunctions()->FindObject("stats"));
-    // pavestat->SetOptStat(111);
-    pavestat->SetX1NDC(leg->GetX1NDC());
-    pavestat->SetX2NDC(leg->GetX2NDC());
-    pavestat->SetY1NDC(leg->GetY1NDC() - 0.04 * 3);
-    pavestat->SetY2NDC(leg->GetY1NDC());
-    pavestat->Draw("SAME");
+    TPaveStats *pvstat = analvar_tobefit->SetStatAuto(fulldata_varfithist, leg);
+    pvstat->SetTextSize(padtextsize);
+    pvstat->Draw("SAME");
     c1.Update();
 
     // Printing parameters on the plot
@@ -212,7 +208,7 @@ int FitterMass(pair<string, string> *input_file_tree,
     Float_t pavetext_width = analvar_tobefit->variable_textpadxlength, pavetext_entryheight = analvar_tobefit->variable_textpadentryyheight;
     analvar_tobefit->variable_headernumberofentries = params_size+2;
     TPaveText *pt = analvar_tobefit->SetTextBoxHeaderAuto();
-    pt->SetTextSize(0.018);
+    pt->SetTextSize(padtextsize/2);
     pt->SetBorderSize(1);
     pt->SetFillColor(kWhite);
     pt->AddText(TString::Format("Fit function: %s", signal_fit_function.getTitle().Data()))->SetTextAlign(22);    
@@ -242,7 +238,12 @@ int FitterMass(pair<string, string> *input_file_tree,
     pt_left->Draw("SAME");
     pt_right->Draw("SAME");
     c1.Modified();
-    string outplot_filename = string(varfit_name)+"_FIT.png";
+    TText* sample_data = new TText(0.1, 0.905, string("Dataset: "+string(varfit_sample_data)).data());
+    sample_data->SetNDC(true);
+    sample_data->SetTextSize(0.025);
+    sample_data->SetTextAlign(10);  //align at top
+    sample_data->Draw("SAME");
+    string outplot_filename = string(varfit_name)+"_"+varfit_sample_data+"_FIT.png";
     c1.SaveAs(outplot_filename.data());
     // Create a new empty workspace
     RooWorkspace *bchybridworkspace = new RooWorkspace("bchybridworkspace", "bchybridworkspace");

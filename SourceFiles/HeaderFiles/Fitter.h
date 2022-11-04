@@ -60,6 +60,7 @@
 #include <RooAbsDataHelper.h>
 #include "AnalysisVariable.h"
 #include "RootFileCreator.h"
+#include "TText.h"
 
 /*These namespaces can be useful*/
 using namespace std;
@@ -71,4 +72,11 @@ int FitterMass(pair<string, string> *input_file_tree,
                bool debug = false,
                string closuretest = "");
 
+int Fitter2DMass(pair<string, string> *input_file_tree,
+               AnalysisVariable *analvar1_tobefit,
+               AnalysisVariable *analvar2_tobefit,
+               string selection_cut = "",
+               string mc_selection_cut = "",
+               bool debug = false,
+               string closuretest = "");
 #endif
