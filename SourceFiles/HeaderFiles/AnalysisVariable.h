@@ -41,6 +41,7 @@ public:
     Float_t variable_bins = 100;               /*!< Number of bins of the histogram that will represent the variable */
     Float_t variable_histmin = 0;              /*!< Minimum of bins of the histogram that will represent the variable */
     Float_t variable_histmax = 1;              /*!< Maximum of bins of the histogram that will represent the variable */
+    bool variable_binauto = true;               /*!< Compute the minimum and the maximum of the histogram range that will be filled */
 
     int variable_padtextfont = 10;         /*!< Font of the text displayed in the various pads*/
     Float_t variable_padtextsize = 0.03;   /*!< Size of the text displayed in the various pads*/
@@ -50,7 +51,8 @@ public:
     Float_t variable_padxlength = 0.2;           /*!< Length of the  pad (Default is 0.2) */
     Float_t variable_padentryyheight = 0.04;     /*!< Height of each entry in the pad (Default is 0.04) */
     vector<Float_t> variable_padvertices = {0, 0, 0, 0}; /*!< Vector holding the vertices of the pad (x0, x1, y0, y1)*/
-
+    bool variable_legendauto = true;            /*!< The legend is set up automatically in each function*/
+    
     int     variable_headerposition = 1;          /*!< Integer used to set the position of the text header box in the canvas (1: top right -default; 2: top left; 3: bottom left; 4: bottom right)*/
     Float_t variable_headernumberofentries = 1;   /*!< Number of entries in the header box (Default is 1) */
     Float_t variable_textpadxlength = 0.2;           /*!< Length of the text  pad (Default is 0.2) */
@@ -84,6 +86,7 @@ public:
         variable_numberofentries = numberofentries;
         variable_padxlength = legxlength;
         variable_padentryyheight = legentryyheight;
+        variable_legendauto = false;
         
         return 0;
     }
@@ -221,7 +224,6 @@ public:
             {
                 if ((variable_padvertices[2] < 0.1 + variable_statentryyheight))
                 {
-                    cout << "GattoConGliStivali" << endl;
                     variable_padvertices = {variable_padvertices[0], variable_padvertices[1],
                                             variable_padvertices[2]+variable_statentryyheight*statpad_numberofentries, variable_padvertices[3]+variable_statentryyheight*statpad_numberofentries};
                     legend->SetX1NDC(variable_padvertices[0]);
@@ -481,6 +483,7 @@ public:
         variable_bins = num_bins;
         variable_histmin = hist_min;
         variable_histmax = hist_max;
+        variable_binauto = false;
         return 0;
     }
 
@@ -626,6 +629,20 @@ public:
     TString Xlabel() {return Xlabel(variable_prettyname, variable_dimension);};
 
     //! VariablePlotter is a function that plots the variables instantianed with this class
-    int VariablePlotter(pair<string, string> *data_holder, AnalysisVariable *var_to_be_analyzed, string cut = "", chrono::_V2::system_clock::time_point start = chrono::system_clock::now(), bool debug = false);
+    static int VariableComparer(unordered_map<string, pair<string, string>> *vec_data_holder, AnalysisVariable *var_to_be_analyzed, string cut = "", chrono::_V2::system_clock::time_point start = chrono::system_clock::now(), bool debug = false);
+
+    static int VariablesComparer(unordered_map<string, pair<string, string>> *vec_data_holder, vector<AnalysisVariable*> *vec_var_to_be_analyzed, string cut = "", chrono::_V2::system_clock::time_point start = chrono::system_clock::now(), bool debug = false)
+    {
+        for (vector<AnalysisVariable*>::iterator analvar = vec_var_to_be_analyzed->begin(); analvar != vec_var_to_be_analyzed->end(); analvar++)
+        {
+            AnalysisVariable::VariableComparer(vec_data_holder, *analvar);
+        }
+        
+        return 0;
+    };
+
+    static int VariablePlotter(pair<string, string> *data_holder, AnalysisVariable *var_to_be_analyzed, string cut = "", chrono::_V2::system_clock::time_point start = chrono::system_clock::now(), bool debug = false);
+
+    static int VariablePlotter2D(pair<string, string> *data_holder,AnalysisVariable *var_to_be_analyzed,AnalysisVariable *var_to_be_analyzed2,string cut = "",chrono::_V2::system_clock::time_point start = chrono::system_clock::now(), bool debug = false);
 };
 #endif

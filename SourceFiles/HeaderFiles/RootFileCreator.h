@@ -57,9 +57,18 @@ int RootFileCreatorFilterer(TChain *treechain_to_filter,
 int RootFileCreatorTree(TTree *treetobewritten,
                         string output_filename = "",
                         string output_path = "OutputFiles/",
+                        vector<string> branchestobewritten = {},
                         chrono::_V2::system_clock::time_point start = chrono::_V2::system_clock::now(),
                         bool outputprint = false,
                         bool debug = false);
+
+int RootFileCreatorTreeBranches(TTree *treetobewritten,
+                                vector<string> branchestobewritten,
+                                string output_filename = "",
+                                string output_path = "OutputFiles/",
+                                chrono::_V2::system_clock::time_point start = chrono::_V2::system_clock::now(),
+                                bool outputprint = false,
+                                bool debug = false);
 
 int RootFileCreatorExtensionPathPurger(string *stringtobepurged);
 

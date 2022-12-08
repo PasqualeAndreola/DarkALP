@@ -17,6 +17,7 @@
 #include <TH1F.h>
 #include <THStack.h>
 #include <TH2F.h>
+#include <TH2Poly.h>
 #include <TGraph.h>
 #include <TCanvas.h>
 #include <TLegend.h>
@@ -58,9 +59,13 @@
 #include <RooExponential.h>
 #include <RooPolynomial.h>
 #include <RooAbsDataHelper.h>
+#include <RooBreitWigner.h>
+#include <RooVoigtian.h>
+#include <RooRealSumFunc.h>
 #include "AnalysisVariable.h"
 #include "RootFileCreator.h"
 #include "TText.h"
+#include "AdaptBin.h"
 
 /*These namespaces can be useful*/
 using namespace std;

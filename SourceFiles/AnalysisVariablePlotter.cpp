@@ -21,11 +21,165 @@
 #include "HeaderFiles/PrintFuncInfo.h"
 #include "HeaderFiles/RootFileCreator.h"
 
-int AnalysisVariable::VariablePlotter(pair<string, string> *data_holder,
-                                      AnalysisVariable *var_to_be_analyzed,
-                                      string cut,
-                                      chrono::_V2::system_clock::time_point start,
-                                      bool debug)
+int AnalysisVariable::VariableComparer(unordered_map<string, pair<string, string>> *map_data_holder,
+                                       AnalysisVariable *var_to_be_analyzed,
+                                       string cut,
+                                       chrono::_V2::system_clock::time_point start,
+                                       bool debug)
+{
+    int colors_palette[3];
+    colors_palette[0] = kBlue;
+    colors_palette[1] = kGreen + 1;
+    colors_palette[2] = kRed;
+    gStyle->SetPalette(3, colors_palette);
+
+    // Enabling implicit Multi-threading
+    ROOT::EnableImplicitMT();
+
+    // Defining the quantities that will be used
+    ROOT::RDataFrame *dataframe_analysisvariable = NULL;
+    TCanvas canvas_analysisvariable = TCanvas("canvas_analysisvariable", "canvas_analysisvariable", 1920, 1080);
+    ROOT::RDF::RResultPtr<TH1F> histogram_analysisvariable;
+    Float_t bins = 25, min = 1e15, max = -1e15;
+    THStack histogram_varcomparer;
+    TLegend *legend;
+    if (var_to_be_analyzed->variable_legendauto)
+        legend = var_to_be_analyzed->SetLegendPosAuto(1, 3);
+    else
+        legend = var_to_be_analyzed->SetLegendPosAuto();
+
+    for (unordered_map<string, pair<string, string>>::iterator data_holder = map_data_holder->begin(); data_holder != map_data_holder->end(); data_holder++)
+    {
+        ROOT::RDataFrame *dataframe_analysisvariable = NULL;
+
+        // Loading dataframes which hold the variables needed to compute the efficiencies
+
+        TFile inputfile = TFile(data_holder->second.first.data());
+        if (inputfile.IsZombie())
+        {
+            cout << "The file " << inputfile.GetName() << " doesn't exist" << endl;
+            return 0;
+        }        
+        TTree *inputtree = (TTree *)(inputfile.Get(data_holder->second.second.data()));
+        if (inputtree->IsZombie())
+        {
+            cout << "The tree " << inputtree->GetName() << " in the file " << inputfile.GetName() << " doesn't exist" << endl;
+            return 0;
+        }
+        if (inputtree->GetMinimum(var_to_be_analyzed->variable_name) < min)
+        {
+            min = inputtree->GetMinimum(var_to_be_analyzed->variable_name);
+            min = round(min*1e5)/1e5;
+        }
+        if (inputtree->GetMaximum(var_to_be_analyzed->variable_name) > max)
+        {
+            max = inputtree->GetMaximum(var_to_be_analyzed->variable_name);
+            max = round(max*1e5)/1e5;
+        }
+        inputfile.Close();
+    }
+
+    for (unordered_map<string, pair<string, string>>::iterator data_holder = map_data_holder->begin(); data_holder != map_data_holder->end(); data_holder++)
+    {
+        dataframe_analysisvariable = new ROOT::RDataFrame(data_holder->second.second.data(), data_holder->second.first.data());
+
+        // Looping over chosen variables in order to compute the efficiencies
+        string filelabel = RootFileCreatorExtensionPathPurger(data_holder->second.first);
+        if (var_to_be_analyzed->variable_binauto == false)
+        {
+            bins = var_to_be_analyzed->variable_bins; 
+            min = var_to_be_analyzed->variable_histmin;
+            max = var_to_be_analyzed->variable_histmax;
+        }
+        Float_t binswidth = (max - min) / (bins);
+
+        if (dataframe_analysisvariable->HasColumn(var_to_be_analyzed->variable_name) == false)
+            return 0;
+
+        if (cut.compare("") != 0)
+        {
+            histogram_analysisvariable = dataframe_analysisvariable->Filter(cut.data()).Fill(TH1F(TString::Format("%s%s", var_to_be_analyzed->variable_name, filelabel.data()), 
+                                                                                             TString::Format("%s%s", var_to_be_analyzed->variable_name, filelabel.data()), 
+                                                                                             bins, min, max),
+                                                                                             {var_to_be_analyzed->variable_name});
+        }
+        else
+        {
+            histogram_analysisvariable = dataframe_analysisvariable->Fill(TH1F(TString::Format("%s%s", var_to_be_analyzed->variable_name, filelabel.data()), 
+                                                                          TString::Format("%s%s", var_to_be_analyzed->variable_name, filelabel.data()),
+                                                                          bins, min, max),
+                                                                          {var_to_be_analyzed->variable_name});
+        }
+
+        cout << "Plotting the variable " << var_to_be_analyzed->variable_name << " in the file " << filelabel << endl;
+
+        // Computing efficiencies and purities
+        histogram_analysisvariable->Sumw2();
+        histogram_analysisvariable->Scale(1 / histogram_analysisvariable->Integral());
+
+        // Plotting
+        canvas_analysisvariable.cd();
+        if (map_data_holder->size() == 1) 
+            histogram_analysisvariable->SetStats(true);
+        else
+            histogram_analysisvariable->SetStats(false);
+        histogram_analysisvariable->SetFillStyle(1001);
+        histogram_analysisvariable->SetMarkerStyle(kFullSquare);
+        histogram_analysisvariable->SetMarkerSize(1);
+        histogram_varcomparer.Add((TH1F*)histogram_analysisvariable.GetValue().Clone());
+        histogram_varcomparer.Draw("HF PLC PMC NOSTACK");
+        histogram_varcomparer.SetTitle(TString::Format("%s distribution comparison", var_to_be_analyzed->variable_prettyname));
+        histogram_varcomparer.GetXaxis()->SetTitle(var_to_be_analyzed->Xlabel(var_to_be_analyzed->variable_prettyname, var_to_be_analyzed->variable_dimension));
+        histogram_varcomparer.GetYaxis()->SetTitle(TString::Format("Events / #left(%.5f %s#right)", binswidth, var_to_be_analyzed->variable_dimension).Data());
+        canvas_analysisvariable.Update();
+        gPad->Modified();
+
+        // Adjusting the legend
+        Float_t padtextsize = var_to_be_analyzed->variable_padtextsize;
+        legend->AddEntry(histogram_analysisvariable->GetName(), TString::Format("%s (%s)", var_to_be_analyzed->variable_prettyname, data_holder->first.data()), "PLC PMC");
+        legend->SetTextSize(padtextsize);
+        legend->Draw("SAME");
+        if (var_to_be_analyzed->variable_logscale_flag == true)
+        {
+            histogram_analysisvariable->SetMinimum(1e-4);
+            histogram_analysisvariable->SetMaximum(1e-1);
+            gPad->SetLogy();
+        }
+        canvas_analysisvariable.Update();
+        if (map_data_holder->size() == 1)
+        {    
+            TPaveStats *pavestat = var_to_be_analyzed->SetStatAuto(histogram_analysisvariable.GetPtr(), legend);
+            pavestat->SetOptStat(var_to_be_analyzed->variable_statoptions);
+            pavestat->SetTextSize(padtextsize);
+            pavestat->Draw("SAME");
+        }
+        canvas_analysisvariable.Update();
+        histogram_analysisvariable->Delete();
+    }
+    canvas_analysisvariable.Print(TString::Format("%s/%s_DistroComparison.png", var_to_be_analyzed->variable_histplotfolder, var_to_be_analyzed->variable_name));
+    canvas_analysisvariable.Clear();
+
+    histogram_varcomparer.RecursiveRemove(histogram_varcomparer.GetHists());
+    legend->Clear();
+    gPad->SetLogy(0);
+
+    return 0;
+}
+
+int AnalysisVariable::VariablePlotter(pair<string, string> *data_holder, AnalysisVariable *var_to_be_analyzed, string cut, chrono::_V2::system_clock::time_point start, bool debug)
+{
+    unordered_map<string, pair<string, string>> map_data_holder;
+    map_data_holder["FILE"] = *data_holder;
+    VariableComparer(&map_data_holder, var_to_be_analyzed, cut, chrono::system_clock::now(), false);
+    return 0;
+}
+
+int AnalysisVariable::VariablePlotter2D(pair<string, string> *data_holder,
+                                        AnalysisVariable *var_to_be_analyzed,
+                                        AnalysisVariable *var_to_be_analyzed2,
+                                        string cut,
+                                        chrono::_V2::system_clock::time_point start,
+                                        bool debug)
 {
     // Enabling implicit Multi-threading
     ROOT::EnableImplicitMT();
@@ -34,10 +188,8 @@ int AnalysisVariable::VariablePlotter(pair<string, string> *data_holder,
     string filelabel = RootFileCreatorExtensionPathPurger(data_holder->first);
     ROOT::RDataFrame *dataframe_analysisvariable = NULL;
     TCanvas canvas_analysisvariable = TCanvas("canvas_analysisvariable", "canvas_analysisvariable", 1920, 1080);
-    ROOT::RDF::RResultPtr<TH1F> histogram_analysisvariable;
+    ROOT::RDF::RResultPtr<TH2F> histogram_analysisvariable;
     TLegend legend_analysisvariable;
-    vector<TGraph> legend_roc_sigvsnorm_graph;
-    vector<TString> legend_roc_sigvsnorm_entries;
 
     // Loading dataframes which hold the variables needed to compute the efficiencies
     bool fileexist = TFile(data_holder->first.data()).IsZombie();
@@ -47,66 +199,63 @@ int AnalysisVariable::VariablePlotter(pair<string, string> *data_holder,
 
     // Looping over chosen variables in order to compute the efficiencies
     Float_t bins = var_to_be_analyzed->variable_bins, min = var_to_be_analyzed->variable_histmin, max = var_to_be_analyzed->variable_histmax;
+    Float_t bins2 = var_to_be_analyzed2->variable_bins, min2 = var_to_be_analyzed2->variable_histmin, max2 = var_to_be_analyzed2->variable_histmax;
     if (dataframe_analysisvariable->HasColumn(var_to_be_analyzed->variable_name) == false)
         return 0;
 
     if (cut.compare("") != 0)
     {
-        histogram_analysisvariable = dataframe_analysisvariable->Filter(cut.data()).Fill(TH1F(TString::Format("%s", filelabel.data()), TString::Format("%s", filelabel.data()),
-                                                                       bins, min, max),
-                                                                  {var_to_be_analyzed->variable_name});
+        histogram_analysisvariable = dataframe_analysisvariable->Filter(cut.data()).Fill<Double_t, Double_t>(TH2F(TString::Format("%s", filelabel.data()), TString::Format("%s", filelabel.data()), bins, min, max, bins2, min2, max2), {var_to_be_analyzed->variable_name, var_to_be_analyzed2->variable_name});
     }
     else
     {
-        histogram_analysisvariable = dataframe_analysisvariable->Fill(TH1F(TString::Format("%s", filelabel.data()), TString::Format("%s", filelabel.data()),
-                                                                       bins, min, max),
-                                                                  {var_to_be_analyzed->variable_name});        
+        histogram_analysisvariable = dataframe_analysisvariable->Fill<Double_t, Double_t>(TH2F(TString::Format("%s", filelabel.data()), TString::Format("%s", filelabel.data()),
+                                                                                               bins, min, max, bins2, min2, max2),
+                                                                                          {var_to_be_analyzed->variable_name, var_to_be_analyzed2->variable_name});
     }
     // Computing efficiencies and purities
     histogram_analysisvariable->Sumw2();
-    //histogram_analysisvariable->Scale(1 / histogram_analysisvariable->Integral());
+    // histogram_analysisvariable->Scale(1 / histogram_analysisvariable->Integral());
 
     // Plotting
 
-    THStack histcompare_stack = THStack("Histstack", "Histstack");
-
     canvas_analysisvariable.cd();
     canvas_analysisvariable.Clear();
-    histogram_analysisvariable->SetStats(true);
+    histogram_analysisvariable->SetStats(false);
     histogram_analysisvariable->SetFillStyle(1001);
     histogram_analysisvariable->SetMarkerStyle(kFullSquare);
     histogram_analysisvariable->SetMarkerSize(1);
     histogram_analysisvariable->SetTitle(TString::Format("%s occurencies", var_to_be_analyzed->variable_prettyname));
     histogram_analysisvariable->GetXaxis()->SetTitle(var_to_be_analyzed->Xlabel());
-    histogram_analysisvariable->GetYaxis()->SetTitle("Normalized occurencies");
-    histogram_analysisvariable->Draw();
+    histogram_analysisvariable->GetYaxis()->SetTitle(var_to_be_analyzed2->Xlabel());
+    histogram_analysisvariable->Draw("COLZ");
     canvas_analysisvariable.Update();
 
     // Adjusting the legend
-    TLegend *legend = var_to_be_analyzed->SetLegendPosAuto();
-    legend->AddEntry(histogram_analysisvariable->GetName(), TString::Format("%s", var_to_be_analyzed->variable_prettyname), "PLC PMC");
-    legend->SetTextSize(0.025);
-    legend->Draw("SAME");
-    if (var_to_be_analyzed->variable_logscale_flag == true)
-    {
-        histogram_analysisvariable->SetMinimum(1e-4);
-        histogram_analysisvariable->SetMaximum(1e-1);
-        gPad->SetLogy();
-    }
-    canvas_analysisvariable.Update();
+    /*    TLegend *legend = var_to_be_analyzed->SetLegendPosAuto();
+        legend->AddEntry(histogram_analysisvariable->GetName(), TString::Format("%s", var_to_be_analyzed->variable_prettyname), "PLC PMC");
+        legend->SetTextSize(0.025);
+        legend->Draw("SAME");
+        if (var_to_be_analyzed->variable_logscale_flag == true)
+        {
+            histogram_analysisvariable->SetMinimum(1e-4);
+            histogram_analysisvariable->SetMaximum(1e-1);
+            gPad->SetLogy();
+        }
+        canvas_analysisvariable.Update();
 
-    TPaveStats *pavestat = (TPaveStats *)(histogram_analysisvariable->GetListOfFunctions()->FindObject("stats"));
-    pavestat->SetOptStat(111111);
-    pavestat->SetX1NDC(legend->GetX1NDC());
-    pavestat->SetX2NDC(legend->GetX2NDC());
-    pavestat->SetY1NDC(legend->GetY1NDC() - 0.04 * 5);
-    pavestat->SetY2NDC(legend->GetY1NDC());
-    pavestat->Draw("SAME");
-    canvas_analysisvariable.Update();
-
+        TPaveStats *pavestat = (TPaveStats *)(histogram_analysisvariable->GetListOfFunctions()->FindObject("stats"));
+        pavestat->SetOptStat(111111);
+        pavestat->SetX1NDC(legend->GetX1NDC());
+        pavestat->SetX2NDC(legend->GetX2NDC());
+        pavestat->SetY1NDC(legend->GetY1NDC() - 0.04 * 5);
+        pavestat->SetY2NDC(legend->GetY1NDC());
+        pavestat->Draw("SAME");
+        canvas_analysisvariable.Update();
+    */
     canvas_analysisvariable.Print(TString::Format("%s/%s_%s.png", var_to_be_analyzed->variable_histplotfolder, var_to_be_analyzed->variable_name, filelabel.data()));
     canvas_analysisvariable.Clear();
-    legend->Clear();
+    // legend->Clear();
     gPad->SetLogy(0);
 
     return 0;

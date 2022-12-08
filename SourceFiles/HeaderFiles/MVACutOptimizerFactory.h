@@ -35,6 +35,7 @@
 #include <TMVA/Configurable.h>
 #include <TMVA/TMVAGui.h>
 #include "TMVAMethod.h"
+#include "RootFileCreator.h"
 #include "AnalysisVariable.h"
 
 /*These namespaces can be useful*/
@@ -46,5 +47,13 @@ int MVACutOptimizerFactory(unordered_map<string, pair<string, string>> mva_cut_f
                            vector<TMVAMethod> tmvamethods,
                            chrono::_V2::system_clock::time_point start = chrono::_V2::system_clock::now(),
                            bool debug_variableranking = false);
+
+int MVACutOptimizerFactoryMultiSigBkg(unordered_map<string, pair<string, string>> mva_cut_sig_factory_files,
+                                      unordered_map<string, pair<string, string>> mva_cut_bkg_factory_files,
+                                      string outputfilename,
+                                      vector<string> features,
+                                      vector<TMVAMethod> tmvamethods,
+                                      chrono::_V2::system_clock::time_point start = chrono::_V2::system_clock::now(),
+                                      bool debug_variableranking = false);
 
 #endif

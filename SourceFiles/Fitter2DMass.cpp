@@ -41,131 +41,266 @@ int Fitter2DMass(pair<string, string> *input_file_tree,
     roofitinputvar.push_back(&mvacut_kbdt1);
     RooRealVar x_m = RooRealVar("x_m", "Mass of the children cut", 0, 1e6, "");
     roofitinputvar.push_back(&x_m);
-    RooRealVar x_m_pi0constrained = RooRealVar("x_m_pi0constrained", "Mass of the children constraining the pi0", 0, 1e6, "");
-    roofitinputvar.push_back(&x_m_pi0constrained);
+    RooRealVar b0_mass = RooRealVar("b0_mass", "b0_mass", 5279.34);
+    RooFormulaVar jpsi_mbconstrained_jpsicorrected = RooFormulaVar("x_m_bconstraint", "@1-(@2-@3)", RooArgList(varfit2, b0_mass, varfit1));
+    RooRealVar jpsimass = RooRealVar("jpsi_mass", "jpsi_mass", 3096.9);
+    RooFormulaVar b_mjpsiconstrained_pi0corrected = RooFormulaVar("x_m_jpsiconstraint", "b_m_jpsiconstrained-(jpsi_mass-x_m_pi0constrained)", RooArgList(varfit1, jpsimass, varfit2));
+    RooRealVar omegamass = RooRealVar("omega_mass", "omega_mass", 782.66);
+    //RooFormulaVar b_momegaconstrained_pi0corrected = RooFormulaVar("x_m_omegaconstraint", "b_m_omegaconstrained-(omega_mass-x_m_pi0constrained)", RooArgList(varfit1, omegamass, varfit2));
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //      varfit1 ranges
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    Double_t fit_range_lo = minbin1;
-    Double_t mass_window_lo = (minbin1+maxbin1)/2 - 150;
-    Double_t mass_window_hi = (minbin1+maxbin1)/2 + 150;
-    Double_t fit_range_hi = maxbin1;
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //      PDFs
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    // combinatorial background poly
-    RooRealVar pol_c1 = RooRealVar("pol_c1", "coefficient of x^0 term", 100, -100, 1000);
-    RooRealVar pol_c2 = RooRealVar("pol_c2", "coefficient of x^1 term", -5-02, -100, -0.);
-    RooPolynomial polynomial_bkg = RooPolynomial("polybkg", "polybkg", varfit1, RooArgList(pol_c1, pol_c2));
-    RooRealVar pol2_c1 = RooRealVar("pol2_c1", "coefficient of x^0 term", 100, -100, 1000);
-    RooRealVar pol2_c2 = RooRealVar("pol2_c2", "coefficient of x^1 term", -5-02, -100, -0.);
-    RooPolynomial polynomial2_bkg = RooPolynomial("polybkg", "polybkg", varfit2, RooArgList(pol2_c1, pol2_c2));
-    // pol_c2 = RooRealVar("pol_c2", "coefficient of x^1 term", 0.6, -10, 10)
-    // pol_c3 = RooRealVar("pol_c3", "coefficient of x^2 term", 0.5, -10, 10)
-    // RooChebychev bkg = RooChebychev("bkg_pol", "1st order poly", varfit1, RooArgList(pol_c1));
-    // bkg = RooChebychev("bkg_pol", "2nd order poly", varfit1, RooArgList(pol_c1, pol_c2))
-    // bkg = RooChebychev("bkg_pol", "3rd order poly", varfit1, RooArgList(pol_c1, pol_c2, pol_c3))
-
-    // expo
-    RooRealVar slope1 = RooRealVar("slope1", "slope1", -3e-3, -1e3, 1e3);
-    RooExponential bkg1 = RooExponential("bkg_expo1", "bkg_expo1", varfit1, slope1);
-
-    RooRealVar slope2 = RooRealVar("slope2", "slope2", -0.096, -1e2, 0.1);
-    RooExponential bkg2 = RooExponential("bkg_expo2", "bkg_expo2", varfit2, slope2);
-
-    // B->Jpsi KPi crystal ball
-    RooRealVar jpsikpi_mean = RooRealVar("jpsikpi_mean", "#mu", 5297, 0, 6000);
-    RooRealVar jpsikpi_sigma = RooRealVar("jpsikpi_sigma", "#sigma_{1}", 30, 0, 1000);
-    RooRealVar jpsikpi_n = RooRealVar("jpsikpi_n", "n_{1}", 50, 0., 1e6);
-    RooRealVar jpsikpi_alpha = RooRealVar("jpsikpi_alpha", "#alpha_{1}", 2, -10, 10.);
-    RooCBShape jpsikpi_func = RooCBShape("jpsikpi_func", "jpsikpi_func", varfit1, jpsikpi_mean, jpsikpi_sigma, jpsikpi_alpha, jpsikpi_n);
-
-    // B->Jpsi KPi second crystal ball
-    RooRealVar jpsikpi_mean2 = RooRealVar("jpsikpi_mean2", "#mu_{2}", 3096, 3000, 3200);
-    RooRealVar jpsikpi_sigma2 = RooRealVar("jpsikpi_sigma2", "#sigma_{2}", 30, 0, 1000);
-    RooRealVar jpsikpi_n2 = RooRealVar("jpsikpi_n2", "n_{2}", 1.77, 0., 500.);
-    RooRealVar jpsikpi_alpha2 = RooRealVar("jpsikpi_alpha2", "#alpha_{2}", -2, -4, 4.);
-    RooCBShape jpsikpi_func2 = RooCBShape("jpsikpi_func2", "jpsikpi_func2", varfit2, jpsikpi_mean2, jpsikpi_sigma2, jpsikpi_alpha2, jpsikpi_n2);
-
-    // Gaussian
-    RooRealVar gaussian_mean = RooRealVar("gaussian_mean", "gaussian_mean", 5279, 5100, 5300);
-    RooRealVar gaussian_width = RooRealVar("gaussian_width", "gaussian_width", 25, 1e-6, 100);
-    RooGaussian signal_gauss = RooGaussian("Signal_Gaus", "Signal Gaus", varfit1, gaussian_mean, gaussian_width);
-
-    // Gaussian
-    RooRealVar gaussian_mean2 = RooRealVar("gaussian_mean2", "gaussian_mean2", 3096, 3000, 3200);
-    RooRealVar gaussian_width2 = RooRealVar("gaussian_width2", "gaussian_width2", 25, 1e-6, 75);
-    RooGaussian signal_gauss2 = RooGaussian("Signal_Gaus2", "Signal Gaus2", varfit2, gaussian_mean2, gaussian_width2);
-
-    // fractional yields
-    // you need these and not absolute yields in combine
-    // don"t fit with Extended!
-    RooRealVar frac_sig1 = RooRealVar("frac_sig1", "f_{1}", 0.15, 0., 1.);
-    RooRealVar frac_sig2 = RooRealVar("frac_sig2", "f_{2}", 0.05, 0., 1.);
-    RooRealVar frac_pi = RooRealVar("frac_pi", "frac_pi", 6.31013e-01, 0., 1.);
-    RooRealVar frac_bkg = RooRealVar("frac_bkg", "frac_bkg", 0.7, 0., 1.);
-    RooRealVar frac_bkg2 = RooRealVar("frac_bkg2", "frac_bkg2", 0.7, 0., 1.);
-    // fixed to PDG (Jpsi K) / (Jpsi pi) value https://pdglive.lbl.gov/BranchingRatio.action?desig=14&parCode=S091
-    Double_t frac_k_value = 0.079 / (1. + 0.079);
-    RooRealVar frac_k = RooRealVar("frac_k", "frac_k", frac_k_value);
-
-    // signal function
-    RooAddPdf bkg_fit_function = RooAddPdf(
-        "bkg_fit_function",
-        "Expo",
-        RooArgList(bkg1),
-        RooArgList(frac_bkg));
-
-    RooAddPdf signal_fit_function = RooAddPdf(
-        "signal_fit_function",
-        "Gaussian#left(B^{0}#right)+Gaussian#left(J/#psi#right)+Expo",
-        RooArgList(signal_gauss, signal_gauss2, bkg_fit_function),
-        RooArgList(frac_sig1, frac_sig2));
-
-    // signal Jpsi pi plus Jpsi K
-    // RooAddPdf::pi_plus_k_fit_function[ frac_k * jpsikpi_func + [%] * signal_fit_function ]
-    /*RooAddPdf pi_plus_k_fit_function = RooAddPdf(
-        "pi_plus_k_fit_function",
-        "pi_plus_k_fit_function",
-        RooArgList(jpsikpi_func, signal_fit_function), // order matters for coefficients in next line https://www.nikhef.nl/~vcroft/SignalAndBackground-CompositeModels.html
-        RooArgList(frac_k));*/
-
-    /*
-        // MC signal narrow gaussian
-        RooRealVar mc_narrow_mean = RooRealVar("mc_narrow_mean", "mc_narrow_mean", 6.275, 5.5, 7.);
-        RooRealVar mc_narrow_width = RooRealVar("mc_narrow_width", "mc_narrow_width", 0.038, 0., 1.);
-        RooGaussian mc_narrow_gaus = RooGaussian("mc_sig_narrow_gaus", "mc_sig_narrow_gaus", varfit1, mc_narrow_mean, mc_narrow_width);
-
-        // MC signal broad gaussian
-        RooRealVar mc_broad_mean = RooRealVar("mc_broad_mean", "mc_broad_mean", 6.275, 5.5, 7.);
-        RooRealVar mc_broad_width = RooRealVar("mc_broad_width", "mc_broad_width", 0.06, 0., 1.);
-        RooGaussian mc_broad_gaus = RooGaussian("mc_sig_broad_gaus", "mc_sig_broad_gaus", varfit1, mc_broad_mean, mc_broad_width);
-
-        RooRealVar mc_nsig = RooRealVar("mc_signal_yield", "mc_signal_yield", 800, 0, 100000);
-        RooRealVar mc_nsig_narrow = RooRealVar("mc_signal_yield_narrow", "mc_signal_yield_narrow", 700, 0, 100000);
-        RooRealVar mc_nsig_broad = RooRealVar("mc_signal_yield_broad", "mc_signal_yield_broad", 100, 0, 100000);
-
-        // MC signal function
-        RooAddPdf mc_signal_fitFunction = RooAddPdf(
-            "mc_signal_fit_function",
-            "mc_signal_fit_function",
-            RooArgList(mc_narrow_gaus, mc_broad_gaus),
-            RooArgList(mc_nsig_narrow, mc_nsig_broad));
-    */
     RooArgSet thevars = RooArgSet();
     for (vector<RooRealVar *>::iterator rooiter = roofitinputvar.begin(); rooiter != roofitinputvar.end(); rooiter++)
         thevars.add(**rooiter);
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // selection on data, plotting, fitting
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     const char *data_file_name = input_file_tree->first.data();
     const char *data_tree_name = input_file_tree->second.data();
     TTree *data_tree = (TTree *)(TFile::Open(data_file_name)->Get(data_tree_name));
     RooDataSet fulldata = RooDataSet("data", "data", data_tree->GetTree(), thevars, selection_cut.data());
+    Int_t dataentries = fulldata.numEntries();
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //      varfit1 ranges
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*Double_t fit_range_lo = minbin1;
+    Double_t mass_window_lo = (minbin1+maxbin1)/2 - 150;
+    Double_t mass_window_hi = (minbin1+maxbin1)/2 + 150;
+    Double_t fit_range_hi = maxbin1;*/
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //      PDFs
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // expo
+    RooRealVar slope1 = RooRealVar("slope1", "slope1", -7.53684e-04, -1e5, 1e5);
+    RooExponential bkg1 = RooExponential((string(varfit1_name)+"component_bkg_expo1").data(), "B^{0} Comb. BKG", varfit1, slope1);
+
+    RooRealVar slope2 = RooRealVar("slope2", "slope2", -2.82889e-03, -1e5, 1e5);
+    RooExponential bkg2 = RooExponential((string(varfit2_name)+"component_bkg_expo2").data(), "#omega Comb. BKG", varfit2, slope2);
+
+    RooRealVar slope3 = RooRealVar("slope3", "slope3", -0.1, -1e6, 1e6);
+    RooExponential bkg3 = RooExponential("bkg_expo3", "bkg_expo3", b_mjpsiconstrained_pi0corrected, slope3);
+
+    RooRealVar b_omega_slope = RooRealVar("b_omega_slope", "B^{0}-#omega Slope", -0.1, -1e6, 1e6);
+    RooExponential b_omega_expo = RooExponential("b_omega_bkg_expo", "B^{0}-#omega Expo", varfit1, b_omega_slope);
+
+    // Gaussian
+    RooRealVar gaussian_mean = RooRealVar("gaussian_mean", "gaussian_mean", 5279, minbin1, maxbin1);
+    RooRealVar gaussian_width = RooRealVar("gaussian_width", "gaussian_width", 1.52423e+01, 1e-6, 200);
+    RooGaussian signal_gauss = RooGaussian((string(varfit1_name)+"component_Signal_Gaus").data(), "B^{0} Gaussian", varfit1, gaussian_mean, gaussian_width);
+
+    // Breit Wigner
+    RooRealVar gaussian_mean2 = RooRealVar("gaussian_mean2", "gaussian_mean2", 3.09950e+03, minbin2, maxbin2);
+    RooRealVar gaussian_width2 = RooRealVar("gaussian_width2", "gaussian_width2", 3.90478e+01, 1e-6, 200);
+    RooGaussian signal_gauss2 = RooGaussian((string(varfit2_name)+"component_Signal_Gaus2").data(), "J/#psi Gaussian", varfit2, gaussian_mean2, gaussian_width2);
+
+    // Breit Wigner
+    RooRealVar breit_mean_omega = RooRealVar("breit_mean_omega", "#mu#left(m_{#omega}#right)", 782, minbin2, maxbin2);
+    RooRealVar breit_width_omega = RooRealVar("breit_width_omega", "#sigma#left(m_{#omega}#right)", 25, 1e-6, 200);
+    RooBreitWigner breit_wigner_omega = RooBreitWigner((string(varfit2_name)+"component_breit_wigner_omega").data(), "#omega Breit Wigner", varfit2, breit_mean_omega, breit_width_omega);
+
+    // Voigtian
+    RooRealVar voigtian_mean_omega = RooRealVar("voigtian_mean_omega", "#mu#left(m_{#omega}#right)", 782, minbin2, maxbin2);
+    RooRealVar voigtian_width_omega = RooRealVar("voigtian_width_omega", "#sigma#left(m_{#omega}#right)", 25, 1e-6, 200);
+    RooRealVar voigtian_sigma_omega = RooRealVar("voigtian_sigma_omega", "#sigma#left(m_{#omega}#right)", 25, 1e-6, 200);
+    RooVoigtian voigtian_omega = RooVoigtian((string(varfit2_name)+"component_voigtian_omega").data(), "#omega Voigtian", varfit2, voigtian_mean_omega, voigtian_width_omega, voigtian_sigma_omega);
+
+    // Breit Wigner
+    RooRealVar gaussian_mean_omega = RooRealVar("gaussian_mean_omega", "#mu#left(m_{#omega}#right)", 782, minbin2, maxbin2);
+    RooRealVar gaussian_width_omega = RooRealVar("gaussian_width_omega", "#sigma#left(m_{#omega}#right)", 25, 1e-6, 1e3);
+    RooGaussian gaussian_omega = RooGaussian("gaussian_omega", "#omega Gaussian", varfit2, gaussian_mean_omega, gaussian_width_omega);
+
+    // Gaussian
+    RooRealVar gaussian_mean_b_jpsinonresonant = RooRealVar("gaussian_mean_b_jpsinonresonant", "gaussian_mean_b_jpsinonresonant", 3096, 1e3, 1e4);
+    RooRealVar gaussian_width_b_jpsinonresonant = RooRealVar("gaussian_width_b_jpsinonresonant", "gaussian_width_b_jpsinonresonant", 250, 1e1, 1e3);
+    RooGaussian gauss_b_jpsinonresonant = RooGaussian("gauss_b_jpsinonresonant", "gauss_b_jpsinonresonant", jpsi_mbconstrained_jpsicorrected, gaussian_mean_b_jpsinonresonant, gaussian_width_b_jpsinonresonant);
+    
+    // Gaussian
+    RooRealVar gaussian_mean_jpsinonresonant = RooRealVar("gaussian_mean_jpsinonresonant", "gaussian_mean_jpsinonresonant", 5.28878e+03, 1e2, 1e4);
+    RooRealVar gaussian_width2_jpsinonresonant = RooRealVar("gaussian_width2_jpsinonresonant", "gaussian_width2_jpsinonresonant", 5.86377e+01, 1e-6, 1e4);
+    RooGaussian gauss_jpsinonresonant = RooGaussian("gauss_jpsinonresonant", "Signal gauss_jpsinonresonant", b_mjpsiconstrained_pi0corrected, gaussian_mean_jpsinonresonant, gaussian_width2_jpsinonresonant);
+
+    // Gaussian
+    RooRealVar gaussian_mean_omeganonresonant = RooRealVar("gaussian_mean_omeganonresonant", "gaussian_mean_omeganonresonant", 1000, 1e0, 1e5);
+    RooRealVar gaussian_width2_omeganonresonant = RooRealVar("gaussian_width2_omeganonresonant", "gaussian_width2_omeganonresonant", 25, 1e-6, 1e5);
+    RooGaussian gauss_omeganonresonant = RooGaussian("gauss_omeganonresonant", "#omega NonResonant Gaussian", varfit2, gaussian_mean_omeganonresonant, gaussian_width2_omeganonresonant);
+
+    // B->Jpsi KPi crystal ball
+    RooRealVar jpsikpi_mean = RooRealVar("jpsikpi_mean", "#mu", 5.27963e+03, minbin1, maxbin1);
+    RooRealVar jpsikpi_sigma = RooRealVar("jpsikpi_sigma", "#sigma_{1}", 30, 0, 1e4);
+    RooRealVar jpsikpi_n = RooRealVar("jpsikpi_n", "n_{1}", 0.794);
+    RooRealVar jpsikpi_alpha = RooRealVar("jpsikpi_alpha", "#alpha_{1}", -1.129, -1e6, 1e6);
+    RooCBShape jpsikpi_func = RooCBShape((string(varfit1_name)+"component_jpsikpi_func").data(), "component_jpsikpi_func", varfit1, jpsikpi_mean, jpsikpi_sigma, jpsikpi_alpha, jpsikpi_n);
+
+    // B->Jpsi KPi second crystal ball
+    RooRealVar jpsikpi_widthratio = RooRealVar("jpsikpi_widthratio", "#sigma Ratio", 1.493);
+    RooFormulaVar jpsikpi_sigma2 = RooFormulaVar("jpsikpi_sigma2", "#sigma_{2}", "jpsikpi_widthratio*jpsikpi_sigma", RooArgList(jpsikpi_widthratio, jpsikpi_sigma));
+    RooRealVar jpsikpi_n2 = RooRealVar("jpsikpi_n2", "n_{2}", 9.932);
+    RooFormulaVar jpsikpi_alpha2 = RooFormulaVar("jpsikpi_alpha2", "#alpha_{2}", "-1*jpsikpi_alpha", RooArgList(jpsikpi_alpha));
+    RooCBShape jpsikpi_func2 = RooCBShape((string(varfit1_name)+"component_jpsikpi_func2").data(), "jpsikpi_func2", varfit1, jpsikpi_mean, jpsikpi_sigma2, jpsikpi_alpha2, jpsikpi_n2);
+
+    // bomegakpi KPi crystal ball
+    RooRealVar bjpsikpi_mean = RooRealVar("bjpsikpi_mean", "#mu", 5280.784, minbin1, maxbin1);
+    RooRealVar bjpsikpi_sigma = RooRealVar("bjpsikpi_sigma", "#sigma_{1}", 14.542, 0, maxbin1-minbin1);
+    RooRealVar bjpsikpi_alpha = RooRealVar("bjpsikpi_alpha", "#alpha_{1}", 0.811);
+    RooRealVar bjpsikpi_n = RooRealVar("bjpsikpi_n", "n_{1}", 3);
+    RooCBShape bjpsikpi_func = RooCBShape((string(varfit1_name)+"component_bjpsikpi_func").data(), "#omega Crystal Ball", varfit1, bjpsikpi_mean, bjpsikpi_sigma, bjpsikpi_alpha, bjpsikpi_n);
+
+    // bjpsikpi KPi second crystal ball
+    RooRealVar bjpsikpi_widthratio = RooRealVar("bjpsikpi_widthratio", "#sigma Ratio", 1.034);
+    RooFormulaVar bjpsikpi_sigma2 = RooFormulaVar("bjpsikpi_sigma2", "#sigma_{2}", "bjpsikpi_widthratio*bjpsikpi_sigma", RooArgList(bjpsikpi_widthratio, bjpsikpi_sigma));
+    RooRealVar bjpsikpi_alpha2 = RooRealVar("bjpsikpi_alpha2", "#alpha_{2}", -0.887);
+    RooRealVar bjpsikpi_n2 = RooRealVar("bjpsikpi_n2", "n_{2}", 3);
+    RooCBShape bjpsikpi_func2 = RooCBShape((string(varfit1_name)+"component_bjpsikpi_func2").data(), "#omega Crystal Ball 2", varfit1, bjpsikpi_mean, bjpsikpi_sigma2, bjpsikpi_alpha2, bjpsikpi_n2);
+
+    // JPsi->3Pi crystal ball
+    RooRealVar jpsi_3pi_mean = RooRealVar("jpsi_3pi_mean", "#mu", 3096.9, minbin2, maxbin2);
+    RooRealVar jpsi_3pi_sigma = RooRealVar("jpsi_3pi_sigma", "#sigma_{1}", 30, 0, maxbin2-minbin2);
+    RooRealVar jpsi_3pi_n = RooRealVar("jpsi_3pi_n", "n_{1}", 3);
+    RooRealVar jpsi_3pi_alpha = RooRealVar("jpsi_3pi_alpha", "#alpha_{1}", 0.027);
+    RooCBShape jpsi_3pi_func = RooCBShape((string(varfit2_name)+"component_jpsi_3pi_func").data(), "Crystal Ball", varfit2, jpsi_3pi_mean, jpsi_3pi_sigma, jpsi_3pi_alpha, jpsi_3pi_n);
+
+    // JPsi->3Pi second crystal ball
+    RooRealVar jpsi_3pi_widthratio = RooRealVar("jpsi_3pi_widthratio", "#sigma Ratio", 0.794);
+    RooFormulaVar jpsi_3pi_sigma2 = RooFormulaVar("jpsi_3pi_sigma2", "#sigma_{2}", "jpsi_3pi_widthratio*jpsi_3pi_sigma", RooArgList(jpsi_3pi_widthratio, jpsi_3pi_sigma));
+    RooRealVar jpsi_3pi_n2 = RooRealVar("jpsi_3pi_n2", "n_{2}", 3);
+    RooRealVar jpsi_3pi_alpha2 = RooRealVar("jpsi_3pi_alpha2", "#alpha_{2}", -0.848);
+    RooCBShape jpsi_3pi_func2 = RooCBShape((string(varfit2_name)+"component_jpsi_3pi_func2").data(), "jpsi_3pi_func2", varfit2, jpsi_3pi_mean, jpsi_3pi_sigma2, jpsi_3pi_alpha2, jpsi_3pi_n2);
+
+    // bomegakpi KPi crystal ball
+    RooRealVar bomegakpi_mean = RooRealVar("bomegakpi_mean", "#mu", 5282, 0, 6000);
+    RooRealVar bomegakpi_sigma = RooRealVar("bomegakpi_sigma", "#sigma_{1}", 54, 0, 1000);
+    RooRealVar bomegakpi_alpha = RooRealVar("bomegakpi_alpha", "#alpha_{1}", 1.533);
+    RooRealVar bomegakpi_n = RooRealVar("bomegakpi_n", "n_{1}", 3);
+    RooCBShape bomegakpi_func = RooCBShape((string(varfit2_name)+"component_bomegakpi_func").data(), "#omega Crystal Ball", varfit1, bomegakpi_mean, bomegakpi_sigma, bomegakpi_alpha, bomegakpi_n);
+
+    // bomegakpi KPi second crystal ball
+    RooRealVar bomegakpi_widthratio = RooRealVar("bomegakpi_widthratio", "#sigma Ratio", 0.509);
+    RooFormulaVar bomegakpi_sigma2 = RooFormulaVar("bomegakpi_sigma2", "#sigma_{2}", "bomegakpi_widthratio*bomegakpi_sigma", RooArgList(bomegakpi_widthratio, bomegakpi_sigma));
+    RooRealVar bomegakpi_alpha2 = RooRealVar("bomegakpi_alpha2", "#alpha_{2}", -0.441);
+    RooRealVar bomegakpi_n2 = RooRealVar("bomegakpi_n2", "n_{2}", 3);
+    RooCBShape bomegakpi_func2 = RooCBShape((string(varfit2_name)+"component_bomegakpi_func2").data(), "#omega Crystal Ball 2", varfit1, bomegakpi_mean, bomegakpi_sigma2, bomegakpi_alpha2, bomegakpi_n2);
+
+    // omega3pi KPi crystal ball
+    RooRealVar omega3pi_mean = RooRealVar("omega3pi_mean", "#mu", 785, 0, 6000);
+    RooRealVar omega3pi_sigma = RooRealVar("omega3pi_sigma", "#sigma_{1}", 44, 0, 1000);
+    RooRealVar omega3pi_alpha = RooRealVar("omega3pi_alpha", "#alpha_{1}", 4.034);
+    RooRealVar omega3pi_n = RooRealVar("omega3pi_n", "n_{1}", 3);
+    RooCBShape omega3pi_func = RooCBShape((string(varfit2_name)+"component_omega3pi_func").data(), "#omega Crystal Ball", varfit2, omega3pi_mean, omega3pi_sigma, omega3pi_alpha, omega3pi_n);
+
+    // omega3pi KPi second crystal ball
+    RooRealVar omega3pi_widthratio = RooRealVar("omega3pi_widthratio", "#sigma Ratio", 0.3306);
+    RooFormulaVar omega3pi_sigma2 = RooFormulaVar("omega3pi_sigma2", "#sigma_{2}", "omega3pi_widthratio*omega3pi_sigma", RooArgList(omega3pi_widthratio, omega3pi_sigma));
+    RooRealVar omega3pi_alpha2 = RooRealVar("omega3pi_alpha2", "#alpha_{2}", -1.409);
+    RooRealVar omega3pi_n2 = RooRealVar("omega3pi_n2", "n_{2}", 3);
+    RooCBShape omega3pi_func2 = RooCBShape((string(varfit2_name)+"component_omega3pi_func2").data(), "#omega Crystal Ball 2", varfit2, omega3pi_mean, omega3pi_sigma2, omega3pi_alpha2, omega3pi_n2);
+
+    // fractional yields
+    // you need these and not absolute yields in combine
+    // don"t fit with Extended!
+    RooRealVar frac_sig1 = RooRealVar("frac_sig1", "f_{1}", 100, 0., dataentries);
+    RooRealVar frac_sig2 = RooRealVar("frac_sig2", "f_{2}", 100, 0., dataentries);
+    RooRealVar frac_jpsikpi1 = RooRealVar("frac_jpsikpi1", "frac_jpsikpi1", 1308.007);
+    RooRealVar frac_jpsikpi2 = RooRealVar("frac_jpsikpi2", "frac_jpsikpi2", 500, 0., dataentries);
+    RooRealVar frac_bomegakpi1 = RooRealVar("frac_frac_bomegakpi1", "frac_frac_bomegakpi1", 1000);
+    RooRealVar frac_omega3pi1 = RooRealVar("frac_frac_omega3pi1", "frac_frac_omega3pi1", 1000);
+    RooRealVar frac_omega3pi2 = RooRealVar("frac_frac_omega3pi2", "frac_frac_omega3pi2", 0.25);
+    RooRealVar frac_bkg4 = RooRealVar("frac_bkg4", "frac_bkg4", 500, -1, dataentries);
+    RooRealVar frac_bkg = RooRealVar("frac_bkg", "frac_bkg", 500, 0., dataentries);
+    RooRealVar frac_bkg2 = RooRealVar("frac_bkg2", "frac_bkg2", 500, -1, dataentries);
+    RooRealVar frac_bkg3 = RooRealVar("frac_bkg3", "frac_bkg3", 500, -1, dataentries);
+    RooRealVar frac_bkg_jpsinonres = RooRealVar("frac_bkg_jpsinonres", "frac_bkg_jpsinonres", 500, 0., dataentries);
+    // fixed to PDG (Jpsi K) / (Jpsi pi) value https://pdglive.lbl.gov/BranchingRatio.action?desig=14&parCode=S091
+    Double_t frac_k_value = 0.079 / (1. + 0.079);
+    RooRealVar frac_k = RooRealVar("frac_k", "frac_k", frac_k_value);
+
+    RooAddPdf jpsikpi_twocb_mcshape = RooAddPdf((string(varfit1_name)+"component_jpsikpitwocbmc").data(), "Sum of the two B^{0} CB", RooArgList(jpsikpi_func, jpsikpi_func2), RooArgList(frac_jpsikpi1, frac_jpsikpi1));
+    RooAddPdf omega3pi_twocb_mcshape = RooAddPdf((string(varfit2_name)+"component_omega3pitwocbmc").data(), "Sum of the two #omega CB", RooArgList(omega3pi_func, omega3pi_func2), RooArgList(0.25));
+    RooAddPdf jpsi3pi_twocb_mcshape = RooAddPdf((string(varfit2_name)+"component_jpsi3pitwocbmc").data(), "Sum of the two #B JPsi3Pi", RooArgList(jpsi_3pi_func, jpsi_3pi_func2), RooArgList(0.061));
+    RooAddPdf bomegakpi_twocb_mcshape = RooAddPdf((string(varfit1_name)+"component_Boomegakpitwocbmc").data(), "Sum of the two #B CB", RooArgList(bomegakpi_func, bomegakpi_func2), RooArgList(0.541));
+    RooAddPdf bjpsikpi_twocb_mcshape = RooAddPdf((string(varfit1_name)+"component_Bjpsikpitwocbmc").data(), "Sum of the two #B CB", RooArgList(bjpsikpi_func, bjpsikpi_func2), RooArgList(0.446));
+
+    // signal function
+    RooProdPdf b_m_gaussian_cross_x_m_jpsigaussian = RooProdPdf(
+        "b_m_gaussian_cross_x_m_jpsigaussian",
+        "Gaussians",
+        RooArgList(bjpsikpi_twocb_mcshape, jpsi3pi_twocb_mcshape));
+
+    RooProdPdf b_m_gaussian_cross_x_m_jpsigaussian2 = RooProdPdf(
+        "b_m_gaussian_cross_x_m_jpsigaussian2",
+        "Gaussians2",
+        RooArgList(jpsikpi_func2, signal_gauss2));
+
+    RooProdPdf b_m_gaussian_cross_x_m_omegabreitwigner = RooProdPdf(
+        "b_m_gaussian_cross_x_m_omegabreitwigner",
+        "B^{0}Gaussian #times #omegaBreitWigner",
+        RooArgList(bomegakpi_twocb_mcshape, omega3pi_twocb_mcshape));
+
+    RooProdPdf b_m_gaussian_cross_x_m_omega3pi1 = RooProdPdf(
+        "b_m_gaussian_cross_x_m_omega3pi1",
+        "B^{0}Gaussian #times #omegaBreitWigner",
+        RooArgList(signal_gauss, omega3pi_func));
+
+    RooProdPdf b_m_gaussian_cross_x_m_omega3pi2 = RooProdPdf(
+        "b_m_gaussian_cross_x_m_omega3pi2",
+        "B^{0}Gaussian #times #omegaBreitWigner",
+        RooArgList(signal_gauss, omega3pi_func2));
+
+    RooProdPdf bkg_bm_cross_bkg_xm = RooProdPdf(
+        "bkg_bm_cross_bkg_xm",
+        "Prod_Bkgs",
+        RooArgList(bkg1, bkg2));
+
+    RooProdPdf b_jpsibkg_nonresonant = RooProdPdf(
+        "b_jpsibkg_nonresonant",
+        "b_jpsibkg_nonresonant",
+        bjpsikpi_twocb_mcshape, bkg2);
+
+    RooProdPdf jpsi_bbkg_nonresonant = RooProdPdf(
+        "jpsi_bbkg_nonresonant",
+        "jpsi_bbkg_nonresonant",
+        gauss_b_jpsinonresonant, bkg1);
+
+    RooProdPdf b_omegabkg_nonresonant = RooProdPdf(
+        "b_omegabkg_nonresonant",
+        "b_omegabkg_nonresonant",
+        bomegakpi_twocb_mcshape, bkg2);
+
+    RooProdPdf omega_bbkg_nonresonant = RooProdPdf(
+        "omega_bbkg_nonresonant",
+        "omega_bbkg_nonresonant",
+        omega3pi_twocb_mcshape, bkg1);
+
+    RooRealVar b_jpsikk_gauss_mean = RooRealVar("b_jpsikk_gauss_mean", "b_jpsikk_gauss_mean", 5398.557);
+    RooRealVar b_jpsikk_gauss_width = RooRealVar("b_jpsikk_gauss_width", "b_jpsikk_gauss_width", 112.123);
+    RooGaussian b_jpsikk_gauss = RooGaussian((string(varfit1_name)+"componentb_jpsikk_gauss").data(), "B^{c}#rightarrowJ/#psiKK (Gaussian)", varfit1, b_jpsikk_gauss_mean, b_jpsikk_gauss_width);
+
+    RooRealVar b_jpsikk_cb_mean = RooRealVar("b_jpsikk_cb_mean", "b_jpsikk_cb_mean", 5332.403);
+    RooRealVar b_jpsikk_cb_width = RooRealVar("b_jpsikk_cb_width", "b_jpsikk_cb_width", 23.454);
+    RooRealVar b_jpsikk_cb_n = RooRealVar("b_jpsikk_cb_n", "b_jpsikk_cb_n", 5.540);
+    RooRealVar b_jpsikk_cb_alpha = RooRealVar("b_jpsikk_cb_alpha", "b_jpsikk_cb_alpha", -0.454);
+    RooCBShape b_jpsikk_cb = RooCBShape((string(varfit1_name)+"componentb_jpsikk_cb").data(), "B^{c}#rightarrowJ/#psiKK (CB)", varfit1, b_jpsikk_cb_mean, b_jpsikk_cb_width, b_jpsikk_cb_alpha, b_jpsikk_cb_n);
+
+    RooAddPdf b_jpsikk_fitfunction = RooAddPdf(
+        "b_jpsikk_fitfunction",
+        "b_jpsikk_fitfunction",
+        RooArgList(b_jpsikk_cb, b_jpsikk_gauss),
+        RooArgList(RooConst(1034.205), RooConst(316.626))
+    );
+
+    RooAddPdf Total_Fit_function = RooAddPdf(
+        "Total_Fit_function",
+        "Fit function",
+        RooArgList(b_m_gaussian_cross_x_m_jpsigaussian, bkg_bm_cross_bkg_xm, b_jpsibkg_nonresonant),
+        RooArgList(frac_sig1, frac_bkg, frac_bkg2));
+/*
+    RooAddPdf Total_Fit_function = RooAddPdf(
+        "Total_Fit_function",
+        "Fit function",
+        RooArgList(b_m_gaussian_cross_x_m_omegabreitwigner, bkg_bm_cross_bkg_xm, b_omegabkg_nonresonant, omega_bbkg_nonresonant),
+        RooArgList(frac_sig1, frac_bkg, frac_bkg2, frac_bkg3));
+*/
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // selection on data, plotting, fitting
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     TH2F *fulldata_varfithist = new TH2F("", "", bins1, minbin1, maxbin1, bins2, minbin2, maxbin2);
     fulldata.fillHistogram(fulldata_varfithist, RooArgList(varfit1, varfit2));
 
@@ -181,11 +316,22 @@ int Fitter2DMass(pair<string, string> *input_file_tree,
 
     // fit
     // results_data = fit_function.fitTo(fulldata, RooFit.Extended(True), RooFit.Save())
-    RooFitResult *results_data = signal_fit_function.fitTo(fulldata, RooFit::Save());
+    RooFitResult *results_data = Total_Fit_function.fitTo(fulldata, RooFit::Save());
 
-    signal_fit_function.plotOn(frame, Name("signal_fit_function"));
+    Total_Fit_function.plotOn(frame, Name("Total_Fit_function"));
     Double_t chi2_datafit = frame->chiSquare();
-    signal_fit_function.plotOn(frame, Name("signal_gauss"), RooFit::Components(signal_gauss.GetName()), RooFit::LineStyle(kDashed), RooFit::LineColor(kRed));
+    TIterator *fit_function_components = Total_Fit_function.getComponents()->createIterator();
+    int i=1;
+    while (RooAbsArg* fitcompit=(RooAbsArg*)fit_function_components->Next())
+    {
+        size_t fitcomptoplot = string(fitcompit->GetName()).find(string(varfit1_name)+"component");
+        if (fitcomptoplot != string::npos)
+        {
+            Total_Fit_function.plotOn(frame, Name(fitcompit->GetName()), RooFit::Components(fitcompit->GetName()), 
+                                    RooFit::LineStyle(kDashed), RooFit::LineColor(EColorPalette(i)));
+            i++;
+        }
+    }
     frame->GetXaxis()->SetTitle(analvar1_tobefit->Xlabel().Data());
     frame->GetXaxis()->SetTitleSize(0.03);
     frame->GetXaxis()->SetLabelSize(0.03);
@@ -201,11 +347,19 @@ int Fitter2DMass(pair<string, string> *input_file_tree,
     leg->SetFillColor(0);
     leg->SetFillStyle(0);
     leg->SetTextFont(10);*/
-    leg1->SetTextSize(padtextsize);
-    leg1->AddEntry("signal_fit_function", "Fit function", "L");
-    leg1->AddEntry("signal_gauss", "B^{0}#rightarrowJ/#PsiK#pi", "L");
+    leg1->AddEntry(Total_Fit_function.GetName(), Total_Fit_function.GetTitle(), "L");
+    fit_function_components = Total_Fit_function.getComponents()->createIterator();
+    while (RooAbsArg* fitcompit=(RooAbsArg*)fit_function_components->Next())
+    {
+        size_t fitcomptoplot = string(fitcompit->GetName()).find(string(varfit1_name)+"component");
+        if (fitcomptoplot != string::npos)
+        {
+         leg1->AddEntry(fitcompit->GetName(), fitcompit->GetTitle(), "L");
+        }
+    }
     leg1->AddEntry("Data", "Data in the MC sample", "EP");
     leg1->Draw("SAME");
+    leg1->SetTextSize(padtextsize);
     c1.Update();
 
     TPaveStats *pvstat = analvar1_tobefit->SetStatAuto(fulldata_varfithist, leg1);
@@ -215,8 +369,7 @@ int Fitter2DMass(pair<string, string> *input_file_tree,
     c1.Modified();
 
     // Printing parameters on the plot
-    RooArgSet *params = signal_fit_function.getParameters(varfit1);
-    params->writeToStream(cout, false);
+    RooArgSet *params = Total_Fit_function.getParameters(varfit1);
     int params_size = params->getSize();
     Float_t pavetext_width = analvar1_tobefit->variable_textpadxlength, pavetext_entryheight = analvar1_tobefit->variable_textpadentryyheight;
     analvar1_tobefit->variable_headernumberofentries = params_size+2;
@@ -224,8 +377,8 @@ int Fitter2DMass(pair<string, string> *input_file_tree,
     pt->SetTextSize(padtextsize/2);
     pt->SetBorderSize(1);
     pt->SetFillColor(kWhite);
-    pt->AddText(TString::Format("Fit function: %s", signal_fit_function.getTitle().Data()))->SetTextAlign(22);    
-    pt->Draw("SAME");
+    pt->AddText(TString::Format("Fit function: %s", Total_Fit_function.getTitle().Data()))->SetTextAlign(22);    
+    //pt->Draw("SAME");
     c1.Update();
     
     TPaveText *pt_left = analvar1_tobefit->SetTextBoxAuto(2, pt->GetX1NDC(), pt->GetY1NDC(), params_size+2, pavetext_width/2, pavetext_entryheight);
@@ -248,8 +401,8 @@ int Fitter2DMass(pair<string, string> *input_file_tree,
     }
     pt_left->AddText("#chi^{2}")->SetTextAlign(11);
     pt_right->AddText(TString::Format("%.3f", chi2_datafit))->SetTextAlign(31);
-    pt_left->Draw("SAME");
-    pt_right->Draw("SAME");
+    //pt_left->Draw("SAME");
+    //pt_right->Draw("SAME");
     c1.Update();
     TText* sample_data1 = new TText(0.1, 0.905, string("Dataset: "+string(varfit1_sample_data)).data());
     sample_data1->SetNDC(true);
@@ -277,11 +430,23 @@ int Fitter2DMass(pair<string, string> *input_file_tree,
 
     // fit
     // results_data = fit_function.fitTo(fulldata, RooFit.Extended(True), RooFit.Save())
-    RooFitResult *results_data2 = signal_fit_function.fitTo(fulldata, RooFit::Save());
+    RooFitResult *results_data2 = Total_Fit_function.fitTo(fulldata, RooFit::Save());
 
-    signal_fit_function.plotOn(frame2, Name("signal_fit_function"));
+    Total_Fit_function.plotOn(frame2, Name("Total_Fit_function"));
     Double_t chi2_datafit2 = frame2->chiSquare();
-    signal_fit_function.plotOn(frame2, Name("signal_gauss"), RooFit::Components(signal_gauss.GetName()), RooFit::LineStyle(kDashed), RooFit::LineColor(kRed));
+
+    fit_function_components = Total_Fit_function.getComponents()->createIterator();
+    i = 1;
+    while (RooAbsArg* fitcompit=(RooAbsArg*)fit_function_components->Next())
+    {
+        size_t fitcomptoplot = string(fitcompit->GetName()).find(string(varfit2_name)+"component_");
+        if (fitcomptoplot != string::npos)
+        {
+            Total_Fit_function.plotOn(frame2, Name(fitcompit->GetName()), RooFit::Components(fitcompit->GetName()), 
+                                       RooFit::LineStyle(kDashed), RooFit::LineColor(EColorPalette(i)));
+            i++;
+        }
+    }
     frame2->GetXaxis()->SetTitle(analvar2_tobefit->Xlabel().Data());
     frame2->GetXaxis()->SetTitleSize(0.03);
     frame2->GetXaxis()->SetLabelSize(0.03);
@@ -297,10 +462,18 @@ int Fitter2DMass(pair<string, string> *input_file_tree,
     leg2->SetFillColor(0);
     leg2->SetFillStyle(0);
     leg2->SetTextFont(10);*/
-    leg2->SetTextSize(padtextsize);
-    leg2->AddEntry("signal_fit_function", "Fit function", "L");
-    leg2->AddEntry("signal_gauss", "B^{0}#rightarrowJ/#PsiK#pi", "L");
+    leg2->AddEntry(Total_Fit_function.GetName(), Total_Fit_function.GetTitle(), "L");
+    fit_function_components = Total_Fit_function.getComponents()->createIterator();
+    while (RooAbsArg* fitcompit=(RooAbsArg*)fit_function_components->Next())
+    {
+        size_t fitcomptoplot = string(fitcompit->GetName()).find(string(varfit2_name)+"component_");
+        if (fitcomptoplot != string::npos)
+        {
+            leg2->AddEntry(fitcompit->GetName(), fitcompit->GetTitle(), "L");
+        }
+    }
     leg2->AddEntry("Data", "Data in the MC sample", "EP");
+    leg2->SetTextSize(padtextsize2);
     leg2->Draw("SAME");
     c2.Update();
 
@@ -311,8 +484,7 @@ int Fitter2DMass(pair<string, string> *input_file_tree,
     c2.Modified();
     
     // Printing parameters on the plot
-    RooArgSet *params2 = signal_fit_function.getParameters(varfit2);
-    params2->writeToStream(cout, false);
+    RooArgSet *params2 = Total_Fit_function.getParameters(RooArgSet(varfit1, varfit2));
     int params_size2 = params2->getSize();
     Float_t pavetext_width2 = analvar2_tobefit->variable_textpadxlength, pavetext_entryheight2 = analvar2_tobefit->variable_textpadentryyheight;
     analvar2_tobefit->variable_headernumberofentries = params_size+2;
@@ -320,7 +492,7 @@ int Fitter2DMass(pair<string, string> *input_file_tree,
     pt2->SetTextSize(padtextsize/2);
     pt2->SetBorderSize(1);
     pt2->SetFillColor(kWhite);
-    pt2->AddText(TString::Format("Fit function: %s", signal_fit_function.getTitle().Data()))->SetTextAlign(22);    
+    pt2->AddText(TString::Format("Fit function: %s", Total_Fit_function.getTitle().Data()))->SetTextAlign(22);    
     pt2->Draw("SAME");
     c2.Update();
     
@@ -340,7 +512,7 @@ int Fitter2DMass(pair<string, string> *input_file_tree,
     while(RooAbsArg* arg=(RooAbsArg*)iter2->Next()) 
     { 
         pt2_left->AddText(TString::Format("%s", arg->GetTitle()))->SetTextAlign(11); 
-        pt2_right->AddText(TString::Format("%.3f", ((RooRealVar*)arg)->getVal()))->SetTextAlign(31);
+        pt2_right->AddText(TString::Format("%f#pm%f", ((RooRealVar*)arg)->getVal(), ((RooRealVar*)arg)->getError()))->SetTextAlign(31);
     }
     pt2_left->AddText("#chi^{2}")->SetTextAlign(11);
     pt2_right->AddText(TString::Format("%.3f", chi2_datafit2))->SetTextAlign(31);
@@ -362,20 +534,123 @@ int Fitter2DMass(pair<string, string> *input_file_tree,
     c2.SaveAs(outplot_filename2.data());
 
     // Printing parameters on the plot
-    RooArgSet *params2d = signal_fit_function.getParameters(RooArgList(varfit1, varfit2));
-    params2d->writeToStream(cout, false);
+    RooArgSet *params2d = Total_Fit_function.getParameters(RooArgList(varfit1, varfit2));
 
     TCanvas c2d = TCanvas("c2d", "", 1920, 1080);
     c2d.cd();
-    //TH2* hh_pdf3 = signal_fit_function.createHistogram("llr", varfit1, Binning(bins1), YVar(varfit2, Binning(bins2)),Scaling(kFALSE)); 
-    fulldata_varfithist->Draw("surf1");
-    frame->Draw("SAME");
+    TH2F *fit_2d_hist = new TH2F("fit_2d_hist", "fit_2d_hist", bins1, minbin1, maxbin1, bins2, minbin2, maxbin2);
+    Total_Fit_function.fillHistogram(fit_2d_hist, RooArgList(varfit1, varfit2));    
+    fulldata_varfithist->Draw("COLZ");
+    fit_2d_hist->Draw("CONT2 SAME");
+    gStyle->SetOptStat(false);
     string outplot_filename2d = string(varfit1_name)+"_"+string(varfit2_name)+"_"+varfit1_sample_data+"_FIT.png";
     c2d.SaveAs(outplot_filename2d.data());
 
+    // 2D Pull plot
+    TH2F* fulldata_varfithist_10bin = (TH2F*)fulldata_varfithist->Rebin2D(bins1/10, bins2/10);
+    TH2F* pull_2D_histogram_10bins = (TH2F*)fit_2d_hist->Rebin2D(bins1/10, bins2/10);
+	pull_2D_histogram_10bins->Scale(fulldata_varfithist_10bin->Integral()/pull_2D_histogram_10bins->Integral());
+	for(int ibin=1; ibin<=10; ++ibin) {
+		for(int jbin=1; jbin<=10; ++jbin) {
+			double D = fulldata_varfithist_10bin->GetBinContent(ibin,jbin);
+			double F = pull_2D_histogram_10bins->GetBinContent(ibin,jbin);
+			double E = fulldata_varfithist_10bin->GetBinError(ibin,jbin);
+			pull_2D_histogram_10bins->SetBinContent(ibin,jbin,(D-F)/E);
+		}
+	}
+
+    Float_t target = 50.;
+	int nBinAdapt = TMath::Nint(fulldata_varfithist_10bin->GetSumOfWeights()/target); //target 30 entries per bins
+	if(nBinAdapt<16) nBinAdapt=16;//set a reasonable minimum
+	AdaptBin binning("pullHist", nBinAdapt, minbin1, maxbin1, minbin2, maxbin2);
+	std::vector<int> divisions_;
+	TH2Poly* theHisto_ = new TH2Poly("name_", "", minbin1, maxbin1, minbin2, maxbin2);
+
+	double x, y, n;
+    int nBins(600);
+	TH2* dataHist   = static_cast<TH2*>(fulldata.createHistogram("dataHist", varfit1, RooFit::Binning(nBins, minbin1, maxbin1),RooFit::YVar(varfit2,RooFit::Binning(nBins, minbin2, maxbin2))));
+    TH2* modelHist  = static_cast<TH2*>(Total_Fit_function.createHistogram("fit_2d_hist", varfit1, RooFit::Binning(nBins, minbin1, maxbin1),RooFit::YVar(varfit2,RooFit::Binning(nBins, minbin2, maxbin2))));
+
+    binning.loadDataFromHist(dataHist);
+	TH2Poly* dataPoly = binning.getHisto("dataPoly");
+	TH2Poly* modelPoly = binning.getHisto("modelPoly");
+
+	//fill adaptive binning histograms
+	for(uint ibin=1; ibin <= nBins; ++ibin) 
+    {
+		for(uint jbin=1; jbin <= nBins; ++jbin) 
+        {
+			x = dataHist->GetXaxis()->GetBinCenter(ibin);
+			y = dataHist->GetYaxis()->GetBinCenter(jbin);
+			n = dataHist->GetBinContent( ibin, jbin );
+			dataPoly->Fill(x, y, n);
+			x = modelHist->GetXaxis()->GetBinCenter(ibin);
+			y = modelHist->GetYaxis()->GetBinCenter(jbin);
+			n = modelHist->GetBinContent( ibin, jbin );
+			modelPoly->Fill(x, y, n);
+		}
+	}
+	for(int ibin=1; ibin<=dataPoly->GetNumberOfBins(); ++ibin) {
+		double D = dataPoly->GetBinContent(ibin);
+		double F = modelPoly->GetBinContent(ibin);
+		double E = TMath::Sqrt(D);
+		modelPoly->SetBinContent(ibin,(D-F)/E);
+	}
+
+    c2d.cd();
+    c2d.SetLeftMargin(0.105);
+    c2d.SetRightMargin(0.105);
+
+	const Int_t NRGBs2 = 4;
+	const Int_t NCont2 = 255;
+	Double_t stops2[NRGBs2]  = { 0.00, 0.45, 0.55, 1.00};
+	Double_t reds2[NRGBs2]   = { 0.00, 1.00, 1.00, 1.00};
+	Double_t greens2[NRGBs2] = { 0.00, 1.00, 1.00, 0.00};
+	Double_t blues2[NRGBs2]  = { 1.00, 1.00, 1.00, 0.00};
+	TColor::CreateGradientColorTable(NRGBs2, stops2, reds2, greens2, blues2, NCont2);
+
+    pull_2D_histogram_10bins->SetTitle("Pull Plot");
+    pull_2D_histogram_10bins->GetXaxis()->SetTitle(analvar1_tobefit->Xlabel());
+    pull_2D_histogram_10bins->GetXaxis()->SetTitleSize(0.025);
+    pull_2D_histogram_10bins->GetXaxis()->SetTitleOffset(1.5);
+    pull_2D_histogram_10bins->GetXaxis()->SetLabelSize(0.025);
+    pull_2D_histogram_10bins->GetYaxis()->SetTitle(analvar2_tobefit->Xlabel());
+    pull_2D_histogram_10bins->GetYaxis()->SetTitleSize(0.025);
+    pull_2D_histogram_10bins->GetYaxis()->SetTitleOffset(1.25);
+    pull_2D_histogram_10bins->GetYaxis()->SetLabelSize(0.025);
+    pull_2D_histogram_10bins->GetZaxis()->SetTitle("#frac{Data-Model}{#sigma}");
+    pull_2D_histogram_10bins->GetZaxis()->SetTitleSize(0.025);
+    pull_2D_histogram_10bins->GetZaxis()->SetTitleOffset(0.8);
+    pull_2D_histogram_10bins->GetZaxis()->SetLabelSize(0.025);
+    pull_2D_histogram_10bins->Draw("colz");
+    string outplot_filename2dpull = string(varfit1_name)+"_"+string(varfit2_name)+"_"+varfit1_sample_data+"_FITPULL.png";
+    c2d.SaveAs(outplot_filename2dpull.data());
+
     cout << "Fit to data integral " << fulldata.numEntries() * (1 - frac_bkg.getVal()) << endl;
     cout << "Fit to data integral " << frac_sig1.getVal() << endl;
-    cout << "Chi2 of the data fit: " << chi2_datafit << endl;
+    cout << "Chi2 of the data fit to " << varfit1_name << " : " << chi2_datafit << endl;
+    cout << "Chi2 of the data fit to " << varfit2_name << " : " << chi2_datafit2 << endl;
+
+    c2d.cd();
+    c2d.Clear();
+    modelPoly->SetTitle(TString::Format("Pull Plot with Polygonal Bins (%.0f entries per bin)", target).Data());
+    modelPoly->GetXaxis()->SetTitle(analvar1_tobefit->Xlabel());
+    modelPoly->GetXaxis()->SetTitleSize(0.025);
+    modelPoly->GetXaxis()->SetTitleOffset(1.5);
+    modelPoly->GetXaxis()->SetLabelSize(0.025);
+    modelPoly->GetYaxis()->SetTitle(analvar2_tobefit->Xlabel());
+    modelPoly->GetYaxis()->SetTitleSize(0.025);
+    modelPoly->GetYaxis()->SetTitleOffset(1.25);
+    modelPoly->GetYaxis()->SetLabelSize(0.025);
+    modelPoly->GetZaxis()->SetTitle("#frac{Data-Model}{#sigma}");
+    modelPoly->GetZaxis()->SetTitleSize(0.025);
+    modelPoly->GetZaxis()->SetTitleOffset(0.8);
+    modelPoly->GetZaxis()->SetLabelSize(0.025);
+	modelPoly->GetEntries();//TODO this fixes an issue where the histogram doesn't plot - I've given up trying to figure out why this works
+	modelPoly->SetMinimum(-4.);
+	modelPoly->SetMaximum( 4.);
+	modelPoly->Draw("colz");
+    c2d.SaveAs(("varbin_"+outplot_filename2dpull).data());
 
     return 0;
 }

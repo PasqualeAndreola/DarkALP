@@ -14,16 +14,23 @@
 /*These namespaces can be useful*/
 using namespace std;
 
-inline auto b_m_constrained_3body = [](Double_t jpsi_px, Double_t jpsi_py, Double_t jpsi_pz, Double_t jpsi_massPDG,
-                                       Double_t kaon_px, Double_t kaon_py, Double_t kaon_pz, Double_t kaon_E,
-                                       Double_t pion_px, Double_t pion_py, Double_t pion_pz, Double_t pion_E)
+inline auto b_m_jpsiconstrained_k_pi0misidentifiedask = [](Double_t jpsi_px, Double_t jpsi_py, Double_t jpsi_pz,
+                                                           Double_t kaon_px, Double_t kaon_py, Double_t kaon_pz, Double_t kaon_E,
+                                                           Double_t pion_px, Double_t pion_py, Double_t pion_pz, Double_t pion_E)
 {
-  TLorentzVector jpsiained;
-  jpsiained.SetXYZM(jpsi_px, jpsi_py, jpsi_pz, jpsi_massPDG);
-  TLorentzVector child_not_constrained_1(kaon_px, kaon_py, kaon_pz, kaon_E);
-  TLorentzVector child_not_constrained_2(pion_px, pion_py, pion_pz, pion_E);
+  Double_t JPSI_MASS = 3096.900;
+  Double_t KAON_MASS = 493.677;
+  Double_t PION_MASS = 139.570;
 
-  return (jpsiained + child_not_constrained_1 + child_not_constrained_2).M();
+  TLorentzVector jpsi_p4, pionmisidentifiedask_p4;
+  jpsi_p4.SetXYZM(jpsi_px, jpsi_py, jpsi_pz, JPSI_MASS);
+  TLorentzVector kaon_p4(kaon_px, kaon_py, kaon_pz, kaon_E);
+  pionmisidentifiedask_p4.SetXYZM(pion_px, pion_py, pion_pz, KAON_MASS-PION_MASS);
+  TLorentzVector b_fourmomentum_jpsiconstrained = jpsi_p4 + kaon_p4 + pionmisidentifiedask_p4;
+  
+  Double_t mass = b_fourmomentum_jpsiconstrained.M();
+
+  return mass;
 };
 
 inline auto b_m_jpsiconstrained_3body = [](Double_t jpsi_px, Double_t jpsi_py, Double_t jpsi_pz,
@@ -38,6 +45,22 @@ inline auto b_m_jpsiconstrained_3body = [](Double_t jpsi_px, Double_t jpsi_py, D
   TLorentzVector b_fourmomentum_jpsiconstrained = jpsi_p4 + kaon_p4 + pion_p4;
   
   Double_t mass = b_fourmomentum_jpsiconstrained.M();
+
+  return mass;
+};
+
+inline auto b_m_omegaconstrained_3body = [](Double_t omega_px, Double_t omega_py, Double_t omega_pz,
+                                           Double_t kaon_px, Double_t kaon_py, Double_t kaon_pz, Double_t kaon_E,
+                                           Double_t pion_px, Double_t pion_py, Double_t pion_pz, Double_t pion_E)
+{
+  Double_t OMEGA_MASS = 782.66;
+  TLorentzVector omega_p4;
+  omega_p4.SetXYZM(omega_px, omega_py, omega_pz, OMEGA_MASS);
+  TLorentzVector kaon_p4(kaon_px, kaon_py, kaon_pz, kaon_E);
+  TLorentzVector pion_p4(pion_px, pion_py, pion_pz, pion_E);
+  TLorentzVector b_fourmomentum_omegaconstrained = omega_p4 + kaon_p4 + pion_p4;
+  
+  Double_t mass = b_fourmomentum_omegaconstrained.M();
 
   return mass;
 };

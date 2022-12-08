@@ -28,12 +28,24 @@ int FitterMass(pair<string, string> *input_file_tree,
     vector<RooRealVar *> roofitinputvar;
     RooRealVar varfit = RooRealVar(varfit_name, varfit_title, minbin, maxbin, varfit_dimension);
     roofitinputvar.push_back(&varfit);
-    RooRealVar mvacut_kbdt1 = RooRealVar("mvacut_kbdt1", "BDT1 MVA cut", 0, 1, "");
-    roofitinputvar.push_back(&mvacut_kbdt1);
+    //RooRealVar mvacut_kbdt1 = RooRealVar("mvacut_kbdt1", "BDT1 MVA cut", 0, 1, "");
+    //roofitinputvar.push_back(&mvacut_kbdt1);
     RooRealVar x_m = RooRealVar("x_m", "Mass of the children cut", 0, 1e6, "");
     roofitinputvar.push_back(&x_m);
     RooRealVar x_m_pi0constrained = RooRealVar("x_m_pi0constrained", "Mass of the children constraining the pi0", 0, 1e6, "");
     roofitinputvar.push_back(&x_m_pi0constrained);
+
+    RooArgSet thevars = RooArgSet();
+    for (vector<RooRealVar *>::iterator rooiter = roofitinputvar.begin(); rooiter != roofitinputvar.end(); rooiter++)
+        thevars.add(**rooiter);
+
+    const char *data_file_name = input_file_tree->first.data();
+    const char *data_tree_name = input_file_tree->second.data();
+    TTree *data_tree = (TTree *)(TFile::Open(data_file_name)->Get(data_tree_name));
+    RooDataSet fulldata = RooDataSet("data", "data", data_tree->GetTree(), thevars, selection_cut.data());
+    Int_t dataentries = fulldata.numEntries();
+    TH1F *fulldata_varfithist = new TH1F("", "", bins, minbin, maxbin);
+    fulldata.fillHistogram(fulldata_varfithist, varfit);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //      varfit ranges
@@ -65,57 +77,92 @@ int FitterMass(pair<string, string> *input_file_tree,
     RooExponential bkg = RooExponential("bkg_expo", "bkg_expo", varfit, slope);
 
     // B->Jpsi KPi crystal ball
-    RooRealVar jpsikpi_mean = RooRealVar("jpsikpi_mean", "#mu", 5297, 0, 6000);
-    RooRealVar jpsikpi_sigma = RooRealVar("jpsikpi_sigma", "#sigma_{1}", 30, 0, 1000);
-    RooRealVar jpsikpi_n = RooRealVar("jpsikpi_n", "n_{1}", 50, 0., 1e6);
-    RooRealVar jpsikpi_alpha = RooRealVar("jpsikpi_alpha", "#alpha_{1}", 2, -10, 10.);
-    RooCBShape jpsikpi_func = RooCBShape("jpsikpi_func", "jpsikpi_func", varfit, jpsikpi_mean, jpsikpi_sigma, jpsikpi_alpha, jpsikpi_n);
+    RooRealVar jpsikpi_mean = RooRealVar("jpsikpi_mean", "#mu", 5279, minbin, maxbin);
+    RooRealVar jpsikpi_sigma = RooRealVar("jpsikpi_sigma", "#sigma_{1}", 30, 0, maxbin-minbin);
+    RooRealVar jpsikpi_n = RooRealVar("jpsikpi_n", "n_{1}", 3);
+    RooRealVar jpsikpi_alpha = RooRealVar("jpsikpi_alpha", "#alpha_{1}", 1, 0., 6.);
+    RooCBShape jpsikpi_func = RooCBShape((string(varfit_name)+"component_jpsikpi_func").data(), "Crystal Ball", varfit, jpsikpi_mean, jpsikpi_sigma, jpsikpi_alpha, jpsikpi_n);
 
     // B->Jpsi KPi second crystal ball
-    RooRealVar jpsikpi_sigma2 = RooRealVar("jpsikpi_sigma2", "#sigma_{2}", 30, 0, 1000);
-    RooRealVar jpsikpi_n2 = RooRealVar("jpsikpi_n2", "n_{2}", 1.77, 0., 500.);
-    RooRealVar jpsikpi_alpha2 = RooRealVar("jpsikpi_alpha2", "#alpha_{2}", -2, -4, 4.);
+    RooRealVar jpsikpi_widthratio = RooRealVar("jpsikpi_widthratio", "#sigma Ratio", 1.1, 0., 1e6);
+    RooFormulaVar jpsikpi_sigma2 = RooFormulaVar("jpsikpi_sigma2", "#sigma_{2}", "jpsikpi_widthratio*jpsikpi_sigma", RooArgList(jpsikpi_widthratio, jpsikpi_sigma));
+    RooRealVar jpsikpi_n2 = RooRealVar("jpsikpi_n2", "n_{2}", 3);
+    RooRealVar jpsikpi_alpha2 = RooRealVar("jpsikpi_alpha2", "#alpha_{2}", -1., -6., -0.);
     RooCBShape jpsikpi_func2 = RooCBShape("jpsikpi_func2", "jpsikpi_func2", varfit, jpsikpi_mean, jpsikpi_sigma2, jpsikpi_alpha2, jpsikpi_n2);
 
-    // Gaussian
-    RooRealVar gaussian_mean = RooRealVar("gaussian_mean", "gaussian_mean", 5279, 5100, 5300);
-    RooRealVar gaussian_width = RooRealVar("gaussian_width", "gaussian_width", 25, 1e-6, 100);
-    RooGaussian signal_gauss = RooGaussian("Signal_Gaus", "Signal Gaus", varfit, gaussian_mean, gaussian_width);
+    // JPsi->3Pi crystal ball
+    RooRealVar jpsi_3pi_mean = RooRealVar("jpsi_3pi_mean", "#mu", 3096.9, minbin, maxbin);
+    RooRealVar jpsi_3pi_sigma = RooRealVar("jpsi_3pi_sigma", "#sigma_{1}", 30, 0, maxbin-minbin);
+    RooRealVar jpsi_3pi_n = RooRealVar("jpsi_3pi_n", "n_{1}", 3);
+    RooRealVar jpsi_3pi_alpha = RooRealVar("jpsi_3pi_alpha", "#alpha_{1}", 1, 0., 6.);
+    RooCBShape jpsi_3pi_func = RooCBShape((string(varfit_name)+"component_jpsi_3pi_func").data(), "Crystal Ball", varfit, jpsi_3pi_mean, jpsi_3pi_sigma, jpsi_3pi_alpha, jpsi_3pi_n);
+
+    // JPsi->3Pi second crystal ball
+    RooRealVar jpsi_3pi_widthratio = RooRealVar("jpsi_3pi_widthratio", "#sigma Ratio", 1.1, 0., 1e6);
+    RooFormulaVar jpsi_3pi_sigma2 = RooFormulaVar("jpsi_3pi_sigma2", "#sigma_{2}", "jpsi_3pi_widthratio*jpsi_3pi_sigma", RooArgList(jpsi_3pi_widthratio, jpsi_3pi_sigma));
+    RooRealVar jpsi_3pi_n2 = RooRealVar("jpsi_3pi_n2", "n_{2}", 3);
+    RooRealVar jpsi_3pi_alpha2 = RooRealVar("jpsi_3pi_alpha2", "#alpha_{2}", -1., -6., -0.);
+    RooCBShape jpsi_3pi_func2 = RooCBShape("jpsi_3pi_func2", "jpsi_3pi_func2", varfit, jpsi_3pi_mean, jpsi_3pi_sigma2, jpsi_3pi_alpha2, jpsi_3pi_n2);
+
+    // omega3pi KPi crystal ball
+    RooRealVar omega3pi_mean = RooRealVar("omega3pi_mean", "#mu", 782, 0, 6000);
+    RooRealVar omega3pi_sigma = RooRealVar("omega3pi_sigma", "#sigma_{1}", 30, 0, 1000);
+    RooRealVar omega3pi_n = RooRealVar("omega3pi_n", "n_{1}", 3);
+    RooRealVar omega3pi_alpha = RooRealVar("omega3pi_alpha", "#alpha_{1}", 1, 0, 6);
+    RooCBShape omega3pi_func = RooCBShape((string(varfit_name)+"component_omega3pi_func").data(), "Crystal Ball", varfit, omega3pi_mean, omega3pi_sigma, omega3pi_alpha, omega3pi_n);
+
+    // omega3pi KPi second crystal ball
+    RooRealVar omega3pi_widthratio = RooRealVar("omega3pi_widthratio", "#sigma Ratio", 0.6, 0.2, 0.9);
+    RooFormulaVar omega3pi_sigma2 = RooFormulaVar("omega3pi_sigma2", "#sigma_{2}", "omega3pi_widthratio*omega3pi_sigma", RooArgList(omega3pi_widthratio, omega3pi_sigma));
+    RooRealVar omega3pi_n2 = RooRealVar("omega3pi_n2", "n_{2}", 3);
+    RooRealVar omega3pi_alpha2 = RooRealVar("omega3pi_alpha2", "#alpha_{2}", -1, -6., 0.);
+    RooCBShape omega3pi_func2 = RooCBShape((string(varfit_name)+"component_omega3pi_func2").data(), "Crystal Ball 2", varfit, omega3pi_mean, omega3pi_sigma2, omega3pi_alpha2, omega3pi_n2);
 
     // Gaussian
-    RooRealVar gaussian_mean2 = RooRealVar("gaussian_mean2", "gaussian_mean2", 5450, 5300, 5600);
-    RooRealVar gaussian_width2 = RooRealVar("gaussian_width2", "gaussian_width2", 25, 1e-6, 100);
-    RooGaussian signal_gauss2 = RooGaussian("Signal_Gaus2", "Signal Gaus2", varfit, gaussian_mean2, gaussian_width2);
+    RooRealVar gaussian_mean = RooRealVar("gaussian_mean", "gaussian_mean", 5279, minbin, maxbin);
+    RooRealVar gaussian_width = RooRealVar("gaussian_width", "gaussian_width", 25, 1e-6, 1e3);
+    RooGaussian signal_gauss = RooGaussian((string(varfit_name)+"component_Signal_Gaus").data(), "Signal Gaus", varfit, gaussian_mean, gaussian_width);
+
+    // Gaussian
+    RooRealVar bomegakpi_gaussian_widthratio = RooRealVar("bomegakpi_gaussian_widthratio", "#sigma Ratio", 1.1, 0.2, 50);
+    RooFormulaVar bomegakpi_gaussian_sigma2 = RooFormulaVar("bomegakpi_gaussian__sigma2", "#sigma_{2}", "bomegakpi_gaussian_widthratio*gaussian_width", RooArgList(bomegakpi_gaussian_widthratio, gaussian_width));
+    RooGaussian signal_gauss2 = RooGaussian((string(varfit_name)+"component_Signal_Gaus2").data(), "Signal Gaus2", varfit, gaussian_mean, bomegakpi_gaussian_sigma2);
+
+    // Breit Wigner
+    RooRealVar breit_mean_omega = RooRealVar("breit_mean_omega", "#mu#left(m_{#omega}#right)", 5350, minbin, maxbin);
+    RooRealVar breit_width_omega = RooRealVar("breit_width_omega", "#sigma#left(m_{#omega}#right)", 25, 1e-6, 200);
+    RooBreitWigner breit_wigner_omega = RooBreitWigner((string(varfit_name)+"component_breit_wigner_omega").data(), "#omega Breit Wigner", varfit, breit_mean_omega , breit_width_omega);
 
     // fractional yields
     // you need these and not absolute yields in combine
     // don"t fit with Extended!
-    RooRealVar frac_sig = RooRealVar("frac_sig", "f_{1}", 0.15, 0., 1.);
-    RooRealVar frac_pi = RooRealVar("frac_pi", "frac_pi", 6.31013e-01, 0., 1.);
-    RooRealVar frac_bkg = RooRealVar("frac_bkg", "frac_bkg", 0.7, 0., 1.);
+    RooRealVar frac_sig = RooRealVar("frac_sig", "f_{1}", 1e3, -0, dataentries);
+    RooRealVar frac_sig2 = RooRealVar("frac_sig2", "f_{2}", 1e3, -0, dataentries);
+    RooRealVar frac_pi = RooRealVar("frac_pi", "frac_pi", 6.31013e-01, 0., dataentries);
+    RooRealVar frac_bkg = RooRealVar("frac_bkg", "frac_bkg", 0.7, -0, dataentries);
     // fixed to PDG (Jpsi K) / (Jpsi pi) value https://pdglive.lbl.gov/BranchingRatio.action?desig=14&parCode=S091
     Double_t frac_k_value = 0.079 / (1. + 0.079);
     RooRealVar frac_k = RooRealVar("frac_k", "frac_k", frac_k_value);
 
     // signal function
-    RooAddPdf bkg_fit_function = RooAddPdf(
-        "bkg_fit_function",
-        "Expo",
-        RooArgList(bkg),
-        RooArgList(frac_bkg));
-
     RooAddPdf signal_fit_function = RooAddPdf(
         "signal_fit_function",
-        "Gaussian+Expo",
-        RooArgList(signal_gauss, bkg),
+        "signal_fit_function",
+        RooArgList(jpsi_3pi_func, jpsi_3pi_func2),
+        RooArgList(frac_sig2));
+
+    RooAddPdf Total_Fit_Function = RooAddPdf(
+        "Total_Fit_Function",
+        "Sum of Two Crystal Ball",
+        RooArgList(jpsi_3pi_func, jpsi_3pi_func2),
         RooArgList(frac_sig));
 
     // signal Jpsi pi plus Jpsi K
-    // RooAddPdf::pi_plus_k_fit_function[ frac_k * jpsikpi_func + [%] * signal_fit_function ]
+    // RooAddPdf::pi_plus_k_fit_function[ frac_k * jpsikpi_func + [%] * Total_Fit_Function ]
     /*RooAddPdf pi_plus_k_fit_function = RooAddPdf(
         "pi_plus_k_fit_function",
         "pi_plus_k_fit_function",
-        RooArgList(jpsikpi_func, signal_fit_function), // order matters for coefficients in next line https://www.nikhef.nl/~vcroft/SignalAndBackground-CompositeModels.html
+        RooArgList(jpsikpi_func, Total_Fit_Function), // order matters for coefficients in next line https://www.nikhef.nl/~vcroft/SignalAndBackground-CompositeModels.html
         RooArgList(frac_k));*/
 
     /*
@@ -140,20 +187,10 @@ int FitterMass(pair<string, string> *input_file_tree,
             RooArgList(mc_narrow_gaus, mc_broad_gaus),
             RooArgList(mc_nsig_narrow, mc_nsig_broad));
     */
-    RooArgSet thevars = RooArgSet();
-    for (vector<RooRealVar *>::iterator rooiter = roofitinputvar.begin(); rooiter != roofitinputvar.end(); rooiter++)
-        thevars.add(**rooiter);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // selection on data, plotting, fitting
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    const char *data_file_name = input_file_tree->first.data();
-    const char *data_tree_name = input_file_tree->second.data();
-    TTree *data_tree = (TTree *)(TFile::Open(data_file_name)->Get(data_tree_name));
-    RooDataSet fulldata = RooDataSet("data", "data", data_tree->GetTree(), thevars, selection_cut.data());
-    TH1F *fulldata_varfithist = new TH1F("", "", bins, minbin, maxbin);
-    fulldata.fillHistogram(fulldata_varfithist, varfit);
 
     // plot
     TCanvas c1 = TCanvas("c1", "", 1920, 1080);
@@ -168,11 +205,22 @@ int FitterMass(pair<string, string> *input_file_tree,
 
     // fit
     // results_data = fit_function.fitTo(fulldata, RooFit.Extended(True), RooFit.Save())
-    RooFitResult *results_data = signal_fit_function.fitTo(fulldata, RooFit::Save());
+    RooFitResult *results_data = Total_Fit_Function.fitTo(fulldata, RooFit::Save());
 
-    signal_fit_function.plotOn(frame, Name("signal_fit_function"));
+    Total_Fit_Function.plotOn(frame, Name("Total_Fit_Function"));
     Double_t chi2_datafit = frame->chiSquare();
-    signal_fit_function.plotOn(frame, Name("signal_gauss"), RooFit::Components(signal_gauss.GetName()), RooFit::LineStyle(kDashed), RooFit::LineColor(kRed));
+    TIterator *fit_function_components = Total_Fit_Function.getComponents()->createIterator();
+    int i=1;
+    while (RooAbsArg* fitcompit=(RooAbsArg*)fit_function_components->Next())
+    {
+        size_t fitcomptoplot = string(fitcompit->GetName()).find(string(varfit_name)+"component");
+        if (fitcomptoplot != string::npos)
+        {
+            Total_Fit_Function.plotOn(frame, Name(fitcompit->GetName()), RooFit::Components(fitcompit->GetName()), 
+                                    RooFit::LineStyle(kDashed), RooFit::LineColor(EColorPalette(i)));
+            i++;
+        }
+    }
     frame->GetXaxis()->SetTitle(analvar_tobefit->Xlabel().Data());
     frame->GetXaxis()->SetTitleSize(0.03);
     frame->GetXaxis()->SetLabelSize(0.03);
@@ -181,7 +229,6 @@ int FitterMass(pair<string, string> *input_file_tree,
     frame->GetXaxis()->SetTitleOffset(1.3);
     frame->Draw();
     c1.Update();
-    // CMS_lumi(c1, 4, 0, cmsText = "CMS", extraText = "   Preliminary", lumi_13TeV = "60 fb^{-1}");
 
     Float_t padtextsize = analvar_tobefit->variable_padtextsize;
     TLegend *leg = analvar_tobefit->SetLegendPosAuto();
@@ -189,12 +236,21 @@ int FitterMass(pair<string, string> *input_file_tree,
     leg->SetFillColor(0);
     leg->SetFillStyle(0);
     leg->SetTextFont(10);*/
-    leg->SetTextSize(padtextsize);
-    leg->AddEntry("signal_fit_function", "Fit function", "L");
-    leg->AddEntry("signal_gauss", "B^{0}#rightarrowJ/#PsiK#pi", "L");
+    leg->AddEntry(Total_Fit_Function.GetName(), Total_Fit_Function.GetTitle(), "L");
+    fit_function_components = Total_Fit_Function.getComponents()->createIterator();
+    while (RooAbsArg* fitcompit=(RooAbsArg*)fit_function_components->Next())
+    {
+        size_t fitcomptoplot = string(fitcompit->GetName()).find(string(varfit_name)+"component");
+        if (fitcomptoplot != string::npos)
+        {
+         leg->AddEntry(fitcompit->GetName(), fitcompit->GetTitle(), "L");
+        }
+    }
     leg->AddEntry("Data", "Data in the MC sample", "EP");
     leg->Draw("SAME");
+    leg->SetTextSize(padtextsize);
     c1.Update();
+
 
     TPaveStats *pvstat = analvar_tobefit->SetStatAuto(fulldata_varfithist, leg);
     pvstat->SetTextSize(padtextsize);
@@ -202,7 +258,7 @@ int FitterMass(pair<string, string> *input_file_tree,
     c1.Update();
 
     // Printing parameters on the plot
-    RooArgSet *params = signal_fit_function.getParameters(varfit);
+    RooArgSet *params = Total_Fit_Function.getParameters(varfit);
     params->writeToStream(cout, false);
     int params_size = params->getSize();
     Float_t pavetext_width = analvar_tobefit->variable_textpadxlength, pavetext_entryheight = analvar_tobefit->variable_textpadentryyheight;
@@ -211,7 +267,7 @@ int FitterMass(pair<string, string> *input_file_tree,
     pt->SetTextSize(padtextsize/2);
     pt->SetBorderSize(1);
     pt->SetFillColor(kWhite);
-    pt->AddText(TString::Format("Fit function: %s", signal_fit_function.getTitle().Data()))->SetTextAlign(22);    
+    pt->AddText(TString::Format("Fit function: %s", Total_Fit_Function.getTitle().Data()))->SetTextAlign(22);    
     pt->Draw("SAME");
     c1.Update();
     
@@ -249,7 +305,7 @@ int FitterMass(pair<string, string> *input_file_tree,
     RooWorkspace *bchybridworkspace = new RooWorkspace("bchybridworkspace", "bchybridworkspace");
 
     // Import model and all its components into the workspace
-    bchybridworkspace->import(signal_fit_function);
+    bchybridworkspace->import(Total_Fit_Function);
 
     // Import data into the workspace
     bchybridworkspace->import(fulldata);
@@ -263,6 +319,7 @@ int FitterMass(pair<string, string> *input_file_tree,
     cout << "Fit to data integral " << fulldata.numEntries() * (1 - frac_bkg.getVal()) << endl;
     cout << "Fit to data integral " << frac_sig.getVal() << endl;
     cout << "Chi2 of the data fit: " << chi2_datafit << endl;
-
+    cout << "frac sig 1 " << frac_sig.getVal() << endl;
+    cout << "frac sig 2 " << frac_sig2.getVal() << endl;
     return 0;
 }

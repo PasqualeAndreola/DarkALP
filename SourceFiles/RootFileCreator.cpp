@@ -40,8 +40,15 @@ int RootFileCreatorDefine(pair<string, string> input_file_tree_name,
     ROOT::RDF::RNode output_dataframe = input_dataframe;
 
     // Defining the new columns
-    output_dataframe = input_dataframe.Define("b_m_jpsiconstrained", b_m_jpsiconstrained_3body, anvar_tobedefined_variables["b_m_jpsiconstrained"]);
-    output_dataframe = output_dataframe.Define("x_m_pi0constrained", x_m_pionstrained_3body, anvar_tobedefined_variables["x_m_pi0constrained"]);
+    output_dataframe = input_dataframe;
+    if (output_dataframe.HasColumn("b_m_jpsiconstrained")==false)
+        output_dataframe = input_dataframe.Define("b_m_jpsiconstrained", b_m_jpsiconstrained_3body, anvar_tobedefined_variables["b_m_jpsiconstrained"]);
+    if (output_dataframe.HasColumn("b_m_omegaconstrained")==false)
+        output_dataframe = output_dataframe.Define("b_m_omegaconstrained", b_m_omegaconstrained_3body, anvar_tobedefined_variables["b_m_omegaconstrained"]);
+    if (output_dataframe.HasColumn("x_m_pi0constrained")==false)
+        output_dataframe = output_dataframe.Define("x_m_pi0constrained", x_m_pionstrained_3body, anvar_tobedefined_variables["x_m_pi0constrained"]);
+    if (output_dataframe.HasColumn("b_m_jpsiconstrained_k_pi0misidentifiedask")==false)
+        output_dataframe = output_dataframe.Define("b_m_jpsiconstrained_k_pi0misidentifiedask", b_m_jpsiconstrained_k_pi0misidentifiedask, anvar_tobedefined_variables["b_m_jpsiconstrained_k_pi0misidentifiedask"]);
     
     // Defining the variables that has to be written in the tree
     vector<string> vars_tobe_written = output_dataframe.GetColumnNames();
@@ -185,6 +192,7 @@ int RootFileCreatorFilterer(TChain *treechain_to_filter,
 int RootFileCreatorTree(TTree *treetobewritten,
                         string output_filename,
                         string output_path,
+                        vector<string> branchestobewritten,
                         chrono::_V2::system_clock::time_point start,
                         bool outputprint,
                         bool debug)
@@ -216,7 +224,17 @@ int RootFileCreatorTree(TTree *treetobewritten,
     outputfile->cd();
     cout << "Tree current file: " << gFile->GetName() << endl;
     TTree *treetobewritten_clone = treetobewritten->CloneTree();
-    treetobewritten_clone->Write("", TObject::kOverwrite);
+    if (branchestobewritten.size()>0)
+    {
+        for(vector<string>::iterator branchit = branchestobewritten.begin(); branchit != branchestobewritten.end(); branchit++)
+        {
+            treetobewritten->GetBranch(branchit->data())->Write();
+        }
+    }
+    else
+    {
+        treetobewritten_clone->Write("", TObject::kOverwrite);
+    }
     outputfile->Close();
 
     // Disabling implicit Multi-threading
@@ -225,6 +243,49 @@ int RootFileCreatorTree(TTree *treetobewritten,
     return 0;
 }
 
+int RootFileCreatorTreeBranches(TTree *treetobewritten,
+                                vector<string> branchestobewritten,
+                                string output_filename,
+                                string output_path,
+                                chrono::_V2::system_clock::time_point start,
+                                bool outputprint,
+                                bool debug)
+{
+    // Enabling implicit Multi-threading
+    ROOT::EnableImplicitMT();
+
+    // Purging the input filename from the tree and its extension to collect a pure name
+    string filename_clean;
+    if (output_filename.compare("") == 0)
+        filename_clean = treetobewritten->GetCurrentFile()->GetName();
+    else
+        filename_clean = output_filename;
+
+    RootFileCreatorExtensionPathPurger(&filename_clean);
+    if (outputprint == false)
+        cout << filename_clean.data() << endl;
+
+    // Opening the output file and changing directory
+    TFile *outputfile;
+
+    // Write the tree to a new file. The tree name is the original one
+    // Check if an output file name is specified, otherwise "_CREATED" is appended to the original one
+    if (output_filename.compare("") == 0)
+        outputfile = TFile::Open(string(output_path + filename_clean + "_CREATED.root").data(), "UPDATE");
+    else
+        outputfile = TFile::Open(string(output_path + filename_clean + ".root").data(), "UPDATE");
+
+    outputfile->cd();
+    cout << "Tree current file: " << gFile->GetName() << endl;
+    TTree *treetobewritten_clone = treetobewritten->CloneTree();
+    treetobewritten_clone->Write();
+    outputfile->Close();
+
+    // Disabling implicit Multi-threading
+    ROOT::DisableImplicitMT();
+
+    return 0;
+}
 int RootFileCreatorExtensionPathPurger(string *stringtobepurged)
 {
     size_t inputpath_name_position = stringtobepurged->rfind("/");

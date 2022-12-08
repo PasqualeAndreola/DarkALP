@@ -18,7 +18,8 @@
 int MVACutOptimizerReader(string mva_cut_factory_filename,
                           pair<string, string> file_to_be_read,
                           vector<TMVAMethod> tmvamethods,
-                          string outputfile_name)
+                          string outputfile_name,
+                          bool testsamplefactoryefficency)
 {
     // Looping over all the input files which should get a MVA cut variable
 
@@ -28,6 +29,7 @@ int MVACutOptimizerReader(string mva_cut_factory_filename,
         TFile *eventinputfile = TFile::Open(inputfilename.data(), "UPDATE");
         ROOT::RDataFrame *dataframe_inputfile = new ROOT::RDataFrame(inputtreename.data(), inputfilename.data());
         vector<string> features_inputfile = dataframe_inputfile->GetColumnNames();
+        vector<string> mvareader_branches;
 
         TFile *mva_cut_factory_file = TFile::Open(mva_cut_factory_filename.data(), "write");
         if (mva_cut_factory_file->IsZombie() == true)
@@ -43,6 +45,17 @@ int MVACutOptimizerReader(string mva_cut_factory_filename,
 
         // Creating a dataframe which holds only names of variables with a variance greater than the threshold set up before
         string mva_cut_factory_tree_signalname = treeinthefactoryfile[1].first + "/" + treeinthefactoryfile[1].second;
+        if (testsamplefactoryefficency == true)    
+        {    
+            cout << mva_cut_factory_tree_signalname.data() << endl;
+            ROOT::RDataFrame datafactoryframe = ROOT::RDataFrame(mva_cut_factory_tree_signalname.data(), mva_cut_factory_filename);
+            cout << "Number of factory test signal events before the cut: " << datafactoryframe.Filter("classID==0").Count().GetValue() << endl;
+            for (vector<TMVAMethod>::iterator tmvamethit = tmvamethods.begin(); tmvamethit < tmvamethods.end(); tmvamethit++)
+            {            
+                TString faccut = TString(("classID==0&&")+(tmvamethit->tmvamethodcut));
+                cout << "Number of factory test signal events after the " << tmvamethit->tmvamethodname << " cut: " << datafactoryframe.Filter(faccut.Data()).Count().GetValue() << endl;
+            }
+        }
         ROOT::RDataFrame *dataframe_mva_factory = new ROOT::RDataFrame(mva_cut_factory_tree_signalname.data(), mva_cut_factory_filename);
         vector<string> features_reader = dataframe_mva_factory->GetColumnNames();
         vector<string> features_datareader;
@@ -85,10 +98,14 @@ int MVACutOptimizerReader(string mva_cut_factory_filename,
             Double_t mvacut_weight = 0, mva_cut_proba = 0, mva_cut_rarity = 0;
             char *branch_weight_name = (string("mvacut_") + methoditname).data();
             TBranch *Branch_Weight = Event->Branch(branch_weight_name, &mvacut_weight);
+            mvareader_branches.push_back(string(branch_weight_name));
             char *branch_proba_name = (string("mvaproba_") + methoditname).data();
             TBranch *Branch_Proba = Event->Branch(branch_proba_name, &mva_cut_proba);
+            mvareader_branches.push_back(string(branch_proba_name));            
             char *branch_rarity_name = (string("mvararity_") + methoditname).data();
             TBranch *Branch_Rarity = Event->Branch(branch_rarity_name, &mva_cut_rarity);
+            mvareader_branches.push_back(string(branch_rarity_name));            
+        
             for (int readerindex = 0; readerindex < event_entries; readerindex++)
             {
                 Event->GetEntry(readerindex);
@@ -113,7 +130,7 @@ int MVACutOptimizerReader(string mva_cut_factory_filename,
             {
                 TFile *outputfile = TFile::Open(outputfile_name.data(), "RECREATE");
                 outputfile->Close();
-                RootFileCreatorTree(Event, outputfile_name.data());
+                RootFileCreatorTree(Event, outputfile_name.data(), "OutputFiles/");
             }
             Branch_Weight->ResetAddress();
             Branch_Proba->ResetAddress();

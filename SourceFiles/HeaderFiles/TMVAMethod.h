@@ -20,6 +20,7 @@ class TMVAMethod
 public:
     const char *tmvamethodname = "";
     TString tmvamethodconfiguration = "";
+    TString tmvamethodcut = "";
     TMVA::Types::EMVA tmvamethodtype;
 };
 
