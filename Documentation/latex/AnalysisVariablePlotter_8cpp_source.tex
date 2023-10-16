@@ -1,0 +1,83 @@
+\hypertarget{AnalysisVariablePlotter_8cpp_source}{}\doxysection{Analysis\+Variable\+Plotter.\+cpp}
+\label{AnalysisVariablePlotter_8cpp_source}\index{SourceFiles/AnalysisVariablePlotter.cpp@{SourceFiles/AnalysisVariablePlotter.cpp}}
+\mbox{\hyperlink{AnalysisVariablePlotter_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00020}00020 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{AnalysisVariable_8h}{HeaderFiles/AnalysisVariable.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00021}00021 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{PrintFuncInfo_8h}{HeaderFiles/PrintFuncInfo.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00022}00022 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{RootFileCreator_8h}{HeaderFiles/RootFileCreator.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00023}00023 }
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00024}\mbox{\hyperlink{classAnalysisVariable_ac5250fd1ce8693b06cdd4ce79824f34f}{00024}} \textcolor{keywordtype}{int} \mbox{\hyperlink{classAnalysisVariable_ac5250fd1ce8693b06cdd4ce79824f34f}{AnalysisVariable::VariablePlotter}}(pair<string, string> *data\_holder,}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00025}00025                                       \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} *var\_to\_be\_analyzed,}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00026}00026                                       \textcolor{keywordtype}{string} cut,}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00027}00027                                       chrono::\_V2::system\_clock::time\_point start,}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00028}00028                                       \textcolor{keywordtype}{bool} debug)}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00029}00029 \{}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00030}00030     \textcolor{comment}{// Enabling implicit Multi-\/threading}}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00031}00031     ROOT::EnableImplicitMT();}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00033}00033     \textcolor{comment}{// Defining the quantities that will be used}}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00034}00034     \textcolor{keywordtype}{string} filelabel = \mbox{\hyperlink{RootFileCreator_8h_a52fb67ec670a690fd91604758afbcf45}{RootFileCreatorExtensionPathPurger}}(data\_holder-\/>first);}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00035}00035     ROOT::RDataFrame *dataframe\_analysisvariable = NULL;}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00036}00036     TCanvas canvas\_analysisvariable = TCanvas(\textcolor{stringliteral}{"{}canvas\_analysisvariable"{}}, \textcolor{stringliteral}{"{}canvas\_analysisvariable"{}}, 1920, 1080);}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00037}00037     ROOT::RDF::RResultPtr<TH1F> histogram\_analysisvariable;}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00038}00038     TLegend legend\_analysisvariable;}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00039}00039     vector<TGraph> legend\_roc\_sigvsnorm\_graph;}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00040}00040     vector<TString> legend\_roc\_sigvsnorm\_entries;}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00042}00042     \textcolor{comment}{// Loading dataframes which hold the variables needed to compute the efficiencies}}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00043}00043     \textcolor{keywordtype}{bool} fileexist = TFile(data\_holder-\/>first.data()).IsZombie();}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00044}00044     \textcolor{keywordtype}{bool} treexist = (TTree *)(TFile(data\_holder-\/>first.data()).Get(data\_holder-\/>second.data()))-\/>IsZombie();}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00045}00045     \textcolor{keywordflow}{if} (fileexist == \textcolor{keyword}{false} \&\& treexist == \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00046}00046         dataframe\_analysisvariable = \textcolor{keyword}{new} ROOT::RDataFrame(data\_holder-\/>second.data(), data\_holder-\/>first.data());}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00048}00048     \textcolor{comment}{// Looping over chosen variables in order to compute the efficiencies}}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00049}00049     Float\_t bins = var\_to\_be\_analyzed-\/>\mbox{\hyperlink{classAnalysisVariable_a82e87ff173a11bedd22dd71bc2e41066}{variable\_bins}}, min = var\_to\_be\_analyzed-\/>\mbox{\hyperlink{classAnalysisVariable_a0a3e014548f02fad0c3c309d8097d6a8}{variable\_histmin}}, max = var\_to\_be\_analyzed-\/>\mbox{\hyperlink{classAnalysisVariable_ac1a869969d95260b2be97c6057b5ec51}{variable\_histmax}};}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00050}00050     \textcolor{keywordflow}{if} (dataframe\_analysisvariable-\/>HasColumn(var\_to\_be\_analyzed-\/>\mbox{\hyperlink{classAnalysisVariable_a25c49c9818a849531e54afc235465374}{variable\_name}}) == \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00051}00051         \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00053}00053     histogram\_analysisvariable = dataframe\_analysisvariable-\/>Filter(cut.data()).Fill(TH1F(TString::Format(\textcolor{stringliteral}{"{}\%s\_sig"{}}, var\_to\_be\_analyzed-\/>\mbox{\hyperlink{classAnalysisVariable_a2b57563e92fd932cb27fa84a05adb031}{variable\_prettyname}}), TString::Format(\textcolor{stringliteral}{"{}\%s\_sig"{}}, var\_to\_be\_analyzed-\/>\mbox{\hyperlink{classAnalysisVariable_a25c49c9818a849531e54afc235465374}{variable\_name}}),}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00054}00054                                                                        bins, min, max),}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00055}00055                                                                   \{var\_to\_be\_analyzed-\/>variable\_name\});}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00057}00057     \textcolor{comment}{// Computing efficiencies and purities}}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00058}00058     histogram\_analysisvariable-\/>Sumw2();}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00059}00059     histogram\_analysisvariable-\/>Scale(1 / histogram\_analysisvariable-\/>Integral());}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00061}00061     \textcolor{comment}{// Plotting}}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00063}00063     THStack histcompare\_stack = THStack(\textcolor{stringliteral}{"{}Histstack"{}}, \textcolor{stringliteral}{"{}Histstack"{}});}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00065}00065     canvas\_analysisvariable.cd();}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00066}00066     canvas\_analysisvariable.Clear();}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00067}00067     histogram\_analysisvariable-\/>SetStats(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00068}00068     histogram\_analysisvariable-\/>SetFillStyle(1001);}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00069}00069     histogram\_analysisvariable-\/>SetMarkerStyle(kFullSquare);}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00070}00070     histogram\_analysisvariable-\/>SetMarkerSize(1);}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00071}00071     histogram\_analysisvariable-\/>SetTitle(TString::Format(\textcolor{stringliteral}{"{}\%s occurencies"{}}, var\_to\_be\_analyzed-\/>\mbox{\hyperlink{classAnalysisVariable_a2b57563e92fd932cb27fa84a05adb031}{variable\_prettyname}}));}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00072}00072     histogram\_analysisvariable-\/>GetXaxis()-\/>SetTitle(var\_to\_be\_analyzed-\/>\mbox{\hyperlink{classAnalysisVariable_a16258ba209deb83d2ee909b06050c2d6}{Xlabel}}());}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00073}00073     histogram\_analysisvariable-\/>GetYaxis()-\/>SetTitle(\textcolor{stringliteral}{"{}Normalized occurencies"{}});}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00074}00074     histogram\_analysisvariable-\/>Draw();}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00075}00075     canvas\_analysisvariable.Update();}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00077}00077     \textcolor{comment}{// Adjusting the legend}}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00078}00078     TLegend *legend = var\_to\_be\_analyzed-\/>\mbox{\hyperlink{classAnalysisVariable_a3faa7ae2770aa6ed4585b0cb1c887193}{SetLegendPosAuto}}(\textcolor{stringliteral}{"{}TR"{}}, 1);}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00079}00079     legend-\/>AddEntry(histogram\_analysisvariable-\/>GetName(), TString::Format(\textcolor{stringliteral}{"{}\%s"{}}, var\_to\_be\_analyzed-\/>\mbox{\hyperlink{classAnalysisVariable_a2b57563e92fd932cb27fa84a05adb031}{variable\_prettyname}}), \textcolor{stringliteral}{"{}PLC PMC"{}});}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00080}00080     legend-\/>SetTextSize(0.025);}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00081}00081     legend-\/>Draw(\textcolor{stringliteral}{"{}SAME"{}});}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00082}00082     \textcolor{keywordflow}{if} (var\_to\_be\_analyzed-\/>\mbox{\hyperlink{classAnalysisVariable_a4209449ed3ca832184dbf1112c924257}{variable\_logscale\_flag}} == \textcolor{keyword}{true})}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00083}00083     \{}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00084}00084         histogram\_analysisvariable-\/>SetMinimum(1e-\/4);}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00085}00085         histogram\_analysisvariable-\/>SetMaximum(1e-\/1);}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00086}00086         gPad-\/>SetLogy();}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00087}00087     \}}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00088}00088     canvas\_analysisvariable.Update();}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00089}00089     canvas\_analysisvariable.Print(TString::Format(\textcolor{stringliteral}{"{}\%s/\%s\_\%s.png"{}}, var\_to\_be\_analyzed-\/>\mbox{\hyperlink{classAnalysisVariable_a85901a05020e7c95ab321939e07419da}{variable\_histplotfolder}}, var\_to\_be\_analyzed-\/>\mbox{\hyperlink{classAnalysisVariable_a25c49c9818a849531e54afc235465374}{variable\_name}}, filelabel.data()));}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00090}00090     canvas\_analysisvariable.Clear();}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00091}00091     legend-\/>Clear();}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00092}00092     gPad-\/>SetLogy(0);}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00093}00093 }
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00094}00094     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{AnalysisVariablePlotter_8cpp_source_l00095}00095 \}}
+
+\end{DoxyCode}

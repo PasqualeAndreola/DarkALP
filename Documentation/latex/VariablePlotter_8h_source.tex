@@ -1,0 +1,46 @@
+\hypertarget{VariablePlotter_8h_source}{}\doxysection{Variable\+Plotter.\+h}
+\label{VariablePlotter_8h_source}\index{SourceFiles/HeaderFiles/VariablePlotter.h@{SourceFiles/HeaderFiles/VariablePlotter.h}}
+\mbox{\hyperlink{VariablePlotter_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00006}00006 \textcolor{preprocessor}{\#ifndef VARIABLEPLOTTER\_H}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00007}00007 \textcolor{preprocessor}{\#define VARIABLEPLOTTER\_H}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00010}00010 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00011}00011 \textcolor{preprocessor}{\#include <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00012}00012 \textcolor{preprocessor}{\#include <TROOT.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00013}00013 \textcolor{preprocessor}{\#include "{}ROOT/RDataFrame.hxx"{}}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00014}00014 \textcolor{preprocessor}{\#include <TString.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00015}00015 \textcolor{preprocessor}{\#include <TFile.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00016}00016 \textcolor{preprocessor}{\#include <TTree.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00017}00017 \textcolor{preprocessor}{\#include <TH1F.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00018}00018 \textcolor{preprocessor}{\#include <THStack.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00019}00019 \textcolor{preprocessor}{\#include <TH2F.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00020}00020 \textcolor{preprocessor}{\#include <TGraph.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00021}00021 \textcolor{preprocessor}{\#include <TCanvas.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00022}00022 \textcolor{preprocessor}{\#include <TLegend.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00023}00023 \textcolor{preprocessor}{\#include <TLegendEntry.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00024}00024 \textcolor{preprocessor}{\#include <TPaveStats.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00025}00025 \textcolor{preprocessor}{\#include <TLorentzVector.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00026}00026 \textcolor{preprocessor}{\#include <TColor.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00027}00027 \textcolor{preprocessor}{\#include <TStyle.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00028}00028 \textcolor{preprocessor}{\#include <TGraphErrors.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00029}00029 \textcolor{preprocessor}{\#include <TFrame.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00030}00030 \textcolor{preprocessor}{\#include <TRatioPlot.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00031}00031 \textcolor{preprocessor}{\#include <TPaveText.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00032}00032 \textcolor{preprocessor}{\#include <TMultiGraph.h>}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00033}00033 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{AnalysisVariable_8h}{AnalysisVariable.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00035}00035 \textcolor{comment}{/*These namespaces can be useful*/}}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00036}00036 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00038}\mbox{\hyperlink{VariablePlotter_8h_aa370e26e37d946f718024e04f910ed13}{00038}} \textcolor{keywordtype}{int} \mbox{\hyperlink{VariablePlotter_8h_aa370e26e37d946f718024e04f910ed13}{VariablePlotter}}(unordered\_map<\textcolor{keywordtype}{string}, pair<string, string>> data\_holder,}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00039}00039                         vector<AnalysisVariable> *tobediscriminated,}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00040}00040                         \textcolor{keywordtype}{string} cuts,}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00041}00041                         chrono::\_V2::system\_clock::time\_point start = chrono::\_V2::system\_clock::now(),}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00042}00042                         \textcolor{keywordtype}{bool} debug = \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{VariablePlotter_8h_source_l00044}00044 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

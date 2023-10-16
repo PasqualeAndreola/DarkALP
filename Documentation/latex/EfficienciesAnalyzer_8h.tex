@@ -1,0 +1,95 @@
+\hypertarget{EfficienciesAnalyzer_8h}{}\doxysection{Source\+Files/\+Header\+Files/\+Efficiencies\+Analyzer.h File Reference}
+\label{EfficienciesAnalyzer_8h}\index{SourceFiles/HeaderFiles/EfficienciesAnalyzer.h@{SourceFiles/HeaderFiles/EfficienciesAnalyzer.h}}
+
+
+Header file for \mbox{\hyperlink{EfficienciesAnalyzer_8cpp_a9af7de9eca56f919b2a52b425135a26d}{Efficiencies\+Analyzer}} function.  
+
+
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Double\+\_\+t \mbox{\hyperlink{EfficienciesAnalyzer_8h_a5e86a0510fa354834d197347848ba6d2}{Efficiencies\+Analyzer}} (unordered\+\_\+map$<$ string, pair$<$ string, string $>$ $>$ data\+\_\+holder, unordered\+\_\+map$<$ string, string $>$ mapofcuts, chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point start=chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::now(), bool outputprint=false, bool debug=false)
+\begin{DoxyCompactList}\small\item\em Function used to import selected variables from the files in input. Efficiencies of the cuts of the variables are computed and written in an output file defined by the user. \end{DoxyCompactList}\item 
+Double\+\_\+t \mbox{\hyperlink{EfficienciesAnalyzer_8h_a9d85cbcb40173087f3fba9b9c5d3b340}{Efficiencies\+Analyzer}} (unordered\+\_\+map$<$ string, pair$<$ string, string $>$ $>$ data\+\_\+holder, string cut, chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point start=chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::now(), bool outputprint=false, bool debug=false)
+\begin{DoxyCompactList}\small\item\em Function used to import selected variables from the files in input. Efficiencies of the cuts of the variables are computed and written in an output file defined by the user. \end{DoxyCompactList}\item 
+Double\+\_\+t \mbox{\hyperlink{EfficienciesAnalyzer_8h_a18e8df89f4668b6761af5e29cf0826ba}{Efficiencies\+Analyzer}} (pair$<$ string, string $>$ data\+\_\+holder, string cut, chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point start=chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::now(), bool outputprint=false, bool debug=false)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for \mbox{\hyperlink{EfficienciesAnalyzer_8cpp_a9af7de9eca56f919b2a52b425135a26d}{Efficiencies\+Analyzer}} function. 
+
+
+
+Definition in file \mbox{\hyperlink{EfficienciesAnalyzer_8h_source}{Efficiencies\+Analyzer.\+h}}.
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{EfficienciesAnalyzer_8h_a18e8df89f4668b6761af5e29cf0826ba}\label{EfficienciesAnalyzer_8h_a18e8df89f4668b6761af5e29cf0826ba}} 
+\index{EfficienciesAnalyzer.h@{EfficienciesAnalyzer.h}!EfficienciesAnalyzer@{EfficienciesAnalyzer}}
+\index{EfficienciesAnalyzer@{EfficienciesAnalyzer}!EfficienciesAnalyzer.h@{EfficienciesAnalyzer.h}}
+\doxysubsubsection{\texorpdfstring{EfficienciesAnalyzer()}{EfficienciesAnalyzer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Double\+\_\+t Efficiencies\+Analyzer (\begin{DoxyParamCaption}\item[{pair$<$ string, string $>$}]{data\+\_\+holder,  }\item[{string}]{cut,  }\item[{chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point}]{start = {\ttfamily chrono\+:\+:\+\_\+V2\+:\+:system\+\_\+clock\+:\+:now()},  }\item[{bool}]{outputprint = {\ttfamily false},  }\item[{bool}]{debug = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{EfficienciesAnalyzer_8cpp_source_l00136}{136}} of file \mbox{\hyperlink{EfficienciesAnalyzer_8cpp_source}{Efficiencies\+Analyzer.\+cpp}}.
+
+\mbox{\Hypertarget{EfficienciesAnalyzer_8h_a9d85cbcb40173087f3fba9b9c5d3b340}\label{EfficienciesAnalyzer_8h_a9d85cbcb40173087f3fba9b9c5d3b340}} 
+\index{EfficienciesAnalyzer.h@{EfficienciesAnalyzer.h}!EfficienciesAnalyzer@{EfficienciesAnalyzer}}
+\index{EfficienciesAnalyzer@{EfficienciesAnalyzer}!EfficienciesAnalyzer.h@{EfficienciesAnalyzer.h}}
+\doxysubsubsection{\texorpdfstring{EfficienciesAnalyzer()}{EfficienciesAnalyzer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Double\+\_\+t Efficiencies\+Analyzer (\begin{DoxyParamCaption}\item[{unordered\+\_\+map$<$ string, pair$<$ string, string $>$ $>$}]{data\+\_\+holder,  }\item[{string}]{cut,  }\item[{chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point}]{start,  }\item[{bool}]{outputprint,  }\item[{bool}]{debug }\end{DoxyParamCaption})}
+
+
+
+Function used to import selected variables from the files in input. Efficiencies of the cuts of the variables are computed and written in an output file defined by the user. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data\+\_\+holder} & Represents a list of pair of names\+: the first name of the pair represents the input file, whereas the second name of the pair represent the name of the tree that holds the variables. \\
+\hline
+{\em Cut} & String that expresses the cuts being used in the analysis \\
+\hline
+{\em start} & Starting time of the main function (default is the starting time of the function)\\
+\hline
+\end{DoxyParams}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em data\+\_\+holder} & Represents a pair of strings (the first one represents the file name; the second one represents the tree name) \\
+\hline
+{\em Cut} & String that expresses the cuts being used in the analysis \\
+\hline
+{\em start} & Starting time of the main function (default is the starting time of the function) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{EfficienciesAnalyzer_8cpp_source_l00083}{83}} of file \mbox{\hyperlink{EfficienciesAnalyzer_8cpp_source}{Efficiencies\+Analyzer.\+cpp}}.
+
+\mbox{\Hypertarget{EfficienciesAnalyzer_8h_a5e86a0510fa354834d197347848ba6d2}\label{EfficienciesAnalyzer_8h_a5e86a0510fa354834d197347848ba6d2}} 
+\index{EfficienciesAnalyzer.h@{EfficienciesAnalyzer.h}!EfficienciesAnalyzer@{EfficienciesAnalyzer}}
+\index{EfficienciesAnalyzer@{EfficienciesAnalyzer}!EfficienciesAnalyzer.h@{EfficienciesAnalyzer.h}}
+\doxysubsubsection{\texorpdfstring{EfficienciesAnalyzer()}{EfficienciesAnalyzer()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Double\+\_\+t Efficiencies\+Analyzer (\begin{DoxyParamCaption}\item[{unordered\+\_\+map$<$ string, pair$<$ string, string $>$ $>$}]{data\+\_\+holder,  }\item[{unordered\+\_\+map$<$ string, string $>$}]{mapofcuts,  }\item[{chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point}]{start,  }\item[{bool}]{outputprint,  }\item[{bool}]{debug }\end{DoxyParamCaption})}
+
+
+
+Function used to import selected variables from the files in input. Efficiencies of the cuts of the variables are computed and written in an output file defined by the user. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data\+\_\+holder} & Represents a list of pair of names\+: the first name of the pair represents the input file, whereas the second name of the pair represent the name of the tree that holds the variables. \\
+\hline
+{\em mapofcuts} & Map of strings that express the cuts being used in the analysis \\
+\hline
+{\em start} & Starting time of the main function (default is the starting time of the function) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{EfficienciesAnalyzer_8cpp_source_l00023}{23}} of file \mbox{\hyperlink{EfficienciesAnalyzer_8cpp_source}{Efficiencies\+Analyzer.\+cpp}}.
+

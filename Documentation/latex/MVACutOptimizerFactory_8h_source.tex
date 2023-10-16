@@ -1,0 +1,52 @@
+\hypertarget{MVACutOptimizerFactory_8h_source}{}\doxysection{MVACut\+Optimizer\+Factory.\+h}
+\label{MVACutOptimizerFactory_8h_source}\index{SourceFiles/HeaderFiles/MVACutOptimizerFactory.h@{SourceFiles/HeaderFiles/MVACutOptimizerFactory.h}}
+\mbox{\hyperlink{MVACutOptimizerFactory_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00006}00006 \textcolor{preprocessor}{\#ifndef MVACUTOPTIMIZERFACTORY\_H}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00007}00007 \textcolor{preprocessor}{\#define MVACUTOPTIMIZERFACTORY\_H}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00009}00009 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00010}00010 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00011}00011 \textcolor{preprocessor}{\#include <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00012}00012 \textcolor{preprocessor}{\#include <TROOT.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00013}00013 \textcolor{preprocessor}{\#include "{}ROOT/RDataFrame.hxx"{}}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00014}00014 \textcolor{preprocessor}{\#include <TString.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00015}00015 \textcolor{preprocessor}{\#include <TFile.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00016}00016 \textcolor{preprocessor}{\#include <TTree.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00017}00017 \textcolor{preprocessor}{\#include <TH1F.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00018}00018 \textcolor{preprocessor}{\#include <THStack.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00019}00019 \textcolor{preprocessor}{\#include <TH2F.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00020}00020 \textcolor{preprocessor}{\#include <TGraph.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00021}00021 \textcolor{preprocessor}{\#include <TCanvas.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00022}00022 \textcolor{preprocessor}{\#include <TLegend.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00023}00023 \textcolor{preprocessor}{\#include <TLegendEntry.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00024}00024 \textcolor{preprocessor}{\#include <TPaveStats.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00025}00025 \textcolor{preprocessor}{\#include <TLorentzVector.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00026}00026 \textcolor{preprocessor}{\#include <TColor.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00027}00027 \textcolor{preprocessor}{\#include <TStyle.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00028}00028 \textcolor{preprocessor}{\#include <TGraphErrors.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00029}00029 \textcolor{preprocessor}{\#include <TFrame.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00030}00030 \textcolor{preprocessor}{\#include <TRatioPlot.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00031}00031 \textcolor{preprocessor}{\#include <TPaveText.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00032}00032 \textcolor{preprocessor}{\#include <TMVA/DataLoader.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00033}00033 \textcolor{preprocessor}{\#include <TMVA/Factory.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00034}00034 \textcolor{preprocessor}{\#include <TMVA/Config.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00035}00035 \textcolor{preprocessor}{\#include <TMVA/Configurable.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00036}00036 \textcolor{preprocessor}{\#include <TMVA/TMVAGui.h>}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00037}00037 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{TMVAMethod_8h}{TMVAMethod.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00038}00038 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{AnalysisVariable_8h}{AnalysisVariable.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00040}00040 \textcolor{comment}{/*These namespaces can be useful*/}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00041}00041 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00043}00043 \textcolor{keywordtype}{int} \mbox{\hyperlink{MVACutOptimizerFactory_8h_a63b85242d15223992dc8de0ae5352437}{MVACutOptimizerFactory}}(unordered\_map<\textcolor{keywordtype}{string}, pair<string, string>> mva\_cut\_factory\_files,}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00044}00044                            vector<string> features,}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00045}00045                            vector<AnalysisVariable> *vartobefit,}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00046}00046                            vector<TMVAMethod> tmvamethods,}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00047}00047                            chrono::\_V2::system\_clock::time\_point start = chrono::\_V2::system\_clock::now(),}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00048}00048                            \textcolor{keywordtype}{bool} debug\_variableranking = \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerFactory_8h_source_l00050}00050 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

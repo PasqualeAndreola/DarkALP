@@ -1,0 +1,254 @@
+\hypertarget{FitterMass_8cpp_source}{}\doxysection{Fitter\+Mass.\+cpp}
+\label{FitterMass_8cpp_source}\index{SourceFiles/FitterMass.cpp@{SourceFiles/FitterMass.cpp}}
+\mbox{\hyperlink{FitterMass_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00001}00001 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{Fitter_8h}{HeaderFiles/Fitter.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00002}00002 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00003}00003 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00004}00004 \textcolor{keyword}{using namespace }RooFit;}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00006}\mbox{\hyperlink{FitterMass_8cpp_a54e449e1f185f8646d4b4862253d0706}{00006}} \textcolor{keywordtype}{int} \mbox{\hyperlink{FitterMass_8cpp_a54e449e1f185f8646d4b4862253d0706}{FitterMass}}(ROOT::RDataFrame *input\_dataframe,}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00007}00007                \mbox{\hyperlink{classAnalysisVariable}{AnalysisVariable}} *analvar\_tobefit,}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00008}00008                \textcolor{keywordtype}{bool} debug,}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00009}00009                \textcolor{keywordtype}{string} closuretest)}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00010}00010 \{}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00011}00011     \textcolor{comment}{// Silencing output}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00012}00012     RooFit::PrintLevel(-\/1);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00013}00013     RooMinimizer::PrintLevel(RooMinimizer::None);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00015}00015     \textcolor{comment}{// Variable name}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00016}00016     \textcolor{keyword}{const} \textcolor{keywordtype}{char} *varfit\_name = analvar\_tobefit-\/>\mbox{\hyperlink{classAnalysisVariable_a25c49c9818a849531e54afc235465374}{variable\_name}};}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00017}00017     \textcolor{keyword}{const} \textcolor{keywordtype}{char} *varfit\_dimension = analvar\_tobefit-\/>\mbox{\hyperlink{classAnalysisVariable_a2c53972c8bfa678630f35ec1d41861f1}{variable\_dimension}};}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00019}00019     \textcolor{comment}{// Fit variable parameters}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00020}00020     Double\_t bins = analvar\_tobefit-\/>\mbox{\hyperlink{classAnalysisVariable_a82e87ff173a11bedd22dd71bc2e41066}{variable\_bins}}, minbin = analvar\_tobefit-\/>\mbox{\hyperlink{classAnalysisVariable_a0a3e014548f02fad0c3c309d8097d6a8}{variable\_histmin}}, maxbin = analvar\_tobefit-\/>\mbox{\hyperlink{classAnalysisVariable_ac1a869969d95260b2be97c6057b5ec51}{variable\_histmax}}, bin\_width = (maxbin -\/ minbin) / bins;}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00023}00023     \textcolor{comment}{//      Variables and PDFs}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00025}00025 \textcolor{comment}{}    vector<RooRealVar*> roofitinputvar;}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00026}00026     RooRealVar mass = RooRealVar(\textcolor{stringliteral}{"{}b\_mcor"{}}, \textcolor{stringliteral}{"{}B corrected mass"{}}, 5000, 6200, \textcolor{stringliteral}{"{}MeV"{}});}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00027}00027     roofitinputvar.push\_back(\&mass);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00028}00028     RooRealVar mvacut\_kbdt1 = RooRealVar(\textcolor{stringliteral}{"{}mvacut\_kbdt1"{}}, \textcolor{stringliteral}{"{}BDT1 MVA cut"{}}, 0, 1, \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00029}00029     roofitinputvar.push\_back(\&mvacut\_kbdt1);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00032}00032     \textcolor{comment}{//      mass ranges}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00034}00034 \textcolor{comment}{}    Double\_t fit\_range\_lo = 5000;}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00035}00035     Double\_t mass\_window\_lo = 5275 -\/ 150;}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00036}00036     Double\_t mass\_window\_hi = 5275 + 150;}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00037}00037     Double\_t fit\_range\_hi = 6200;}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00039}00039     mass.setRange(\textcolor{stringliteral}{"{}left"{}}, fit\_range\_lo, mass\_window\_lo);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00040}00040     mass.setRange(\textcolor{stringliteral}{"{}right"{}}, mass\_window\_hi, fit\_range\_hi);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00043}00043     \textcolor{comment}{//      PDFs}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00045}00045 \textcolor{comment}{}    \textcolor{comment}{//    1  argpar      -\/1.95759e+00   1.03831e+01   2.11846e-\/03  -\/1.97032e-\/01}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00046}00046     \textcolor{comment}{//    2  broad\_width   5.62194e-\/02   5.57457e-\/03   7.32458e-\/05  -\/1.09202e+00}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00047}00047     \textcolor{comment}{//    3  frac\_bkg     4.20044e-\/01   7.16860e-\/02   1.56468e-\/04  -\/1.60601e-\/01}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00048}00048     \textcolor{comment}{//    4  frac\_pi      6.31013e-\/01   6.77992e-\/02   2.64847e-\/04   2.65121e-\/01}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00049}00049     \textcolor{comment}{//    5  frac\_sig     2.67041e-\/01   2.28339e-\/01   5.99349e-\/04  -\/4.84672e-\/01}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00050}00050     \textcolor{comment}{//    6  maxM         6.20639e+00   2.25169e-\/01   8.23578e-\/04   7.09100e-\/01}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00051}00051     \textcolor{comment}{//    7  narrow\_mean         6.26774e+00   8.02151e-\/03   7.24866e-\/05   1.18543e-\/01}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00052}00052     \textcolor{comment}{//    8  narrow\_width   2.44845e-\/02   4.83913e-\/03   3.78671e-\/04  -\/5.35545e-\/01}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00053}00053     \textcolor{comment}{//    9  p1          -\/5.23507e-\/02   1.16627e-\/01   4.07071e-\/06  -\/5.23507e-\/04}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00054}00054     \textcolor{comment}{//   10  sg           1.14919e-\/02   1.00958e-\/02   1.07686e-\/03   2.99617e+00}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00056}00056     \textcolor{comment}{// combinatorial background poly}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00057}00057     \textcolor{comment}{//RooRealVar pol\_c1 = RooRealVar("{}pol\_c1"{}, "{}coefficient of x\string^0 term"{}, -\/5.23507e-\/02, -\/100, 100);}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00058}00058     \textcolor{comment}{// pol\_c2 = RooRealVar("{}pol\_c2"{}, "{}coefficient of x\string^1 term"{}, 0.6, -\/10, 10)}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00059}00059     \textcolor{comment}{// pol\_c3 = RooRealVar("{}pol\_c3"{}, "{}coefficient of x\string^2 term"{}, 0.5, -\/10, 10)}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00060}00060     \textcolor{comment}{//RooChebychev bkg = RooChebychev("{}bkg\_pol"{}, "{}1st order poly"{}, mass, RooArgList(pol\_c1));}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00061}00061     \textcolor{comment}{// bkg = RooChebychev("{}bkg\_pol"{}, "{}2nd order poly"{}, mass, RooArgList(pol\_c1, pol\_c2))}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00062}00062     \textcolor{comment}{// bkg = RooChebychev("{}bkg\_pol"{}, "{}3rd order poly"{}, mass, RooArgList(pol\_c1, pol\_c2, pol\_c3))}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00064}00064     \textcolor{comment}{// expo}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00065}00065     RooRealVar slope = RooRealVar(\textcolor{stringliteral}{"{}slope"{}}, \textcolor{stringliteral}{"{}slope"{}}, -\/0.001, -\/1e6, 1e6);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00066}00066     RooExponential bkg = RooExponential(\textcolor{stringliteral}{"{}bkg\_expo"{}}, \textcolor{stringliteral}{"{}bkg\_expo"{}}, mass, slope);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00068}00068     \textcolor{comment}{// argus function, partially reconstructed decays}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00069}00069     RooRealVar argpar = RooRealVar(\textcolor{stringliteral}{"{}argpar"{}}, \textcolor{stringliteral}{"{}argus shape parameter"{}}, -\/1.95759e+00, -\/20, 20);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00070}00070     RooRealVar maxM = RooRealVar(\textcolor{stringliteral}{"{}maxM"{}}, \textcolor{stringliteral}{"{}argus max m"{}}, 6.20639e+00, 6.0, 6.275); \textcolor{comment}{//6.2)}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00071}00071     RooArgusBG argus = RooArgusBG(\textcolor{stringliteral}{"{}argus"{}}, \textcolor{stringliteral}{"{}Argus PDF"{}}, mass, maxM, argpar);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00073}00073     \textcolor{comment}{// detector response function}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00074}00074     RooRealVar mg = RooRealVar(\textcolor{stringliteral}{"{}mg"{}}, \textcolor{stringliteral}{"{}mg"{}}, 0);                         \textcolor{comment}{//, -\/0.01, 0.01)}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00075}00075     RooRealVar sg = RooRealVar(\textcolor{stringliteral}{"{}sg"{}}, \textcolor{stringliteral}{"{}sg"{}}, 1.14919e-\/02, 0.0001, 0.03); \textcolor{comment}{//, 0.001,0.2)}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00076}00076     RooGaussian resGauss = RooGaussian(\textcolor{stringliteral}{"{}resGauss"{}}, \textcolor{stringliteral}{"{}resGauss"{}}, mass, mg, sg);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00077}00077     \textcolor{comment}{// construct convolution}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00078}00078     mass.setBins(10000, \textcolor{stringliteral}{"{}fft"{}});}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00079}00079     RooFFTConvPdf lxg = RooFFTConvPdf(\textcolor{stringliteral}{"{}lxg"{}}, \textcolor{stringliteral}{"{}argus (X) gauss"{}}, mass, argus, resGauss);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00081}00081     \textcolor{comment}{// B-\/>Jpsi K crystal ball}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00082}00082     RooRealVar jpsik\_mean = RooRealVar(\textcolor{stringliteral}{"{}jpsik\_mean"{}}, \textcolor{stringliteral}{"{}narrow\_mean"{}}, 53, 0 , 6000);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00083}00083     RooRealVar jpsik\_sigma = RooRealVar(\textcolor{stringliteral}{"{}jpsik\_sigma"{}}, \textcolor{stringliteral}{"{}sigma"{}}, 30, 10, 100);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00084}00084     RooRealVar jpsik\_n     = RooRealVar(\textcolor{stringliteral}{"{}jpsik\_n"{}}    , \textcolor{stringliteral}{"{}jpsik\_n"{}}    , 0.1 , 0.01,   3.  );}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00085}00085     RooRealVar jpsik\_alpha = RooRealVar(\textcolor{stringliteral}{"{}jpsik\_alpha"{}}, \textcolor{stringliteral}{"{}jpsik\_alpha"{}}, 2   ,  0.1,   4.  );}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00086}00086     RooCBShape jpsik\_func = RooCBShape(\textcolor{stringliteral}{"{}jpsik\_func"{}}, \textcolor{stringliteral}{"{}jpsik\_func"{}}, mass, jpsik\_mean, jpsik\_sigma, jpsik\_alpha, jpsik\_n);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00088}00088     \textcolor{comment}{// signal narrow gaussian}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00089}00089     RooRealVar narrow\_mean = RooRealVar(\textcolor{stringliteral}{"{}narrow\_mean"{}}, \textcolor{stringliteral}{"{}narrow\_mean"{}}, 5300, 4600, 6000);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00090}00090     RooRealVar narrow\_width = RooRealVar(\textcolor{stringliteral}{"{}narrow\_width"{}}, \textcolor{stringliteral}{"{}narrow\_width"{}}, 24, 0, 100);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00091}00091     RooGaussian narrow\_gaus = RooGaussian(\textcolor{stringliteral}{"{}sig\_narrow\_gaus"{}}, \textcolor{stringliteral}{"{}sig\_narrow\_gaus"{}}, mass, narrow\_mean, narrow\_width);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00093}00093     \textcolor{comment}{// signal broad gaussian}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00094}00094     RooRealVar broad\_mean = RooRealVar(\textcolor{stringliteral}{"{}broad\_mean"{}}, \textcolor{stringliteral}{"{}broad\_mean"{}}, 5300, 4600, 6000);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00095}00095     RooRealVar broad\_width = RooRealVar(\textcolor{stringliteral}{"{}broad\_width"{}}, \textcolor{stringliteral}{"{}broad\_width"{}}, 56, 0, 100);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00096}00096     RooGaussian broad\_gaus = RooGaussian(\textcolor{stringliteral}{"{}sig\_broad\_gaus"{}}, \textcolor{stringliteral}{"{}sig\_broad\_gaus"{}}, mass, broad\_mean, broad\_width);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00098}00098     \textcolor{comment}{// absolute yields}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00099}00099     RooRealVar nsig = RooRealVar(\textcolor{stringliteral}{"{}signal\_yield"{}}, \textcolor{stringliteral}{"{}signal\_yield"{}}, 500, 0., 10000.);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00100}00100     RooRealVar nsig\_narrow = RooRealVar(\textcolor{stringliteral}{"{}signal\_yield\_narrow"{}}, \textcolor{stringliteral}{"{}signal\_yield\_narrow"{}}, 700, 0., 10000.);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00101}00101     RooRealVar nsig\_broad = RooRealVar(\textcolor{stringliteral}{"{}signal\_yield\_broad"{}}, \textcolor{stringliteral}{"{}signal\_yield\_broad"{}}, 100, 0., 10000.);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00102}00102     RooRealVar nbkgtot = RooRealVar(\textcolor{stringliteral}{"{}nbkgtot"{}}, \textcolor{stringliteral}{"{}nbkgtot"{}}, 2000, 0., 10000.);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00103}00103     RooRealVar nbkg = RooRealVar(\textcolor{stringliteral}{"{}nbkg"{}}, \textcolor{stringliteral}{"{}nbkg"{}}, 7000, 0., 10000.);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00104}00104     RooRealVar nPi = RooRealVar(\textcolor{stringliteral}{"{}nPi"{}}, \textcolor{stringliteral}{"{}nPi"{}}, 1000, 0., 10000.);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00105}00105     RooRealVar nK = RooRealVar(\textcolor{stringliteral}{"{}nK"{}}, \textcolor{stringliteral}{"{}nK"{}}, 200, 0., 10000.);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00106}00106 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00107}00107     \textcolor{comment}{// fractional yields}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00108}00108     \textcolor{comment}{// you need these and not absolute yields in combine}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00109}00109     \textcolor{comment}{// don"{}t fit with Extended!}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00110}00110     RooRealVar frac\_sig = RooRealVar(\textcolor{stringliteral}{"{}frac\_sig"{}}, \textcolor{stringliteral}{"{}frac\_sig"{}}, 2.67041e-\/01, 0., 1.);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00111}00111     RooRealVar frac\_pi = RooRealVar(\textcolor{stringliteral}{"{}frac\_pi"{}}, \textcolor{stringliteral}{"{}frac\_pi"{}}, 6.31013e-\/01, 0., 1.);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00112}00112     RooRealVar frac\_bkg = RooRealVar(\textcolor{stringliteral}{"{}frac\_bkg"{}}, \textcolor{stringliteral}{"{}frac\_bkg"{}}, 4.20044e-\/01, 0., 1.);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00113}00113     \textcolor{comment}{// fixed to PDG (Jpsi K) / (Jpsi pi) value https://pdglive.lbl.gov/BranchingRatio.action?desig=14\&parCode=S091}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00114}00114     Double\_t frac\_k\_value = 0.079 / (1. + 0.079);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00115}00115     RooRealVar frac\_k = RooRealVar(\textcolor{stringliteral}{"{}frac\_k"{}}, \textcolor{stringliteral}{"{}frac\_k"{}}, frac\_k\_value);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00117}00117     \textcolor{comment}{// signal function}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00118}00118     RooAddPdf signal\_fit\_function = RooAddPdf(}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00119}00119         \textcolor{stringliteral}{"{}signal\_fit\_function"{}},}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00120}00120         \textcolor{stringliteral}{"{}signal\_fit\_function"{}},}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00121}00121         RooArgList(narrow\_gaus, broad\_gaus),}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00122}00122         RooArgList(frac\_sig));}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00123}00123 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00124}00124     \textcolor{comment}{// signal Jpsi pi plus Jpsi K}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00125}00125     \textcolor{comment}{// RooAddPdf::pi\_plus\_k\_fit\_function[ frac\_k * jpsik\_func + [\%] * signal\_fit\_function ]}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00126}00126     RooAddPdf pi\_plus\_k\_fit\_function = RooAddPdf(}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00127}00127         \textcolor{stringliteral}{"{}pi\_plus\_k\_fit\_function"{}},}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00128}00128         \textcolor{stringliteral}{"{}pi\_plus\_k\_fit\_function"{}},}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00129}00129         RooArgList(jpsik\_func, signal\_fit\_function), \textcolor{comment}{// order matters for coefficients in next line https://www.nikhef.nl/\string~vcroft/SignalAndBackground-\/CompositeModels.html}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00130}00130         RooArgList(frac\_k));}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00131}00131 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00132}00132     \textcolor{comment}{// background function}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00133}00133     RooAddPdf bkg\_fit\_function = RooAddPdf(}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00134}00134         \textcolor{stringliteral}{"{}bkg\_fit\_function"{}},}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00135}00135         \textcolor{stringliteral}{"{}bkg\_fit\_function"{}},}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00136}00136         \textcolor{comment}{//     RooArgList(bkg, lxg, jpsik\_func),}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00137}00137         \textcolor{comment}{//     RooArgList(frac\_pi, frac\_k)}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00138}00138         RooArgList(lxg, bkg),}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00139}00139         RooArgList(frac\_pi));}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00140}00140 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00141}00141     \textcolor{comment}{// total function}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00142}00142     RooAddPdf fit\_function = RooAddPdf(}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00143}00143         \textcolor{stringliteral}{"{}fit\_function"{}},}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00144}00144         \textcolor{stringliteral}{"{}fit\_function"{}},}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00145}00145         RooArgList(bkg\_fit\_function, pi\_plus\_k\_fit\_function),}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00146}00146         RooArgList(frac\_bkg));}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00147}00147 \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00148}00148 \textcolor{comment}{    // MC signal narrow gaussian}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00149}00149 \textcolor{comment}{    RooRealVar mc\_narrow\_mean = RooRealVar("{}mc\_narrow\_mean"{}, "{}mc\_narrow\_mean"{}, 6.275, 5.5, 7.);}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00150}00150 \textcolor{comment}{    RooRealVar mc\_narrow\_width = RooRealVar("{}mc\_narrow\_width"{}, "{}mc\_narrow\_width"{}, 0.038, 0., 1.);}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00151}00151 \textcolor{comment}{    RooGaussian mc\_narrow\_gaus = RooGaussian("{}mc\_sig\_narrow\_gaus"{}, "{}mc\_sig\_narrow\_gaus"{}, mass, mc\_narrow\_mean, mc\_narrow\_width);}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00152}00152 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00153}00153 \textcolor{comment}{    // MC signal broad gaussian}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00154}00154 \textcolor{comment}{    RooRealVar mc\_broad\_mean = RooRealVar("{}mc\_broad\_mean"{}, "{}mc\_broad\_mean"{}, 6.275, 5.5, 7.);}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00155}00155 \textcolor{comment}{    RooRealVar mc\_broad\_width = RooRealVar("{}mc\_broad\_width"{}, "{}mc\_broad\_width"{}, 0.06, 0., 1.);}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00156}00156 \textcolor{comment}{    RooGaussian mc\_broad\_gaus = RooGaussian("{}mc\_sig\_broad\_gaus"{}, "{}mc\_sig\_broad\_gaus"{}, mass, mc\_broad\_mean, mc\_broad\_width);}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00157}00157 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00158}00158 \textcolor{comment}{    RooRealVar mc\_nsig = RooRealVar("{}mc\_signal\_yield"{}, "{}mc\_signal\_yield"{}, 800, 0, 100000);}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00159}00159 \textcolor{comment}{    RooRealVar mc\_nsig\_narrow = RooRealVar("{}mc\_signal\_yield\_narrow"{}, "{}mc\_signal\_yield\_narrow"{}, 700, 0, 100000);}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00160}00160 \textcolor{comment}{    RooRealVar mc\_nsig\_broad = RooRealVar("{}mc\_signal\_yield\_broad"{}, "{}mc\_signal\_yield\_broad"{}, 100, 0, 100000);}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00161}00161 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00162}00162 \textcolor{comment}{    // MC signal function}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00163}00163 \textcolor{comment}{    RooAddPdf mc\_signal\_fitFunction = RooAddPdf(}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00164}00164 \textcolor{comment}{        "{}mc\_signal\_fit\_function"{},}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00165}00165 \textcolor{comment}{        "{}mc\_signal\_fit\_function"{},}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00166}00166 \textcolor{comment}{        RooArgList(mc\_narrow\_gaus, mc\_broad\_gaus),}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00167}00167 \textcolor{comment}{        RooArgList(mc\_nsig\_narrow, mc\_nsig\_broad));}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00168}00168 \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00169}00169     RooArgSet thevars = RooArgSet();}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00170}00170     \textcolor{keywordflow}{for} (vector<RooRealVar*>::iterator rooiter=roofitinputvar.begin(); rooiter!=roofitinputvar.end(); rooiter++)}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00171}00171         thevars.add(**rooiter);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00172}00172 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00174}00174     \textcolor{comment}{// selection on data, plotting, fitting}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00176}00176 \textcolor{comment}{}    \textcolor{comment}{// HLT\_DoubleMu4\_JpsiTrk\_Displaced\_v14}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00177}00177     \textcolor{keyword}{const} \textcolor{keywordtype}{char} *selection = \textcolor{stringliteral}{"{}b\_mcor > 5000 \&\& "{}}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00178}00178                             \textcolor{stringliteral}{"{}b\_mcor < 6500 \&\& "{}}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00179}00179                             \textcolor{stringliteral}{"{}mvacut\_kbdt1 > 0.5"{}} ;}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00180}00180 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00181}00181     \textcolor{comment}{// add gen matching}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00182}00182     \textcolor{keyword}{const} \textcolor{keywordtype}{char} *selection\_mc = \textcolor{stringliteral}{"{}x\_true\_pid==443"{}};}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00183}00183 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00184}00184     \textcolor{keyword}{const} \textcolor{keywordtype}{char} *data\_files = \textcolor{stringliteral}{"{}OutputFiles/KPi3Pi\_SIM\_JPsi.root"{}};}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00185}00185     TTree *data\_tree = (TTree *)(TFile::Open(data\_files)-\/>Get(\textcolor{stringliteral}{"{}T"{}}));}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00186}00186 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00187}00187     RooDataSet fulldata = RooDataSet(\textcolor{stringliteral}{"{}data"{}}, \textcolor{stringliteral}{"{}data"{}}, data\_tree-\/>GetTree(), thevars, selection);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00188}00188 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00189}00189     \textcolor{comment}{// plot}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00190}00190     TCanvas c1 = TCanvas(\textcolor{stringliteral}{"{}c1"{}}, \textcolor{stringliteral}{"{}"{}}, 1920, 1080);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00191}00191     c1.Draw();}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00192}00192     RooPlot *frame = mass.frame();}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00193}00193     frame-\/>SetTitle(\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00194}00194     Int\_t nbins = 80;}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00195}00195     fulldata.plotOn(frame, Name(\textcolor{stringliteral}{"{}Data"{}}), RooFit::Binning(nbins), RooFit::MarkerSize(1.5));}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00196}00196 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00197}00197     \textcolor{comment}{// fit}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00198}00198     \textcolor{comment}{// results\_data = fit\_function.fitTo(fulldata, RooFit.Extended(True), RooFit.Save())}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00199}00199     RooFitResult *results\_data = fit\_function.fitTo(fulldata, RooFit::Save());}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00200}00200 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00201}00201     fit\_function.plotOn(frame);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00202}00202     Double\_t chi2\_datafit = frame-\/>chiSquare();}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00203}00203     fit\_function.plotOn(frame, Name(\textcolor{stringliteral}{"{}bkg\_pol"{}}), RooFit::Components(\textcolor{stringliteral}{"{}bkg\_pol"{}}), RooFit::LineStyle(kDashed), RooFit::LineColor(kBlue));}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00204}00204     fit\_function.plotOn(frame, Name(\textcolor{stringliteral}{"{}lxg"{}}), RooFit::Components(\textcolor{stringliteral}{"{}lxg"{}}), RooFit::LineStyle(kDashed), RooFit::LineColor(kOrange));}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00205}00205     fit\_function.plotOn(frame, Name(\textcolor{stringliteral}{"{}signal\_fit\_function"{}}), RooFit::Components(\textcolor{stringliteral}{"{}signal\_fit\_function"{}}), RooFit::LineStyle(kDashed), RooFit::LineColor(kRed));}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00206}00206     fit\_function.plotOn(frame, Name(\textcolor{stringliteral}{"{}jpsik\_func"{}}), RooFit::Components(\textcolor{stringliteral}{"{}jpsik\_func"{}}), RooFit::LineStyle(kDashed), RooFit::LineColor(kGreen));}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00207}00207 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00208}00208     frame-\/>Draw();}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00209}00209     \textcolor{comment}{//CMS\_lumi(c1, 4, 0, cmsText = "{}CMS"{}, extraText = "{}   Preliminary"{}, lumi\_13TeV = "{}60 fb\string^\{-\/1\}"{});}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00210}00210 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00211}00211     TLegend leg = TLegend(0.58, .65, .90, .90);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00212}00212     leg.SetBorderSize(0);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00213}00213     leg.SetFillColor(0);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00214}00214     leg.SetFillStyle(0);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00215}00215     leg.SetTextFont(42);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00216}00216     leg.SetTextSize(0.035);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00217}00217     \textcolor{comment}{// leg.SetNColumns(3);}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00218}00218 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00219}00219     \textcolor{comment}{// RooFit}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00220}00220     leg.AddEntry(\textcolor{stringliteral}{"{}bkg\_pol"{}}, \textcolor{stringliteral}{"{}Combinatorial bkg"{}});}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00221}00221     leg.AddEntry(\textcolor{stringliteral}{"{}lxg"{}}, \textcolor{stringliteral}{"{}B\_\{c\}\#rightarrowJ/\#Psi\#pi + X"{}}, \textcolor{stringliteral}{"{}L"{}});}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00222}00222     leg.AddEntry(\textcolor{stringliteral}{"{}jpsik\_func"{}}, \textcolor{stringliteral}{"{}B\_\{c\}\#rightarrowJ/\#PsiK"{}}, \textcolor{stringliteral}{"{}L"{}});}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00223}00223     leg.AddEntry(\textcolor{stringliteral}{"{}signal\_fit\_function"{}}, \textcolor{stringliteral}{"{}B\_\{c\}\#rightarrowJ/\#Psi\#pi"{}}, \textcolor{stringliteral}{"{}L"{}});}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00224}00224     leg.AddEntry(\textcolor{stringliteral}{"{}Data"{}}, \textcolor{stringliteral}{"{}Observed"{}}, \textcolor{stringliteral}{"{}EP"{}});}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00225}00225     leg.Draw(\textcolor{stringliteral}{"{}SAME"{}});}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00226}00226 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00227}00227     \textcolor{comment}{// gPad.SaveAs("{}sideband\_fit.pdf"{})}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00228}00228     c1.SaveAs(\textcolor{stringliteral}{"{}KPi3Pi\_JPsi\_SIM\_MassFit.png"{}});}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00229}00229 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00230}00230 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00231}00231 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00232}00232     RooArgSet *params = fit\_function.getParameters(mass);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00233}00233     params-\/>writeToStream(cout, \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00234}00234 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00235}00235     \textcolor{comment}{// Create a new empty workspace}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00236}00236     RooWorkspace *bchybridworkspace = \textcolor{keyword}{new} RooWorkspace(\textcolor{stringliteral}{"{}bchybridworkspace"{}}, \textcolor{stringliteral}{"{}bchybridworkspace"{}});}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00237}00237 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00238}00238     \textcolor{comment}{// Import model and all its components into the workspace}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00239}00239     bchybridworkspace-\/>import(fit\_function);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00240}00240 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00241}00241 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00242}00242     \textcolor{comment}{// Import data into the workspace}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00243}00243     bchybridworkspace-\/>import(fulldata);}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00244}00244 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00245}00245     \textcolor{comment}{// Print workspace contents}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00246}00246     bchybridworkspace-\/>Print();}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00247}00247 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00248}00248     \textcolor{comment}{// Save the workspace into a ROOT file}}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00249}00249     bchybridworkspace-\/>writeToFile(\textcolor{stringliteral}{"{}KPi3Pi\_JPsiSim\_Workspace.root"{}});}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00250}00250 }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00251}00251     cout << \textcolor{stringliteral}{"{}Fit to data integral "{}} << fulldata.numEntries() * (1 -\/ frac\_bkg.getVal()) << endl;}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00252}00252     cout << \textcolor{stringliteral}{"{}Fit to data integral "{}} << frac\_sig.getVal() << endl;}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00253}00253     cout << \textcolor{stringliteral}{"{}Chi2 of the data fit: "{}} <<  chi2\_datafit << endl;}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00254}00254   }
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00255}00255     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{FitterMass_8cpp_source_l00256}00256 \}}
+
+\end{DoxyCode}

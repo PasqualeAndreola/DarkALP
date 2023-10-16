@@ -1,0 +1,84 @@
+\hypertarget{PrintFuncInfo_8h}{}\doxysection{Source\+Files/\+Header\+Files/\+Print\+Func\+Info.h File Reference}
+\label{PrintFuncInfo_8h}\index{SourceFiles/HeaderFiles/PrintFuncInfo.h@{SourceFiles/HeaderFiles/PrintFuncInfo.h}}
+
+
+Header file for \mbox{\hyperlink{PrintFuncInfo_8h_a1d90178ce27c0748f7e07319bb752dad}{Print\+Func\+Info}} functions and \mbox{\hyperlink{PrintFuncInfo_8h_a28a91585a96a6cac52a877b1ae6b223a}{Elapsed\+Time\+Stamper}} function.  
+
+
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{PrintFuncInfo_8h_a1d90178ce27c0748f7e07319bb752dad}{Print\+Func\+Info}} (vector$<$ TString $>$ string2print)
+\begin{DoxyCompactList}\small\item\em Function used to print a banner with function info. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{PrintFuncInfo_8h_a44f3a8faac3e492f6403e652470b7db4}{Print\+Func\+Info}} (std\+::ostream \&stream, vector$<$ TString $>$ string2print)
+\begin{DoxyCompactList}\small\item\em Function used to print a banner with function info. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{PrintFuncInfo_8h_a28a91585a96a6cac52a877b1ae6b223a}{Elapsed\+Time\+Stamper}} (chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point start=chrono\+::system\+\_\+clock\+::now())
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for \mbox{\hyperlink{PrintFuncInfo_8h_a1d90178ce27c0748f7e07319bb752dad}{Print\+Func\+Info}} functions and \mbox{\hyperlink{PrintFuncInfo_8h_a28a91585a96a6cac52a877b1ae6b223a}{Elapsed\+Time\+Stamper}} function. 
+
+
+
+Definition in file \mbox{\hyperlink{PrintFuncInfo_8h_source}{Print\+Func\+Info.\+h}}.
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{PrintFuncInfo_8h_a28a91585a96a6cac52a877b1ae6b223a}\label{PrintFuncInfo_8h_a28a91585a96a6cac52a877b1ae6b223a}} 
+\index{PrintFuncInfo.h@{PrintFuncInfo.h}!ElapsedTimeStamper@{ElapsedTimeStamper}}
+\index{ElapsedTimeStamper@{ElapsedTimeStamper}!PrintFuncInfo.h@{PrintFuncInfo.h}}
+\doxysubsubsection{\texorpdfstring{ElapsedTimeStamper()}{ElapsedTimeStamper()}}
+{\footnotesize\ttfamily void Elapsed\+Time\+Stamper (\begin{DoxyParamCaption}\item[{chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point}]{start = {\ttfamily chrono\+:\+:system\+\_\+clock\+:\+:now()} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{PrintFuncInfo_8cpp_source_l00301}{301}} of file \mbox{\hyperlink{PrintFuncInfo_8cpp_source}{Print\+Func\+Info.\+cpp}}.
+
+\mbox{\Hypertarget{PrintFuncInfo_8h_a44f3a8faac3e492f6403e652470b7db4}\label{PrintFuncInfo_8h_a44f3a8faac3e492f6403e652470b7db4}} 
+\index{PrintFuncInfo.h@{PrintFuncInfo.h}!PrintFuncInfo@{PrintFuncInfo}}
+\index{PrintFuncInfo@{PrintFuncInfo}!PrintFuncInfo.h@{PrintFuncInfo.h}}
+\doxysubsubsection{\texorpdfstring{PrintFuncInfo()}{PrintFuncInfo()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Print\+Func\+Info (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{stream,  }\item[{vector$<$ TString $>$}]{string2print }\end{DoxyParamCaption})}
+
+
+
+Function used to print a banner with function info. 
+
+\mbox{\hyperlink{classThis}{This}} function is the overloaded version of \mbox{\hyperlink{PrintFuncInfo_8h_a1d90178ce27c0748f7e07319bb752dad}{\textbackslash{}n}} The user can set an ofstream to write the output to whatever he/she likes.~\newline
+The developer used this to make unit test.~\newline
+ 
+\begin{DoxyParams}{Parameters}
+{\em stream} & Output where the starred banner has to be written \\
+\hline
+{\em string2print} & vector of TString that the user wants to print \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{PrintFuncInfo_8cpp_source_l00170}{170}} of file \mbox{\hyperlink{PrintFuncInfo_8cpp_source}{Print\+Func\+Info.\+cpp}}.
+
+\mbox{\Hypertarget{PrintFuncInfo_8h_a1d90178ce27c0748f7e07319bb752dad}\label{PrintFuncInfo_8h_a1d90178ce27c0748f7e07319bb752dad}} 
+\index{PrintFuncInfo.h@{PrintFuncInfo.h}!PrintFuncInfo@{PrintFuncInfo}}
+\index{PrintFuncInfo@{PrintFuncInfo}!PrintFuncInfo.h@{PrintFuncInfo.h}}
+\doxysubsubsection{\texorpdfstring{PrintFuncInfo()}{PrintFuncInfo()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Print\+Func\+Info (\begin{DoxyParamCaption}\item[{vector$<$ TString $>$}]{string2print }\end{DoxyParamCaption})}
+
+
+
+Function used to print a banner with function info. 
+
+\mbox{\hyperlink{classThis}{This}} function is used to print a banner with some \char`\"{}$\ast$\char`\"{} characters.~\newline
+\mbox{\hyperlink{classThese}{These}} \char`\"{}$\ast$\char`\"{} are arranged in a rectangular format.~\newline
+They contains information given by the user as a vector of TString.~\newline
+Global variable {\ttfamily ncolumns} can be defined by the user\+: the function will appropriately cut the strings.~\newline
+
+\begin{DoxyParams}{Parameters}
+{\em string2print} & vector of TString that the user wants to print \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{PrintFuncInfo_8cpp_source_l00026}{26}} of file \mbox{\hyperlink{PrintFuncInfo_8cpp_source}{Print\+Func\+Info.\+cpp}}.
+

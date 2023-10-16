@@ -1,0 +1,97 @@
+\hypertarget{EfficienciesRatioAnalyzer_8cpp_source}{}\doxysection{Efficiencies\+Ratio\+Analyzer.\+cpp}
+\label{EfficienciesRatioAnalyzer_8cpp_source}\index{SourceFiles/EfficienciesRatioAnalyzer.cpp@{SourceFiles/EfficienciesRatioAnalyzer.cpp}}
+\mbox{\hyperlink{EfficienciesRatioAnalyzer_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00021}00021 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{EfficienciesAnalyzer_8h}{HeaderFiles/EfficienciesAnalyzer.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00022}00022 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{EfficienciesRatioAnalyzer_8h}{HeaderFiles/EfficienciesRatioAnalyzer.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00023}00023 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{PrintFuncInfo_8h}{HeaderFiles/PrintFuncInfo.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00025}\mbox{\hyperlink{EfficienciesRatioAnalyzer_8cpp_a430a77e75c38f6b769c9291434b25b32}{00025}} \textcolor{keywordtype}{int} \mbox{\hyperlink{EfficienciesRatioAnalyzer_8cpp_a430a77e75c38f6b769c9291434b25b32}{EfficienciesRatioAnalyzer}}(vector<AnalysisVariable> *vec\_analysisvariables, ofstream\& csv\_efficiencies\_ratios\_file, unordered\_map<\textcolor{keywordtype}{string}, pair<string, string>> data\_holder)}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00026}00026 \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00027}00027     Double\_t efficiencyratio;}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00028}00028     unordered\_map<string, Double\_t> SingleCutEfficiency\_Dataset;}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00030}00030     csv\_efficiencies\_ratios\_file.open(\textcolor{stringliteral}{"{}Efficiencies\_Ratios\_vs\_Cut.csv"{}});}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00031}00031     csv\_efficiencies\_ratios\_file << \textcolor{stringliteral}{"{}Cut, "{}}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00032}00032                                     \textcolor{stringliteral}{"{}KPi3Pi\_SIM\_100ps, Ratio(KPi3Pi\_SIM\_100ps), KPi3Pi\_SIM\_1ps, Ratio(KPi3Pi\_SIM\_1ps), KPi3Pi\_SIM\_Omega, Ratio(KPi3Pi\_SIM\_Omega), KPi3Pi\_2015\_md\_minCuts, ,"{}}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00033}00033                                     \textcolor{stringliteral}{"{}KPiEtaPiPi\_SIM\_100ps, Ratio(KPiEtaPiPi\_SIM\_100ps), KPiEtaPiPi\_SIM\_1ps, Ratio(KPiEtaPiPi\_SIM\_1ps), KPiEtaPiPi\_SIM\_Etapr, Ratio(KPiEtaPiPi\_SIM\_Etapr), KPiEtaPiPi\_2015\_md\_minCuts"{}} }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00034}00034                                 << endl; }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00036}00036     \textcolor{keywordflow}{for} (vector<AnalysisVariable>::iterator analvar\_iterator = vec\_analysisvariables-\/>begin(); analvar\_iterator != vec\_analysisvariables-\/>end(); analvar\_iterator++)}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00037}00037     \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00038}00038         \textcolor{keywordtype}{string} singlecut = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00039}00039         \textcolor{keywordflow}{if} (analvar\_iterator-\/>variable\_stringcut.compare(\textcolor{stringliteral}{"{}"{}})!=0) }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00040}00040         \{ }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00041}00041         singlecut = analvar\_iterator-\/>variable\_stringcut;}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00042}00042         \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00043}00043         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00044}00044         \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00045}00045         singlecut = analvar\_iterator-\/>variable\_cut;}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00046}00046         \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00047}00047         \textcolor{keywordflow}{if} ((analvar\_iterator+2)==(vec\_analysisvariables-\/>end()))}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00048}00048         \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00049}00049         csv\_efficiencies\_ratios\_file << \textcolor{stringliteral}{"{}Minimal cuts"{}};}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00050}00050         \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00051}00051         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((analvar\_iterator+1)==(vec\_analysisvariables-\/>end()))}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00052}00052         \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00053}00053         csv\_efficiencies\_ratios\_file << \textcolor{stringliteral}{"{}All cuts"{}};}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00054}00054         \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00055}00055         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00056}00056         \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00057}00057         \textcolor{keywordflow}{if} (analvar\_iterator-\/>variable\_cutchecker == \textcolor{keyword}{false}) csv\_efficiencies\_ratios\_file << singlecut.data() << \textcolor{stringliteral}{"{}(Minimal)"{}};}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00058}00058         \textcolor{keywordflow}{else} csv\_efficiencies\_ratios\_file << singlecut.data();}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00059}00059         \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00060}00060         \textcolor{keywordflow}{for} (unordered\_map<\textcolor{keywordtype}{string}, pair<string, string>>::iterator datahold\_iterator = data\_holder.begin(); datahold\_iterator != data\_holder.end(); datahold\_iterator++)}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00061}00061         \{ }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00062}00062         \textcolor{keywordtype}{string} datait\_key = datahold\_iterator-\/>first;}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00063}00063         \textcolor{keywordflow}{if} (datait\_key.find(\textcolor{stringliteral}{"{}KPiEtaPiPi"{}}) != string::npos)}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00064}00064         \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00065}00065             SingleCutEfficiency\_Dataset[datait\_key] = \mbox{\hyperlink{EfficienciesAnalyzer_8cpp_a9af7de9eca56f919b2a52b425135a26d}{EfficienciesAnalyzer}}(datahold\_iterator-\/>second, singlecut);}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00066}00066         \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00067}00067         \textcolor{keywordflow}{if} (datait\_key.find(\textcolor{stringliteral}{"{}KPi3Pi"{}}) != string::npos)}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00068}00068         \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00069}00069             SingleCutEfficiency\_Dataset[datait\_key] = \mbox{\hyperlink{EfficienciesAnalyzer_8cpp_a9af7de9eca56f919b2a52b425135a26d}{EfficienciesAnalyzer}}(datahold\_iterator-\/>second, singlecut);}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00070}00070         \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00071}00071         \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00073}00073         \textcolor{keywordflow}{for} (unordered\_map<string, Double\_t>::iterator eff\_iterator = SingleCutEfficiency\_Dataset.begin(); eff\_iterator != SingleCutEfficiency\_Dataset.end(); eff\_iterator++)}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00074}00074         \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00075}00075         \textcolor{keywordflow}{if} (eff\_iterator-\/>first.find(\textcolor{stringliteral}{"{}KPi3Pi\_SIM"{}}) != string::npos)}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00076}00076         \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00077}00077             efficiencyratio = (eff\_iterator-\/>second)/(SingleCutEfficiency\_Dataset[\textcolor{stringliteral}{"{}KPi3Pi\_2015\_md\_minCuts"{}}]);}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00078}00078             csv\_efficiencies\_ratios\_file << \textcolor{stringliteral}{"{},"{}} << eff\_iterator-\/>second << \textcolor{stringliteral}{"{},"{}} << efficiencyratio;}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00079}00079             printf(\textcolor{stringliteral}{"{}Simulation efficiency with the \%s cut:\(\backslash\)n"{}}, singlecut.data());}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00080}00080             printf(\textcolor{stringliteral}{"{}\(\backslash\)033[1;36m\%s\(\backslash\)033[m efficiency = \(\backslash\)033[1;32m\%.4f\(\backslash\)033[0m\(\backslash\)n"{}}, eff\_iterator-\/>first.data(), eff\_iterator-\/>second);}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00081}00081             printf(\textcolor{stringliteral}{"{}Ratio of efficiencies with the \%s cut:\(\backslash\)n"{}}, singlecut.data());}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00082}00082             printf(\textcolor{stringliteral}{"{}\(\backslash\)033[1;36m\%s\(\backslash\)033[m efficiency over \(\backslash\)033[1;36mKPi3Pi\_2015\_md\_minCuts\(\backslash\)033[0m efficiency = \(\backslash\)033[1;32m\%.4f\(\backslash\)033[0m\(\backslash\)n\(\backslash\)n"{}}, eff\_iterator-\/>first.data(), efficiencyratio);}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00083}00083         \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00084}00084         \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00085}00085         csv\_efficiencies\_ratios\_file << \textcolor{stringliteral}{"{},"{}} << SingleCutEfficiency\_Dataset[\textcolor{stringliteral}{"{}KPi3Pi\_2015\_md\_minCuts"{}}] << \textcolor{stringliteral}{"{},"{}}; }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00086}00086         printf(\textcolor{stringliteral}{"{}Data efficiency with the \%s cut:\(\backslash\)n"{}}, singlecut.data());}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00087}00087         printf(\textcolor{stringliteral}{"{}\(\backslash\)033[1;36mKPi3Pi\_2015\_md\_minCuts\(\backslash\)033[m efficiency = \(\backslash\)033[1;32m\%.4f\(\backslash\)033[0m\(\backslash\)n"{}}, SingleCutEfficiency\_Dataset[\textcolor{stringliteral}{"{}KPi3Pi\_2015\_md\_minCuts"{}}]);}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00088}00088         \textcolor{keywordflow}{for} (unordered\_map<string, Double\_t>::iterator eff\_iterator = SingleCutEfficiency\_Dataset.begin(); eff\_iterator != SingleCutEfficiency\_Dataset.end(); eff\_iterator++)}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00089}00089         \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00090}00090         \textcolor{keywordflow}{if} (eff\_iterator-\/>first.find(\textcolor{stringliteral}{"{}KPiEtaPiPi\_SIM"{}}) != string::npos)}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00091}00091         \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00092}00092             efficiencyratio = (eff\_iterator-\/>second)/(SingleCutEfficiency\_Dataset[\textcolor{stringliteral}{"{}KPiEtaPiPi\_2015\_md\_minCuts"{}}]);}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00093}00093             csv\_efficiencies\_ratios\_file << \textcolor{stringliteral}{"{},"{}} << eff\_iterator-\/>second << \textcolor{stringliteral}{"{},"{}} << efficiencyratio;}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00094}00094             printf(\textcolor{stringliteral}{"{}Simulation efficiency with the \%s cut:\(\backslash\)n"{}}, singlecut.data());}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00095}00095             printf(\textcolor{stringliteral}{"{}\(\backslash\)033[1;36m\%s\(\backslash\)033[m efficiency = \(\backslash\)033[1;32m\%.4f\(\backslash\)033[0m\(\backslash\)n"{}}, eff\_iterator-\/>first.data(), eff\_iterator-\/>second); }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00096}00096             printf(\textcolor{stringliteral}{"{}Ratio of efficiencies with the \%s cut:\(\backslash\)n"{}}, singlecut.data());}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00097}00097             printf(\textcolor{stringliteral}{"{}\(\backslash\)033[1;36m\%s\(\backslash\)033[m efficiency over \(\backslash\)033[1;36mKKPiEtaPiPi\_2015\_md\_minCuts\(\backslash\)033[0m efficiency = \(\backslash\)033[1;32m\%.4f\(\backslash\)033[0m\(\backslash\)n\(\backslash\)n"{}}, eff\_iterator-\/>first.data(), efficiencyratio); }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00098}00098         \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00099}00099         \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00100}00100         csv\_efficiencies\_ratios\_file << \textcolor{stringliteral}{"{},"{}} << SingleCutEfficiency\_Dataset[\textcolor{stringliteral}{"{}KPiEtaPiPi\_2015\_md\_minCuts"{}}]; }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00101}00101         printf(\textcolor{stringliteral}{"{}Data efficiency with the \%s cut:\(\backslash\)n"{}}, singlecut.data());}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00102}00102         printf(\textcolor{stringliteral}{"{}\(\backslash\)033[1;36mKPiEtaPiPi\_2015\_md\_minCuts\(\backslash\)033[m efficiency = \(\backslash\)033[1;32m\%.4f\(\backslash\)033[0m\(\backslash\)n"{}}, SingleCutEfficiency\_Dataset[\textcolor{stringliteral}{"{}KPiEtaPiPi\_2015\_md\_minCuts"{}}]);}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00103}00103         csv\_efficiencies\_ratios\_file << endl;}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00104}00104     \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00105}00105     csv\_efficiencies\_ratios\_file.close();}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00106}00106     cout << endl;}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00108}00108     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{EfficienciesRatioAnalyzer_8cpp_source_l00110}00110 \}}
+
+\end{DoxyCode}

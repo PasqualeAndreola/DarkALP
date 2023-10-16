@@ -1,0 +1,633 @@
+\hypertarget{classAnalysisVariable}{}\doxysection{Analysis\+Variable Class Reference}
+\label{classAnalysisVariable}\index{AnalysisVariable@{AnalysisVariable}}
+
+
+{\ttfamily \#include $<$Analysis\+Variable.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+TLegend $\ast$ \mbox{\hyperlink{classAnalysisVariable_aabfdc27c3a564ee23f5804c4a71c9ff6}{Set\+Legend\+Pos}} (Float\+\_\+t x0, Float\+\_\+t x1, Float\+\_\+t y0, Float\+\_\+t y1)
+\begin{DoxyCompactList}\small\item\em Set\+Legend\+Pos returns the legend built from the four different vertices given by the user. \end{DoxyCompactList}\item 
+TLegend $\ast$ \mbox{\hyperlink{classAnalysisVariable_a3faa7ae2770aa6ed4585b0cb1c887193}{Set\+Legend\+Pos\+Auto}} (string \mbox{\hyperlink{classAnalysisVariable_ae5e1615620dab9270e280a3565770b5a}{variable\+\_\+legendstringposition}}, int \mbox{\hyperlink{classAnalysisVariable_a05efdd0ae94b5a50d7636ac914f77489}{variable\+\_\+numberofentries}}, Float\+\_\+t \mbox{\hyperlink{classAnalysisVariable_ac72fe08b7d3538d2ac7e98d6f96444da}{variable\+\_\+legxlength}}, Float\+\_\+t \mbox{\hyperlink{classAnalysisVariable_a53cbe9ea68dc7798d9abbb69330cea29}{variable\+\_\+legentryyheight}})
+\begin{DoxyCompactList}\small\item\em Set\+Legend\+Pos\+Auto returns the legend built from the different characteristics chosen by the user\+: egend string position; length of the legend pad, heigh of each label entry; number of the entries;. \end{DoxyCompactList}\item 
+TLegend $\ast$ \mbox{\hyperlink{classAnalysisVariable_a9b8e2210fc912d6c843fb1c63adc6b7a}{Set\+Legend\+Pos\+Auto}} (string \mbox{\hyperlink{classAnalysisVariable_ae5e1615620dab9270e280a3565770b5a}{variable\+\_\+legendstringposition}}, int \mbox{\hyperlink{classAnalysisVariable_a05efdd0ae94b5a50d7636ac914f77489}{variable\+\_\+numberofentries}})
+\begin{DoxyCompactList}\small\item\em Set\+Legend\+Pos\+Auto returns the legend built from the different characteristics chosen by the user\+: egend string position; length of the legend pad, heigh of each label entry; number of the entries;. \end{DoxyCompactList}\item 
+TLegend $\ast$ \mbox{\hyperlink{classAnalysisVariable_a25d05df33b44f2ba0ce4c744d83836de}{Set\+Legend\+Pos\+Auto}} ()
+\item 
+int \mbox{\hyperlink{classAnalysisVariable_a8a81f706840be06181bc7dea58ee6191}{Set\+Var\+Binning\+Opt}} (Float\+\_\+t num\+\_\+bins, Float\+\_\+t hist\+\_\+min, Float\+\_\+t hist\+\_\+max)
+\begin{DoxyCompactList}\small\item\em Set\+Var\+Binning\+Opt is the default constructor used to set up the number of bins of the histogram that should represent the variable and the min/max of the histogram. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{classAnalysisVariable_af3306cacb40eca3bfd3f3a2ab93ffb93}{Set\+Var\+Cut\+Opt}} (Double\+\_\+t cut\+\_\+min=-\/ 1e15, Double\+\_\+t cut\+\_\+max=1e15)
+\begin{DoxyCompactList}\small\item\em Set\+Var\+Cut\+Opt is the default constructor used to set up the cuts of the variable being analyzed. It returns a string that symbolizes the chosen cuts. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{classAnalysisVariable_ac40b5c5437ef5673cb75f0cbb3a82db2}{Set\+Var\+Cut\+Opt\+Max}} (Double\+\_\+t cut\+\_\+max=1e15)
+\begin{DoxyCompactList}\small\item\em Set\+Var\+Cut\+Opt\+Max is the default constructor used to set up the upper cuts of the variable being analyzed. It returns a string that symbolizes the chosen cuts. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{classAnalysisVariable_a1d0d5adb9563cecf166c13873cc86d88}{Set\+Var\+Cut\+Opt\+Min}} (Double\+\_\+t cut\+\_\+min=-\/1e15)
+\begin{DoxyCompactList}\small\item\em Set\+Var\+Cut\+Opt\+Min is the default constructor used to set up the bottom cuts of the variable being analyzed. It returns a string that symbolizes the chosen cuts. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{classAnalysisVariable_a54abd662c23819d8c2b8c3ab53819953}{Set\+Var\+Cut\+Opt\+True\+PId}} (Double\+\_\+t cut\+\_\+min=-\/ 1e15, Double\+\_\+t cut\+\_\+max=1e15, Float\+\_\+t cut\+\_\+pid=0)
+\begin{DoxyCompactList}\small\item\em Set\+Var\+Cut\+Opt\+True\+PId is the default constructor used to set up the cuts of the variable being analyzed. It returns a string that symbolizes the chosen cuts (particle has to be different from PId). \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{classAnalysisVariable_a8b8dbfe55933bbcbc0c37973b447d503}{Set\+Var\+Cut\+Opt\+False\+PId}} (Double\+\_\+t cut\+\_\+min=-\/ 1e15, Double\+\_\+t cut\+\_\+max=1e15, Float\+\_\+t cut\+\_\+pid=0)
+\begin{DoxyCompactList}\small\item\em Set\+Var\+Cut\+Opt\+False\+PId is the default constructor used to set up the cuts of the variable being analyzed. It returns a string that symbolizes the chosen cuts (particle has to be different from PId). \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classAnalysisVariable_a749d3abdb04a5c2b9ef312f56e5e3a12}{Set\+Var\+Names}} (const char $\ast$var\+\_\+name=\char`\"{}\char`\"{}, const char $\ast$var\+\_\+prettyname=\char`\"{}\char`\"{}, const char $\ast$var\+\_\+expression=\char`\"{}\char`\"{}, const char $\ast$var\+\_\+dimension=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em Set\+Var\+Names is the default constructor used to set up the name (both plain and pretty in latex), the expression used to compute and the dimension of the variable. \end{DoxyCompactList}\item 
+TString \mbox{\hyperlink{classAnalysisVariable_a16258ba209deb83d2ee909b06050c2d6}{Xlabel}} (char const $\ast$name, char const $\ast$dimension)
+\begin{DoxyCompactList}\small\item\em Xlabel returns the string formed by a variable name and a variable\+\_\+dimension. \end{DoxyCompactList}\item 
+TString \mbox{\hyperlink{classAnalysisVariable_a522a7d0f659d673fb624b2cbfe153d26}{Xlabel}} ()
+\begin{DoxyCompactList}\small\item\em Xlabel returns the string formed by variable name and \mbox{\hyperlink{classAnalysisVariable_a2c53972c8bfa678630f35ec1d41861f1}{variable\+\_\+dimension}}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classAnalysisVariable_ac5250fd1ce8693b06cdd4ce79824f34f}{Variable\+Plotter}} (pair$<$ string, string $>$ $\ast$data\+\_\+holder, \mbox{\hyperlink{classAnalysisVariable}{Analysis\+Variable}} $\ast$var\+\_\+to\+\_\+be\+\_\+analyzed, string cut=\char`\"{}\char`\"{}, chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point start=chrono\+::system\+\_\+clock\+::now(), bool debug=false)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+char const  $\ast$ \mbox{\hyperlink{classAnalysisVariable_a25c49c9818a849531e54afc235465374}{variable\+\_\+name}} = \char`\"{}\char`\"{}
+\item 
+char const  $\ast$ \mbox{\hyperlink{classAnalysisVariable_a41ead7da7df09aa6285b5a06166678a8}{variable\+\_\+expression}} = \char`\"{}\char`\"{}
+\item 
+char const  $\ast$ \mbox{\hyperlink{classAnalysisVariable_a2b57563e92fd932cb27fa84a05adb031}{variable\+\_\+prettyname}} = \char`\"{}\char`\"{}
+\item 
+char const  $\ast$ \mbox{\hyperlink{classAnalysisVariable_a2c53972c8bfa678630f35ec1d41861f1}{variable\+\_\+dimension}} = \char`\"{}\char`\"{}
+\item 
+Double\+\_\+t \mbox{\hyperlink{classAnalysisVariable_a3a5d61c0c7ff6ce56e5a72ddada96caf}{variable\+\_\+cut\+\_\+min}} = -\/ 1e15
+\item 
+Double\+\_\+t \mbox{\hyperlink{classAnalysisVariable_a6c991faf9a44bb06f26882182d182b9d}{variable\+\_\+cut\+\_\+max}} = 1e15
+\item 
+Float\+\_\+t \mbox{\hyperlink{classAnalysisVariable_a90e419b837b059243d7410ca5d1d13b5}{variable\+\_\+cut\+\_\+pid}} = 0
+\item 
+bool \mbox{\hyperlink{classAnalysisVariable_ae15afd3c7f991efffeb3852a131e015e}{variable\+\_\+cut\+\_\+pidflag}} = false
+\item 
+bool \mbox{\hyperlink{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}{variable\+\_\+cutchecker}} = false
+\item 
+bool \mbox{\hyperlink{classAnalysisVariable_a9c7e4287b5bccf4752551a3a25d353d5}{variable\+\_\+mvacutfeature}} = false
+\item 
+string \mbox{\hyperlink{classAnalysisVariable_abddc7f6df6917eab3e5ad0b8ddf8eba5}{variable\+\_\+cut}} = \char`\"{}\char`\"{}
+\item 
+string \mbox{\hyperlink{classAnalysisVariable_aff4ff0de93636777462d1a63b8ee4719}{variable\+\_\+stringcut}} = \char`\"{}\char`\"{}
+\item 
+Float\+\_\+t \mbox{\hyperlink{classAnalysisVariable_a82e87ff173a11bedd22dd71bc2e41066}{variable\+\_\+bins}} = 100
+\item 
+Float\+\_\+t \mbox{\hyperlink{classAnalysisVariable_a0a3e014548f02fad0c3c309d8097d6a8}{variable\+\_\+histmin}} = 0
+\item 
+Float\+\_\+t \mbox{\hyperlink{classAnalysisVariable_ac1a869969d95260b2be97c6057b5ec51}{variable\+\_\+histmax}} = 1
+\item 
+string \mbox{\hyperlink{classAnalysisVariable_ae5e1615620dab9270e280a3565770b5a}{variable\+\_\+legendstringposition}} = \char`\"{}TR\char`\"{}
+\item 
+Float\+\_\+t \mbox{\hyperlink{classAnalysisVariable_a05efdd0ae94b5a50d7636ac914f77489}{variable\+\_\+numberofentries}} = 1
+\item 
+Float\+\_\+t \mbox{\hyperlink{classAnalysisVariable_ac72fe08b7d3538d2ac7e98d6f96444da}{variable\+\_\+legxlength}} = 0.\+2
+\item 
+Float\+\_\+t \mbox{\hyperlink{classAnalysisVariable_a53cbe9ea68dc7798d9abbb69330cea29}{variable\+\_\+legentryyheight}} = 0.\+04
+\item 
+char const  $\ast$ \mbox{\hyperlink{classAnalysisVariable_a85901a05020e7c95ab321939e07419da}{variable\+\_\+histplotfolder}} = \char`\"{}Output\+Files/PNGPlots/Variables\char`\"{}
+\item 
+bool \mbox{\hyperlink{classAnalysisVariable_aa7b8a6b1dae770fee5101f17d64eda32}{variable\+\_\+plot\+\_\+flag}} = false
+\item 
+bool \mbox{\hyperlink{classAnalysisVariable_a4209449ed3ca832184dbf1112c924257}{variable\+\_\+logscale\+\_\+flag}} = false
+\item 
+string \mbox{\hyperlink{classAnalysisVariable_a7182b06958efe0e21d80834c679d3928}{filename}} = \char`\"{}\char`\"{}
+\item 
+string \mbox{\hyperlink{classAnalysisVariable_a0ef115b535da78f42f6e1d8f06d648db}{treename}} = \char`\"{}\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00022}{22}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classAnalysisVariable_aabfdc27c3a564ee23f5804c4a71c9ff6}\label{classAnalysisVariable_aabfdc27c3a564ee23f5804c4a71c9ff6}} 
+\index{AnalysisVariable@{AnalysisVariable}!SetLegendPos@{SetLegendPos}}
+\index{SetLegendPos@{SetLegendPos}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{SetLegendPos()}{SetLegendPos()}}
+{\footnotesize\ttfamily TLegend $\ast$ Analysis\+Variable\+::\+Set\+Legend\+Pos (\begin{DoxyParamCaption}\item[{Float\+\_\+t}]{x0,  }\item[{Float\+\_\+t}]{x1,  }\item[{Float\+\_\+t}]{y0,  }\item[{Float\+\_\+t}]{y1 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set\+Legend\+Pos returns the legend built from the four different vertices given by the user. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x0} & Left margin position \\
+\hline
+{\em x1} & Right margin position \\
+\hline
+{\em y0} & Bottom margin position \\
+\hline
+{\em y1} & Top margin position \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00061}{61}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a25d05df33b44f2ba0ce4c744d83836de}\label{classAnalysisVariable_a25d05df33b44f2ba0ce4c744d83836de}} 
+\index{AnalysisVariable@{AnalysisVariable}!SetLegendPosAuto@{SetLegendPosAuto}}
+\index{SetLegendPosAuto@{SetLegendPosAuto}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{SetLegendPosAuto()}{SetLegendPosAuto()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily TLegend $\ast$ Analysis\+Variable\+::\+Set\+Legend\+Pos\+Auto (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00112}{112}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a9b8e2210fc912d6c843fb1c63adc6b7a}\label{classAnalysisVariable_a9b8e2210fc912d6c843fb1c63adc6b7a}} 
+\index{AnalysisVariable@{AnalysisVariable}!SetLegendPosAuto@{SetLegendPosAuto}}
+\index{SetLegendPosAuto@{SetLegendPosAuto}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{SetLegendPosAuto()}{SetLegendPosAuto()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily TLegend $\ast$ Analysis\+Variable\+::\+Set\+Legend\+Pos\+Auto (\begin{DoxyParamCaption}\item[{string}]{variable\+\_\+legendstringposition,  }\item[{int}]{variable\+\_\+numberofentries }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set\+Legend\+Pos\+Auto returns the legend built from the different characteristics chosen by the user\+: egend string position; length of the legend pad, heigh of each label entry; number of the entries;. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em variable\+\_\+legendstringposition} & \mbox{\hyperlink{classAnalysisVariable_ae5e1615620dab9270e280a3565770b5a}{variable\+\_\+legendstringposition}} (it can be \char`\"{}\+TR\char`\"{} or \char`\"{}\+TL\char`\"{}) \\
+\hline
+{\em variable\+\_\+numberofentries} & \mbox{\hyperlink{classAnalysisVariable_a05efdd0ae94b5a50d7636ac914f77489}{variable\+\_\+numberofentries}} \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00095}{95}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a3faa7ae2770aa6ed4585b0cb1c887193}\label{classAnalysisVariable_a3faa7ae2770aa6ed4585b0cb1c887193}} 
+\index{AnalysisVariable@{AnalysisVariable}!SetLegendPosAuto@{SetLegendPosAuto}}
+\index{SetLegendPosAuto@{SetLegendPosAuto}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{SetLegendPosAuto()}{SetLegendPosAuto()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily TLegend $\ast$ Analysis\+Variable\+::\+Set\+Legend\+Pos\+Auto (\begin{DoxyParamCaption}\item[{string}]{variable\+\_\+legendstringposition,  }\item[{int}]{variable\+\_\+numberofentries,  }\item[{Float\+\_\+t}]{variable\+\_\+legxlength,  }\item[{Float\+\_\+t}]{variable\+\_\+legentryyheight }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set\+Legend\+Pos\+Auto returns the legend built from the different characteristics chosen by the user\+: egend string position; length of the legend pad, heigh of each label entry; number of the entries;. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em variable\+\_\+legendstringposition} & \mbox{\hyperlink{classAnalysisVariable_ae5e1615620dab9270e280a3565770b5a}{variable\+\_\+legendstringposition}} \\
+\hline
+{\em variable\+\_\+numberofentries} & \mbox{\hyperlink{classAnalysisVariable_a05efdd0ae94b5a50d7636ac914f77489}{variable\+\_\+numberofentries}} \\
+\hline
+{\em variable\+\_\+legxlength} & \mbox{\hyperlink{classAnalysisVariable_ac72fe08b7d3538d2ac7e98d6f96444da}{variable\+\_\+legxlength}} \\
+\hline
+{\em variable\+\_\+legentryyheight} & \mbox{\hyperlink{classAnalysisVariable_a53cbe9ea68dc7798d9abbb69330cea29}{variable\+\_\+legentryyheight}} \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00073}{73}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a8a81f706840be06181bc7dea58ee6191}\label{classAnalysisVariable_a8a81f706840be06181bc7dea58ee6191}} 
+\index{AnalysisVariable@{AnalysisVariable}!SetVarBinningOpt@{SetVarBinningOpt}}
+\index{SetVarBinningOpt@{SetVarBinningOpt}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{SetVarBinningOpt()}{SetVarBinningOpt()}}
+{\footnotesize\ttfamily int Analysis\+Variable\+::\+Set\+Var\+Binning\+Opt (\begin{DoxyParamCaption}\item[{Float\+\_\+t}]{num\+\_\+bins,  }\item[{Float\+\_\+t}]{hist\+\_\+min,  }\item[{Float\+\_\+t}]{hist\+\_\+max }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set\+Var\+Binning\+Opt is the default constructor used to set up the number of bins of the histogram that should represent the variable and the min/max of the histogram. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num\+\_\+bins} & Number of the bins of the histogram that will represent the variable being analyzed \\
+\hline
+{\em hist\+\_\+min} & Minimum of the histogram that will represent the variable being analyzed \\
+\hline
+{\em hist\+\_\+max} & Maximum of the histogram that will represent the variable being analyzed \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00123}{123}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_af3306cacb40eca3bfd3f3a2ab93ffb93}\label{classAnalysisVariable_af3306cacb40eca3bfd3f3a2ab93ffb93}} 
+\index{AnalysisVariable@{AnalysisVariable}!SetVarCutOpt@{SetVarCutOpt}}
+\index{SetVarCutOpt@{SetVarCutOpt}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{SetVarCutOpt()}{SetVarCutOpt()}}
+{\footnotesize\ttfamily string Analysis\+Variable\+::\+Set\+Var\+Cut\+Opt (\begin{DoxyParamCaption}\item[{Double\+\_\+t}]{cut\+\_\+min = {\ttfamily -\/~1e15},  }\item[{Double\+\_\+t}]{cut\+\_\+max = {\ttfamily 1e15} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set\+Var\+Cut\+Opt is the default constructor used to set up the cuts of the variable being analyzed. It returns a string that symbolizes the chosen cuts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cut\+\_\+min} & Set the minimum threshold for the variable being analyzed \\
+\hline
+{\em cut\+\_\+max} & Set the maximum threshold for the variable being analyzed \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00136}{136}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a8b8dbfe55933bbcbc0c37973b447d503}\label{classAnalysisVariable_a8b8dbfe55933bbcbc0c37973b447d503}} 
+\index{AnalysisVariable@{AnalysisVariable}!SetVarCutOptFalsePId@{SetVarCutOptFalsePId}}
+\index{SetVarCutOptFalsePId@{SetVarCutOptFalsePId}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{SetVarCutOptFalsePId()}{SetVarCutOptFalsePId()}}
+{\footnotesize\ttfamily string Analysis\+Variable\+::\+Set\+Var\+Cut\+Opt\+False\+PId (\begin{DoxyParamCaption}\item[{Double\+\_\+t}]{cut\+\_\+min = {\ttfamily -\/~1e15},  }\item[{Double\+\_\+t}]{cut\+\_\+max = {\ttfamily 1e15},  }\item[{Float\+\_\+t}]{cut\+\_\+pid = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set\+Var\+Cut\+Opt\+False\+PId is the default constructor used to set up the cuts of the variable being analyzed. It returns a string that symbolizes the chosen cuts (particle has to be different from PId). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cut\+\_\+min} & Set the minimum threshold for the variable being analyzed \\
+\hline
+{\em cut\+\_\+max} & Set the maximum threshold for the variable being analyzed \\
+\hline
+{\em cut\+\_\+pid} & Set the particle identification code which the variable should be equal to \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00213}{213}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_ac40b5c5437ef5673cb75f0cbb3a82db2}\label{classAnalysisVariable_ac40b5c5437ef5673cb75f0cbb3a82db2}} 
+\index{AnalysisVariable@{AnalysisVariable}!SetVarCutOptMax@{SetVarCutOptMax}}
+\index{SetVarCutOptMax@{SetVarCutOptMax}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{SetVarCutOptMax()}{SetVarCutOptMax()}}
+{\footnotesize\ttfamily string Analysis\+Variable\+::\+Set\+Var\+Cut\+Opt\+Max (\begin{DoxyParamCaption}\item[{Double\+\_\+t}]{cut\+\_\+max = {\ttfamily 1e15} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set\+Var\+Cut\+Opt\+Max is the default constructor used to set up the upper cuts of the variable being analyzed. It returns a string that symbolizes the chosen cuts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cut\+\_\+max} & Set the maximum threshold for the variable being analyzed \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00161}{161}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a1d0d5adb9563cecf166c13873cc86d88}\label{classAnalysisVariable_a1d0d5adb9563cecf166c13873cc86d88}} 
+\index{AnalysisVariable@{AnalysisVariable}!SetVarCutOptMin@{SetVarCutOptMin}}
+\index{SetVarCutOptMin@{SetVarCutOptMin}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{SetVarCutOptMin()}{SetVarCutOptMin()}}
+{\footnotesize\ttfamily string Analysis\+Variable\+::\+Set\+Var\+Cut\+Opt\+Min (\begin{DoxyParamCaption}\item[{Double\+\_\+t}]{cut\+\_\+min = {\ttfamily -\/1e15} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set\+Var\+Cut\+Opt\+Min is the default constructor used to set up the bottom cuts of the variable being analyzed. It returns a string that symbolizes the chosen cuts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cut\+\_\+max} & Set the minimum threshold for the variable being analyzed \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00170}{170}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a54abd662c23819d8c2b8c3ab53819953}\label{classAnalysisVariable_a54abd662c23819d8c2b8c3ab53819953}} 
+\index{AnalysisVariable@{AnalysisVariable}!SetVarCutOptTruePId@{SetVarCutOptTruePId}}
+\index{SetVarCutOptTruePId@{SetVarCutOptTruePId}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{SetVarCutOptTruePId()}{SetVarCutOptTruePId()}}
+{\footnotesize\ttfamily string Analysis\+Variable\+::\+Set\+Var\+Cut\+Opt\+True\+PId (\begin{DoxyParamCaption}\item[{Double\+\_\+t}]{cut\+\_\+min = {\ttfamily -\/~1e15},  }\item[{Double\+\_\+t}]{cut\+\_\+max = {\ttfamily 1e15},  }\item[{Float\+\_\+t}]{cut\+\_\+pid = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set\+Var\+Cut\+Opt\+True\+PId is the default constructor used to set up the cuts of the variable being analyzed. It returns a string that symbolizes the chosen cuts (particle has to be different from PId). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cut\+\_\+min} & Set the minimum threshold for the variable being analyzed \\
+\hline
+{\em cut\+\_\+max} & Set the maximum threshold for the variable being analyzed \\
+\hline
+{\em cut\+\_\+pid} & Set the particle identification code which the variable should be equal to \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00181}{181}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a749d3abdb04a5c2b9ef312f56e5e3a12}\label{classAnalysisVariable_a749d3abdb04a5c2b9ef312f56e5e3a12}} 
+\index{AnalysisVariable@{AnalysisVariable}!SetVarNames@{SetVarNames}}
+\index{SetVarNames@{SetVarNames}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{SetVarNames()}{SetVarNames()}}
+{\footnotesize\ttfamily int Analysis\+Variable\+::\+Set\+Var\+Names (\begin{DoxyParamCaption}\item[{const char $\ast$}]{var\+\_\+name = {\ttfamily \char`\"{}\char`\"{}},  }\item[{const char $\ast$}]{var\+\_\+prettyname = {\ttfamily \char`\"{}\char`\"{}},  }\item[{const char $\ast$}]{var\+\_\+expression = {\ttfamily \char`\"{}\char`\"{}},  }\item[{const char $\ast$}]{var\+\_\+dimension = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set\+Var\+Names is the default constructor used to set up the name (both plain and pretty in latex), the expression used to compute and the dimension of the variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em var\+\_\+name} & Set the name of the variable (\mbox{\hyperlink{classAnalysisVariable_a25c49c9818a849531e54afc235465374}{variable\+\_\+name}}) \\
+\hline
+{\em var\+\_\+prettyname} & Set the pretty name of the variable (\mbox{\hyperlink{classAnalysisVariable_a2b57563e92fd932cb27fa84a05adb031}{variable\+\_\+prettyname}}) \\
+\hline
+{\em var\+\_\+expression} & Set the expression used to compute the variable (\mbox{\hyperlink{classAnalysisVariable_a41ead7da7df09aa6285b5a06166678a8}{variable\+\_\+expression}}) \\
+\hline
+{\em var\+\_\+dimension} & Set the dimension of the variable going to be analyzed (\mbox{\hyperlink{classAnalysisVariable_a2c53972c8bfa678630f35ec1d41861f1}{variable\+\_\+dimension}}) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00246}{246}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_ac5250fd1ce8693b06cdd4ce79824f34f}\label{classAnalysisVariable_ac5250fd1ce8693b06cdd4ce79824f34f}} 
+\index{AnalysisVariable@{AnalysisVariable}!VariablePlotter@{VariablePlotter}}
+\index{VariablePlotter@{VariablePlotter}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{VariablePlotter()}{VariablePlotter()}}
+{\footnotesize\ttfamily int Analysis\+Variable\+::\+Variable\+Plotter (\begin{DoxyParamCaption}\item[{pair$<$ string, string $>$ $\ast$}]{data\+\_\+holder,  }\item[{\mbox{\hyperlink{classAnalysisVariable}{Analysis\+Variable}} $\ast$}]{var\+\_\+to\+\_\+be\+\_\+analyzed,  }\item[{string}]{cut = {\ttfamily \char`\"{}\char`\"{}},  }\item[{chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point}]{start = {\ttfamily chrono\+:\+:system\+\_\+clock\+:\+:now()},  }\item[{bool}]{debug = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariablePlotter_8cpp_source_l00024}{24}} of file \mbox{\hyperlink{AnalysisVariablePlotter_8cpp_source}{Analysis\+Variable\+Plotter.\+cpp}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a522a7d0f659d673fb624b2cbfe153d26}\label{classAnalysisVariable_a522a7d0f659d673fb624b2cbfe153d26}} 
+\index{AnalysisVariable@{AnalysisVariable}!Xlabel@{Xlabel}}
+\index{Xlabel@{Xlabel}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{Xlabel()}{Xlabel()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily TString Analysis\+Variable\+::\+Xlabel (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Xlabel returns the string formed by variable name and \mbox{\hyperlink{classAnalysisVariable_a2c53972c8bfa678630f35ec1d41861f1}{variable\+\_\+dimension}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em variable\+\_\+prettyname} & Variable that will be plotted (\mbox{\hyperlink{classAnalysisVariable_a2b57563e92fd932cb27fa84a05adb031}{variable\+\_\+prettyname}}) \\
+\hline
+{\em variable\+\_\+dimension} & Dimension of the variable that will be plotted (\mbox{\hyperlink{classAnalysisVariable_a2c53972c8bfa678630f35ec1d41861f1}{variable\+\_\+dimension}}) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00270}{270}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a16258ba209deb83d2ee909b06050c2d6}\label{classAnalysisVariable_a16258ba209deb83d2ee909b06050c2d6}} 
+\index{AnalysisVariable@{AnalysisVariable}!Xlabel@{Xlabel}}
+\index{Xlabel@{Xlabel}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{Xlabel()}{Xlabel()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily TString Analysis\+Variable\+::\+Xlabel (\begin{DoxyParamCaption}\item[{char const $\ast$}]{name,  }\item[{char const $\ast$}]{dimension }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Xlabel returns the string formed by a variable name and a variable\+\_\+dimension. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of the variable that will be plotted \\
+\hline
+{\em dimension} & Dimension of the variable that will be plotted \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00260}{260}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classAnalysisVariable_a7182b06958efe0e21d80834c679d3928}\label{classAnalysisVariable_a7182b06958efe0e21d80834c679d3928}} 
+\index{AnalysisVariable@{AnalysisVariable}!filename@{filename}}
+\index{filename@{filename}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{filename}{filename}}
+{\footnotesize\ttfamily string Analysis\+Variable\+::filename = \char`\"{}\char`\"{}}
+
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00051}{51}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a0ef115b535da78f42f6e1d8f06d648db}\label{classAnalysisVariable_a0ef115b535da78f42f6e1d8f06d648db}} 
+\index{AnalysisVariable@{AnalysisVariable}!treename@{treename}}
+\index{treename@{treename}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{treename}{treename}}
+{\footnotesize\ttfamily string Analysis\+Variable\+::treename = \char`\"{}\char`\"{}}
+
+
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00052}{52}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a82e87ff173a11bedd22dd71bc2e41066}\label{classAnalysisVariable_a82e87ff173a11bedd22dd71bc2e41066}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_bins@{variable\_bins}}
+\index{variable\_bins@{variable\_bins}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_bins}{variable\_bins}}
+{\footnotesize\ttfamily Float\+\_\+t Analysis\+Variable\+::variable\+\_\+bins = 100}
+
+Number of bins of the histogram that will represent the variable 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00038}{38}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_abddc7f6df6917eab3e5ad0b8ddf8eba5}\label{classAnalysisVariable_abddc7f6df6917eab3e5ad0b8ddf8eba5}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_cut@{variable\_cut}}
+\index{variable\_cut@{variable\_cut}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_cut}{variable\_cut}}
+{\footnotesize\ttfamily string Analysis\+Variable\+::variable\+\_\+cut = \char`\"{}\char`\"{}}
+
+String describing a linear cut between minimum and maximum or particle identification(has to be set with the constructor \mbox{\hyperlink{classAnalysisVariable_af3306cacb40eca3bfd3f3a2ab93ffb93}{Set\+Var\+Cut\+Opt}}) 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00036}{36}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a6c991faf9a44bb06f26882182d182b9d}\label{classAnalysisVariable_a6c991faf9a44bb06f26882182d182b9d}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_cut\_max@{variable\_cut\_max}}
+\index{variable\_cut\_max@{variable\_cut\_max}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_cut\_max}{variable\_cut\_max}}
+{\footnotesize\ttfamily Double\+\_\+t Analysis\+Variable\+::variable\+\_\+cut\+\_\+max = 1e15}
+
+Maximum of the variable\+: only values lower than this are considered 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00031}{31}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a3a5d61c0c7ff6ce56e5a72ddada96caf}\label{classAnalysisVariable_a3a5d61c0c7ff6ce56e5a72ddada96caf}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_cut\_min@{variable\_cut\_min}}
+\index{variable\_cut\_min@{variable\_cut\_min}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_cut\_min}{variable\_cut\_min}}
+{\footnotesize\ttfamily Double\+\_\+t Analysis\+Variable\+::variable\+\_\+cut\+\_\+min = -\/ 1e15}
+
+Minimum of the variable\+: only values greater than this are considered 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00030}{30}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a90e419b837b059243d7410ca5d1d13b5}\label{classAnalysisVariable_a90e419b837b059243d7410ca5d1d13b5}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_cut\_pid@{variable\_cut\_pid}}
+\index{variable\_cut\_pid@{variable\_cut\_pid}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_cut\_pid}{variable\_cut\_pid}}
+{\footnotesize\ttfamily Float\+\_\+t Analysis\+Variable\+::variable\+\_\+cut\+\_\+pid = 0}
+
+Particle identification number (please refer to PDG for further information) 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00032}{32}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_ae15afd3c7f991efffeb3852a131e015e}\label{classAnalysisVariable_ae15afd3c7f991efffeb3852a131e015e}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_cut\_pidflag@{variable\_cut\_pidflag}}
+\index{variable\_cut\_pidflag@{variable\_cut\_pidflag}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_cut\_pidflag}{variable\_cut\_pidflag}}
+{\footnotesize\ttfamily bool Analysis\+Variable\+::variable\+\_\+cut\+\_\+pidflag = false}
+
+If true, the particle has to be the one with this particle identification number if false, the particle has to be different from the one with this particle identification 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00033}{33}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}\label{classAnalysisVariable_aac97c7cc9aea8bd2ccdf3b06c58bdc10}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_cutchecker@{variable\_cutchecker}}
+\index{variable\_cutchecker@{variable\_cutchecker}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_cutchecker}{variable\_cutchecker}}
+{\footnotesize\ttfamily bool Analysis\+Variable\+::variable\+\_\+cutchecker = false}
+
+If true, the event has to pass through the \mbox{\hyperlink{classAnalysisVariable_abddc7f6df6917eab3e5ad0b8ddf8eba5}{variable\+\_\+cut}} (if so, it is not a minimal cut) 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00034}{34}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a2c53972c8bfa678630f35ec1d41861f1}\label{classAnalysisVariable_a2c53972c8bfa678630f35ec1d41861f1}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_dimension@{variable\_dimension}}
+\index{variable\_dimension@{variable\_dimension}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_dimension}{variable\_dimension}}
+{\footnotesize\ttfamily char const$\ast$ Analysis\+Variable\+::variable\+\_\+dimension = \char`\"{}\char`\"{}}
+
+Unit of measurement of the variable 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00028}{28}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a41ead7da7df09aa6285b5a06166678a8}\label{classAnalysisVariable_a41ead7da7df09aa6285b5a06166678a8}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_expression@{variable\_expression}}
+\index{variable\_expression@{variable\_expression}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_expression}{variable\_expression}}
+{\footnotesize\ttfamily char const$\ast$ Analysis\+Variable\+::variable\+\_\+expression = \char`\"{}\char`\"{}}
+
+Expression by which the variable can be comined to form a new variable 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00026}{26}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_ac1a869969d95260b2be97c6057b5ec51}\label{classAnalysisVariable_ac1a869969d95260b2be97c6057b5ec51}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_histmax@{variable\_histmax}}
+\index{variable\_histmax@{variable\_histmax}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_histmax}{variable\_histmax}}
+{\footnotesize\ttfamily Float\+\_\+t Analysis\+Variable\+::variable\+\_\+histmax = 1}
+
+Maximum of bins of the histogram that will represent the variable 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00040}{40}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a0a3e014548f02fad0c3c309d8097d6a8}\label{classAnalysisVariable_a0a3e014548f02fad0c3c309d8097d6a8}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_histmin@{variable\_histmin}}
+\index{variable\_histmin@{variable\_histmin}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_histmin}{variable\_histmin}}
+{\footnotesize\ttfamily Float\+\_\+t Analysis\+Variable\+::variable\+\_\+histmin = 0}
+
+Minimum of the histogram that will represent the variable 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00039}{39}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a85901a05020e7c95ab321939e07419da}\label{classAnalysisVariable_a85901a05020e7c95ab321939e07419da}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_histplotfolder@{variable\_histplotfolder}}
+\index{variable\_histplotfolder@{variable\_histplotfolder}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_histplotfolder}{variable\_histplotfolder}}
+{\footnotesize\ttfamily char const$\ast$ Analysis\+Variable\+::variable\+\_\+histplotfolder = \char`\"{}Output\+Files/PNGPlots/Variables\char`\"{}}
+
+Folder which will store the plot of the histogram of the variable. Default is\+: \char`\"{}\+Output\+Files/\+PNGPlots/\+Variables/\char`\"{} 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00047}{47}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_ae5e1615620dab9270e280a3565770b5a}\label{classAnalysisVariable_ae5e1615620dab9270e280a3565770b5a}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_legendstringposition@{variable\_legendstringposition}}
+\index{variable\_legendstringposition@{variable\_legendstringposition}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_legendstringposition}{variable\_legendstringposition}}
+{\footnotesize\ttfamily string Analysis\+Variable\+::variable\+\_\+legendstringposition = \char`\"{}TR\char`\"{}}
+
+String used to set the position of the legend in the canvas (Default\+: TR, top right). The possible arguments are\+: TR (top right), TL (top left) 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00042}{42}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a53cbe9ea68dc7798d9abbb69330cea29}\label{classAnalysisVariable_a53cbe9ea68dc7798d9abbb69330cea29}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_legentryyheight@{variable\_legentryyheight}}
+\index{variable\_legentryyheight@{variable\_legentryyheight}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_legentryyheight}{variable\_legentryyheight}}
+{\footnotesize\ttfamily Float\+\_\+t Analysis\+Variable\+::variable\+\_\+legentryyheight = 0.\+04}
+
+Height of each entry in the legend (Default is 0.\+04) 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00045}{45}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_ac72fe08b7d3538d2ac7e98d6f96444da}\label{classAnalysisVariable_ac72fe08b7d3538d2ac7e98d6f96444da}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_legxlength@{variable\_legxlength}}
+\index{variable\_legxlength@{variable\_legxlength}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_legxlength}{variable\_legxlength}}
+{\footnotesize\ttfamily Float\+\_\+t Analysis\+Variable\+::variable\+\_\+legxlength = 0.\+2}
+
+Length of the legend pad (Default is 0.\+2) 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00044}{44}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a4209449ed3ca832184dbf1112c924257}\label{classAnalysisVariable_a4209449ed3ca832184dbf1112c924257}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_logscale\_flag@{variable\_logscale\_flag}}
+\index{variable\_logscale\_flag@{variable\_logscale\_flag}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_logscale\_flag}{variable\_logscale\_flag}}
+{\footnotesize\ttfamily bool Analysis\+Variable\+::variable\+\_\+logscale\+\_\+flag = false}
+
+If true, the histogram of the variable will be plot in a log scale 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00049}{49}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a9c7e4287b5bccf4752551a3a25d353d5}\label{classAnalysisVariable_a9c7e4287b5bccf4752551a3a25d353d5}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_mvacutfeature@{variable\_mvacutfeature}}
+\index{variable\_mvacutfeature@{variable\_mvacutfeature}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_mvacutfeature}{variable\_mvacutfeature}}
+{\footnotesize\ttfamily bool Analysis\+Variable\+::variable\+\_\+mvacutfeature = false}
+
+If true, the variable is used as a feature in the training of the MVA algorithm that optimizes the cut 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00035}{35}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a25c49c9818a849531e54afc235465374}\label{classAnalysisVariable_a25c49c9818a849531e54afc235465374}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_name@{variable\_name}}
+\index{variable\_name@{variable\_name}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_name}{variable\_name}}
+{\footnotesize\ttfamily char const$\ast$ Analysis\+Variable\+::variable\+\_\+name = \char`\"{}\char`\"{}}
+
+Expression by which the variable is stored in the input files 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00025}{25}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a05efdd0ae94b5a50d7636ac914f77489}\label{classAnalysisVariable_a05efdd0ae94b5a50d7636ac914f77489}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_numberofentries@{variable\_numberofentries}}
+\index{variable\_numberofentries@{variable\_numberofentries}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_numberofentries}{variable\_numberofentries}}
+{\footnotesize\ttfamily Float\+\_\+t Analysis\+Variable\+::variable\+\_\+numberofentries = 1}
+
+Number of entries in the legend (Default is 1) 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00043}{43}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_aa7b8a6b1dae770fee5101f17d64eda32}\label{classAnalysisVariable_aa7b8a6b1dae770fee5101f17d64eda32}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_plot\_flag@{variable\_plot\_flag}}
+\index{variable\_plot\_flag@{variable\_plot\_flag}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_plot\_flag}{variable\_plot\_flag}}
+{\footnotesize\ttfamily bool Analysis\+Variable\+::variable\+\_\+plot\+\_\+flag = false}
+
+If true, \mbox{\hyperlink{EfficienciesAnalyzer_8cpp_a9af7de9eca56f919b2a52b425135a26d}{Efficiencies\+Analyzer}} will be used to plot an histogram of the variable in 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00048}{48}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_a2b57563e92fd932cb27fa84a05adb031}\label{classAnalysisVariable_a2b57563e92fd932cb27fa84a05adb031}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_prettyname@{variable\_prettyname}}
+\index{variable\_prettyname@{variable\_prettyname}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_prettyname}{variable\_prettyname}}
+{\footnotesize\ttfamily char const$\ast$ Analysis\+Variable\+::variable\+\_\+prettyname = \char`\"{}\char`\"{}}
+
+Name that will be used as plot label (La\+Tex expression can be written) 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00027}{27}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+\mbox{\Hypertarget{classAnalysisVariable_aff4ff0de93636777462d1a63b8ee4719}\label{classAnalysisVariable_aff4ff0de93636777462d1a63b8ee4719}} 
+\index{AnalysisVariable@{AnalysisVariable}!variable\_stringcut@{variable\_stringcut}}
+\index{variable\_stringcut@{variable\_stringcut}!AnalysisVariable@{AnalysisVariable}}
+\doxysubsubsection{\texorpdfstring{variable\_stringcut}{variable\_stringcut}}
+{\footnotesize\ttfamily string Analysis\+Variable\+::variable\+\_\+stringcut = \char`\"{}\char`\"{}}
+
+String describing an additional cut (or a particularly complex one, if needed) 
+
+Definition at line \mbox{\hyperlink{AnalysisVariable_8h_source_l00037}{37}} of file \mbox{\hyperlink{AnalysisVariable_8h_source}{Analysis\+Variable.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Source\+Files/\+Header\+Files/\mbox{\hyperlink{AnalysisVariable_8h}{Analysis\+Variable.\+h}}\item 
+Source\+Files/\mbox{\hyperlink{AnalysisVariablePlotter_8cpp}{Analysis\+Variable\+Plotter.\+cpp}}\end{DoxyCompactItemize}

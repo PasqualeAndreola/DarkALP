@@ -1,0 +1,125 @@
+\hypertarget{EfficienciesAnalyzer_8cpp_source}{}\doxysection{Efficiencies\+Analyzer.\+cpp}
+\label{EfficienciesAnalyzer_8cpp_source}\index{SourceFiles/EfficienciesAnalyzer.cpp@{SourceFiles/EfficienciesAnalyzer.cpp}}
+\mbox{\hyperlink{EfficienciesAnalyzer_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00020}00020 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{EfficienciesAnalyzer_8h}{HeaderFiles/EfficienciesAnalyzer.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00021}00021 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{PrintFuncInfo_8h}{HeaderFiles/PrintFuncInfo.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00023}\mbox{\hyperlink{EfficienciesAnalyzer_8cpp_a9af7de9eca56f919b2a52b425135a26d}{00023}} Double\_t \mbox{\hyperlink{EfficienciesAnalyzer_8cpp_a9af7de9eca56f919b2a52b425135a26d}{EfficienciesAnalyzer}}(unordered\_map<\textcolor{keywordtype}{string}, pair<string, string>> data\_holder,}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00024}00024                               unordered\_map<string, string> mapofcuts,}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00025}00025                               chrono::\_V2::system\_clock::time\_point start,}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00026}00026                               \textcolor{keywordtype}{bool} outputprint,}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00027}00027                               \textcolor{keywordtype}{bool} debug)}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00028}00028 \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00029}00029     \textcolor{comment}{// Enabling implicit Multi-\/threading}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00030}00030     ROOT::EnableImplicitMT();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00032}00032     \textcolor{comment}{// Defining the quantities that will be used}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00033}00033     ROOT::RDataFrame *dataset = NULL;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00035}00035     \textcolor{comment}{// Loading dataframes which hold the variables needed to compute the efficiencies}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00036}00036     \textcolor{comment}{// Looping over chosen variables in order to compute the efficiencies}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00037}00037     \textcolor{keywordflow}{for} (unordered\_map<\textcolor{keywordtype}{string}, pair<string, string>>::iterator dataset\_iterator = data\_holder.begin(); dataset\_iterator != data\_holder.end(); dataset\_iterator++)}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00038}00038     \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00039}00039         \textcolor{keyword}{const} \textcolor{keywordtype}{char} *datasetname = dataset\_iterator-\/>first.data();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00040}00040         \textcolor{keywordtype}{char} *filename = dataset\_iterator-\/>second.first.data();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00041}00041         \textcolor{keywordtype}{char} *treename = dataset\_iterator-\/>second.second.data();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00042}00042         \textcolor{keywordtype}{bool} fileexist = TFile(filename).IsZombie();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00043}00043         \textcolor{keywordtype}{bool} treeexist = TTree(filename, treename).IsZombie();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00044}00044         \textcolor{keywordflow}{if} (fileexist == \textcolor{keyword}{false} \&\& treeexist == \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00045}00045             dataset = \textcolor{keyword}{new} ROOT::RDataFrame(treename, filename);}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00046}00046         Double\_t neventsprecut = dataset-\/>Count().GetValue();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00047}00047         Double\_t neventsminicut = dataset-\/>Filter(mapofcuts[\textcolor{stringliteral}{"{}MinCuts"{}}]).Count().GetValue();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00048}00048         Double\_t efficiencymincut = neventsminicut / neventsprecut;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00049}00049         Double\_t neventsaftercut = dataset-\/>Filter(mapofcuts[\textcolor{stringliteral}{"{}Cuts"{}}]).Count().GetValue();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00050}00050         Double\_t efficiencycut = neventsaftercut / neventsprecut;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00051}00051         Double\_t efficiency\_mincut\_vs\_cut = neventsaftercut / neventsminicut;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00052}00052         \textcolor{keywordflow}{if} (outputprint == \textcolor{keyword}{true})}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00053}00053         \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00054}00054             cout << \textcolor{stringliteral}{"{}Number of events before the cuts in "{}} << datasetname << \textcolor{stringliteral}{"{} file are: "{}} << neventsprecut << endl;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00055}00055             cout << \textcolor{stringliteral}{"{}Number of events after the minimal cuts in "{}} << datasetname << \textcolor{stringliteral}{"{} file are: "{}} << neventsminicut << endl;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00056}00056             printf(\textcolor{stringliteral}{"{}\(\backslash\)033[1;33mEfficiency of minimal cuts wrt no cuts in the file \%s is: \%.4f \(\backslash\)033[0m\(\backslash\)n"{}}, datasetname, efficiencymincut);}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00057}00057             cout << \textcolor{stringliteral}{"{}Number of events after the cuts in "{}} << datasetname << \textcolor{stringliteral}{"{} file are: "{}} << neventsaftercut << endl;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00058}00058             printf(\textcolor{stringliteral}{"{}\(\backslash\)033[1;32mEfficiency of cuts wrt no cuts in the file \%s is: \%.4f \(\backslash\)033[0m\(\backslash\)n"{}}, datasetname, efficiencycut);}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00059}00059             printf(\textcolor{stringliteral}{"{}\(\backslash\)033[1;36mEfficiency of cuts wrt minimal cuts in the file \%s is: \%.4f \(\backslash\)033[0m\(\backslash\)n"{}}, datasetname, efficiency\_mincut\_vs\_cut);}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00060}00060             cout << endl;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00061}00061         \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00062}00062     \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00064}00064     cout << endl;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00065}00065     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00066}00066 \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00083}\mbox{\hyperlink{EfficienciesAnalyzer_8cpp_a8702761a9eea26b99277a755251a8f1d}{00083}} Double\_t \mbox{\hyperlink{EfficienciesAnalyzer_8cpp_a9af7de9eca56f919b2a52b425135a26d}{EfficienciesAnalyzer}}(unordered\_map<\textcolor{keywordtype}{string}, pair<string, string>> data\_holder,}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00084}00084                               \textcolor{keywordtype}{string} cut,}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00085}00085                               chrono::\_V2::system\_clock::time\_point start,}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00086}00086                               \textcolor{keywordtype}{bool} outputprint,}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00087}00087                               \textcolor{keywordtype}{bool} debug)}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00088}00088 \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00089}00089     \textcolor{comment}{// Enabling implicit Multi-\/threading}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00090}00090     ROOT::EnableImplicitMT();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00091}00091 }
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00092}00092     \textcolor{comment}{// Defining the quantities that will be used}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00093}00093     ROOT::RDataFrame *dataset = NULL;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00095}00095     \textcolor{comment}{// Loading dataframes which hold the variables needed to compute the efficiencies}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00096}00096     \textcolor{comment}{// Looping over chosen variables in order to compute the efficiencies}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00097}00097     \textcolor{keywordflow}{for} (unordered\_map<\textcolor{keywordtype}{string}, pair<string, string>>::iterator dataset\_iterator = data\_holder.begin(); dataset\_iterator != data\_holder.end(); dataset\_iterator++)}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00098}00098     \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00099}00099         \textcolor{keyword}{const} \textcolor{keywordtype}{char} *datasetname = dataset\_iterator-\/>first.data();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00100}00100         \textcolor{keywordtype}{char} *filename = dataset\_iterator-\/>second.first.data();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00101}00101         \textcolor{keywordtype}{char} *treename = dataset\_iterator-\/>second.second.data();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00102}00102         \textcolor{keywordtype}{bool} fileexist = TFile(filename).IsZombie();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00103}00103         \textcolor{keywordtype}{bool} treeexist = TTree(filename, treename).IsZombie();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00104}00104         \textcolor{keywordflow}{if} (fileexist == \textcolor{keyword}{false} \&\& treeexist == \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00105}00105             dataset = \textcolor{keyword}{new} ROOT::RDataFrame(treename, filename);}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00106}00106         Double\_t neventsprecut = dataset-\/>Count().GetValue();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00107}00107         Double\_t neventsaftercut = dataset-\/>Filter(cut).Count().GetValue();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00108}00108         Double\_t efficiencycut = neventsaftercut / neventsprecut;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00109}00109         \textcolor{keywordflow}{if} (outputprint == \textcolor{keyword}{true})}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00110}00110         \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00111}00111             cout << \textcolor{stringliteral}{"{}Number of events before the cuts in "{}} << datasetname << \textcolor{stringliteral}{"{} file are: "{}} << neventsprecut << endl;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00112}00112             cout << \textcolor{stringliteral}{"{}Number of events after the cuts in "{}} << datasetname << \textcolor{stringliteral}{"{} file are: "{}} << neventsaftercut << endl;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00113}00113             printf(\textcolor{stringliteral}{"{}\(\backslash\)033[1;32mEfficiency of cuts wrt no cuts in the file \%s is: \%.4f \(\backslash\)033[0m\(\backslash\)n"{}}, datasetname, efficiencycut);}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00114}00114             cout << endl;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00115}00115         \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00116}00116     \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00117}00117 }
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00118}00118     cout << endl;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00119}00119     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00120}00120 \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00121}00121 }
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00136}\mbox{\hyperlink{EfficienciesAnalyzer_8cpp_a39cd2ef0df202a363f0cadf4771cefa4}{00136}} Double\_t \mbox{\hyperlink{EfficienciesAnalyzer_8cpp_a9af7de9eca56f919b2a52b425135a26d}{EfficienciesAnalyzer}}(pair<string, string> data\_holder,}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00137}00137                               \textcolor{keywordtype}{string} cut,}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00138}00138                               chrono::\_V2::system\_clock::time\_point start,}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00139}00139                               \textcolor{keywordtype}{bool} outputprint,}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00140}00140                               \textcolor{keywordtype}{bool} debug)}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00141}00141 \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00142}00142     \textcolor{comment}{// Enabling implicit Multi-\/threading}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00143}00143     ROOT::EnableImplicitMT();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00144}00144 }
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00145}00145     \textcolor{comment}{// Defining the quantities that will be used}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00146}00146     ROOT::RDataFrame *dataset = NULL;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00147}00147 }
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00148}00148     \textcolor{comment}{// Loading dataframe using file and tree names}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00149}00149     \textcolor{keywordtype}{char} *filename = data\_holder.first.data();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00150}00150     \textcolor{keywordtype}{char} *treename = data\_holder.second.data();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00151}00151     \textcolor{keywordtype}{bool} fileexist = TFile(filename).IsZombie();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00152}00152     \textcolor{keywordtype}{bool} treeexist = TTree(filename, treename).IsZombie();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00153}00153     \textcolor{keywordflow}{if} (fileexist == \textcolor{keyword}{false} \&\& treeexist == \textcolor{keyword}{false}) dataset = \textcolor{keyword}{new} ROOT::RDataFrame(treename, filename);}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00154}00154     Double\_t neventsprecut = dataset-\/>Count().GetValue();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00155}00155     Double\_t neventsaftercut = dataset-\/>Filter(cut).Count().GetValue();}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00156}00156     Double\_t efficiencycut = neventsaftercut / neventsprecut;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00157}00157     \textcolor{keywordflow}{if} (outputprint == \textcolor{keyword}{true})}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00158}00158     \{}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00159}00159         cout << \textcolor{stringliteral}{"{}Number of events before the cuts in "{}} << filename << \textcolor{stringliteral}{"{} file are: "{}} << neventsprecut << endl;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00160}00160         cout << \textcolor{stringliteral}{"{}Number of events after the cuts in "{}} << filename << \textcolor{stringliteral}{"{} file are: "{}} << neventsaftercut << endl;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00161}00161         printf(\textcolor{stringliteral}{"{}\(\backslash\)033[1;32mEfficiency of cuts wrt no cuts in the file \%s is: \%.4f \(\backslash\)033[0m\(\backslash\)n"{}}, filename, efficiencycut);}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00162}00162         cout << endl;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00163}00163     \}}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00164}00164 }
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00165}00165     \textcolor{keywordflow}{return} efficiencycut;}
+\DoxyCodeLine{\Hypertarget{EfficienciesAnalyzer_8cpp_source_l00166}00166 \}}
+
+\end{DoxyCode}

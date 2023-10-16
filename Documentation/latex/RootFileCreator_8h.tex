@@ -1,0 +1,90 @@
+\hypertarget{RootFileCreator_8h}{}\doxysection{Source\+Files/\+Header\+Files/\+Root\+File\+Creator.h File Reference}
+\label{RootFileCreator_8h}\index{SourceFiles/HeaderFiles/RootFileCreator.h@{SourceFiles/HeaderFiles/RootFileCreator.h}}
+
+
+Header file for some functions used to create $\ast$.root files.  
+
+
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{RootFileCreator_8h_a724ba5f4b176d26e73905ce68cad46dc}{Root\+File\+Creator\+Filterer}} (pair$<$ string, string $>$ data\+\_\+holder, string output\+\_\+filename, string cut, string output\+\_\+path=\char`\"{}Output\+Files/\char`\"{}, chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point start=chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::now(), bool outputprint=false, bool debug=false)
+\item 
+int \mbox{\hyperlink{RootFileCreator_8h_aa3e46a745ce80ff63a74b9e37d190b85}{Root\+File\+Creator\+Tree}} (TTree $\ast$treetobewritten, string output\+\_\+filename=\char`\"{}\char`\"{}, string output\+\_\+path=\char`\"{}Output\+Files/\char`\"{}, chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point start=chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::now(), bool outputprint=false, bool debug=false)
+\begin{DoxyCompactList}\small\item\em Function used to produce $\ast$.root files choosing cuts or defining new columns. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{RootFileCreator_8h_a52fb67ec670a690fd91604758afbcf45}{Root\+File\+Creator\+Extension\+Path\+Purger}} (string $\ast$stringtobepurged)
+\item 
+string \mbox{\hyperlink{RootFileCreator_8h_ace083758b3150deaf558c74710104038}{Root\+File\+Creator\+Extension\+Path\+Purger}} (string stringtobepurged)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for some functions used to create $\ast$.root files. 
+
+
+
+Definition in file \mbox{\hyperlink{RootFileCreator_8h_source}{Root\+File\+Creator.\+h}}.
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{RootFileCreator_8h_a52fb67ec670a690fd91604758afbcf45}\label{RootFileCreator_8h_a52fb67ec670a690fd91604758afbcf45}} 
+\index{RootFileCreator.h@{RootFileCreator.h}!RootFileCreatorExtensionPathPurger@{RootFileCreatorExtensionPathPurger}}
+\index{RootFileCreatorExtensionPathPurger@{RootFileCreatorExtensionPathPurger}!RootFileCreator.h@{RootFileCreator.h}}
+\doxysubsubsection{\texorpdfstring{RootFileCreatorExtensionPathPurger()}{RootFileCreatorExtensionPathPurger()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily int Root\+File\+Creator\+Extension\+Path\+Purger (\begin{DoxyParamCaption}\item[{string $\ast$}]{stringtobepurged }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{RootFileCreator_8cpp_source_l00151}{151}} of file \mbox{\hyperlink{RootFileCreator_8cpp_source}{Root\+File\+Creator.\+cpp}}.
+
+\mbox{\Hypertarget{RootFileCreator_8h_ace083758b3150deaf558c74710104038}\label{RootFileCreator_8h_ace083758b3150deaf558c74710104038}} 
+\index{RootFileCreator.h@{RootFileCreator.h}!RootFileCreatorExtensionPathPurger@{RootFileCreatorExtensionPathPurger}}
+\index{RootFileCreatorExtensionPathPurger@{RootFileCreatorExtensionPathPurger}!RootFileCreator.h@{RootFileCreator.h}}
+\doxysubsubsection{\texorpdfstring{RootFileCreatorExtensionPathPurger()}{RootFileCreatorExtensionPathPurger()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily string Root\+File\+Creator\+Extension\+Path\+Purger (\begin{DoxyParamCaption}\item[{string}]{stringtobepurged }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{RootFileCreator_8cpp_source_l00163}{163}} of file \mbox{\hyperlink{RootFileCreator_8cpp_source}{Root\+File\+Creator.\+cpp}}.
+
+\mbox{\Hypertarget{RootFileCreator_8h_a724ba5f4b176d26e73905ce68cad46dc}\label{RootFileCreator_8h_a724ba5f4b176d26e73905ce68cad46dc}} 
+\index{RootFileCreator.h@{RootFileCreator.h}!RootFileCreatorFilterer@{RootFileCreatorFilterer}}
+\index{RootFileCreatorFilterer@{RootFileCreatorFilterer}!RootFileCreator.h@{RootFileCreator.h}}
+\doxysubsubsection{\texorpdfstring{RootFileCreatorFilterer()}{RootFileCreatorFilterer()}}
+{\footnotesize\ttfamily int Root\+File\+Creator\+Filterer (\begin{DoxyParamCaption}\item[{pair$<$ string, string $>$}]{data\+\_\+holder,  }\item[{string}]{output\+\_\+filename,  }\item[{string}]{cut,  }\item[{string}]{output\+\_\+path = {\ttfamily \char`\"{}OutputFiles/\char`\"{}},  }\item[{chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point}]{start = {\ttfamily chrono\+:\+:\+\_\+V2\+:\+:system\+\_\+clock\+:\+:now()},  }\item[{bool}]{outputprint = {\ttfamily false},  }\item[{bool}]{debug = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{RootFileCreator_8cpp_source_l00027}{27}} of file \mbox{\hyperlink{RootFileCreator_8cpp_source}{Root\+File\+Creator.\+cpp}}.
+
+\mbox{\Hypertarget{RootFileCreator_8h_aa3e46a745ce80ff63a74b9e37d190b85}\label{RootFileCreator_8h_aa3e46a745ce80ff63a74b9e37d190b85}} 
+\index{RootFileCreator.h@{RootFileCreator.h}!RootFileCreatorTree@{RootFileCreatorTree}}
+\index{RootFileCreatorTree@{RootFileCreatorTree}!RootFileCreator.h@{RootFileCreator.h}}
+\doxysubsubsection{\texorpdfstring{RootFileCreatorTree()}{RootFileCreatorTree()}}
+{\footnotesize\ttfamily Root\+File\+Creator\+Tree (\begin{DoxyParamCaption}\item[{TTree $\ast$}]{treetobewritten,  }\item[{string}]{output\+\_\+filename = {\ttfamily \char`\"{}\char`\"{}},  }\item[{string}]{output\+\_\+path = {\ttfamily \char`\"{}OutputFiles/\char`\"{}},  }\item[{chrono\+::\+\_\+\+V2\+::system\+\_\+clock\+::time\+\_\+point}]{start = {\ttfamily chrono\+:\+:\+\_\+V2\+:\+:system\+\_\+clock\+:\+:now()},  }\item[{bool}]{outputprint = {\ttfamily false},  }\item[{bool}]{debug = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Function used to produce $\ast$.root files choosing cuts or defining new columns. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em treetobewritten} & Pointer to the tree that has to be written in the file~\newline
+\\
+\hline
+{\em output\+\_\+filename} & The name of the root file that will be produced (without the extension). If not specified, it will be the original filename+\char`\"{}\+\_\+\+CREATED\char`\"{} \\
+\hline
+{\em output\+\_\+path} & The name of the path where the output file will be written to (default is \char`\"{}\+Output\+Files/\char`\"{}) \\
+\hline
+{\em start} & Starting time of the main function (default is the starting time of the function itself) \\
+\hline
+{\em outputprint} & Flag to decide to print the output to terminal \\
+\hline
+{\em debug} & Flag to acrivate debug mode \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{RootFileCreator_8cpp_source_l00108}{108}} of file \mbox{\hyperlink{RootFileCreator_8cpp_source}{Root\+File\+Creator.\+cpp}}.
+

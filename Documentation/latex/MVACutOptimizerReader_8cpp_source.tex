@@ -1,0 +1,108 @@
+\hypertarget{MVACutOptimizerReader_8cpp_source}{}\doxysection{MVACut\+Optimizer\+Reader.\+cpp}
+\label{MVACutOptimizerReader_8cpp_source}\index{SourceFiles/MVACutOptimizerReader.cpp@{SourceFiles/MVACutOptimizerReader.cpp}}
+\mbox{\hyperlink{MVACutOptimizerReader_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00001}00001 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00014}00014 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{MVACutOptimizerReader_8h}{HeaderFiles/MVACutOptimizerReader.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00015}00015 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{RootFileCreator_8h}{HeaderFiles/RootFileCreator.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00016}00016 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{TreeRecursiveSearch_8h}{HeaderFiles/TreeRecursiveSearch.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00017}00017 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00018}\mbox{\hyperlink{MVACutOptimizerReader_8h_aeb7f550278ea92ec0c7f696dc8181e0d}{00018}} \textcolor{keywordtype}{int} \mbox{\hyperlink{MVACutOptimizerReader_8cpp_aeb7f550278ea92ec0c7f696dc8181e0d}{MVACutOptimizerReader}}(\textcolor{keywordtype}{string} mva\_cut\_factory\_filename,}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00019}00019                           unordered\_map<\textcolor{keywordtype}{string}, pair<string, string>> files\_to\_be\_read,}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00020}00020                           vector<TMVAMethod> tmvamethods)}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00021}00021 \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00022}00022     \textcolor{comment}{// Looping over all the input files which should get a MVA cut variable}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00023}00023     \textcolor{keywordflow}{for} (unordered\_map<\textcolor{keywordtype}{string}, pair<string, string>>::iterator fileit = files\_to\_be\_read.begin(); fileit != files\_to\_be\_read.end(); fileit++)}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00024}00024     \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00025}00025         \textcolor{keywordtype}{string} inputfilename = fileit-\/>second.first;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00026}00026         \textcolor{keywordtype}{string} inputtreename = fileit-\/>second.second;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00027}00027         TFile *eventinputfile = TFile::Open(inputfilename.data());}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00028}00028         ROOT::RDataFrame *dataframe\_inputfile = \textcolor{keyword}{new} ROOT::RDataFrame(inputtreename.data(), inputfilename.data());}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00029}00029         vector<string> features\_inputfile = dataframe\_inputfile-\/>GetColumnNames();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00031}00031         TFile *mva\_cut\_factory\_file = TFile::Open(mva\_cut\_factory\_filename.data(), \textcolor{stringliteral}{"{}write"{}});}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00032}00032         \textcolor{keywordflow}{if} (mva\_cut\_factory\_file-\/>IsZombie() == \textcolor{keyword}{true})}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00033}00033         \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00034}00034             cout << \textcolor{stringliteral}{"{}The MVA Cut Factory file does not exist\(\backslash\)nAborting"{}} << endl;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00035}00035             \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00036}00036         \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00037}00037         mva\_cut\_factory\_file-\/>cd();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00038}00038         TDirectory *current\_directory = gDirectory;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00039}00039         vector<pair<string, string>> treeinthefactoryfile;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00040}00040         TList tree\_list\_factoryfile;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00041}00041         \mbox{\hyperlink{TreeRecursiveSearch_8h_af3df4892779d900f85a36485eea23145}{TreeRecursiveSearch}}(current\_directory, \&treeinthefactoryfile, \&tree\_list\_factoryfile);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00043}00043         \textcolor{comment}{// Creating a dataframe which holds only names of variables with a variance greater than the threshold set up before}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00044}00044         \textcolor{keywordtype}{string} mva\_cut\_factory\_tree\_signalname = treeinthefactoryfile[1].first + \textcolor{stringliteral}{"{}/"{}} + treeinthefactoryfile[1].second;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00045}00045         ROOT::RDataFrame *dataframe\_mva\_factory = \textcolor{keyword}{new} ROOT::RDataFrame(mva\_cut\_factory\_tree\_signalname.data(), mva\_cut\_factory\_filename);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00046}00046         vector<string> features\_reader = dataframe\_mva\_factory-\/>GetColumnNames();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00047}00047         vector<string> features\_datareader;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00048}00048         \textcolor{keywordflow}{for} (vector<string>::iterator inputdata\_colname\_iterator = features\_inputfile.begin(); inputdata\_colname\_iterator != features\_inputfile.end(); inputdata\_colname\_iterator++)}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00049}00049         \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00050}00050             \textcolor{keywordflow}{if} (dataframe\_mva\_factory-\/>HasColumn(inputdata\_colname\_iterator-\/>data()) \&\& dataframe\_inputfile-\/>HasColumn(inputdata\_colname\_iterator-\/>data()))}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00051}00051             \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00052}00052                 features\_datareader.push\_back(inputdata\_colname\_iterator-\/>data());}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00053}00053             \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00054}00054         \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00055}00055         vector<Double\_t> Input\_feature\_var(features\_datareader.size());}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00056}00056         unordered\_map<string, Float\_t> MVA\_feature\_var(features\_datareader.size());}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00058}00058         \textcolor{keywordtype}{int} event\_entries = dataframe\_inputfile-\/>Count().GetValue();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00060}00060         \textcolor{keywordflow}{for} (vector<TMVAMethod>::iterator tmvamethit = tmvamethods.begin(); tmvamethit < tmvamethods.end(); tmvamethit++)}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00061}00061         \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00062}00062             eventinputfile-\/>cd();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00063}00063             TTree *Event = (TTree *)eventinputfile-\/>Get(inputtreename.data());}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00064}00064             \textcolor{keywordflow}{for} (vector<string>::iterator mvavar = features\_datareader.begin(); mvavar < features\_datareader.end(); mvavar++)}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00065}00065             \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00066}00066                 Event-\/>SetBranchAddress(mvavar-\/>data(), \&(Input\_feature\_var[distance(features\_datareader.begin(), mvavar)]));}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00067}00067             \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00068}00068             \textcolor{keywordtype}{string} methoditname = string(tmvamethit-\/>tmvamethodname);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00070}00070             \textcolor{comment}{// Looking for any weight of the specified method in the folder containing the training results}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00071}00071             TString weightfilename = TString::Format(\textcolor{stringliteral}{"{}TMVAResults/\%s/Weights/TMVAClassification\_\%s.weights.xml"{}}, \textcolor{stringliteral}{"{}vt\_transformed\_dataset"{}}, methoditname.data());}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00073}00073             \textcolor{comment}{// Defining the reader that should do the MVA evaluation}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00074}00074             TMVA::Reader *reader = \textcolor{keyword}{new} TMVA::Reader(methoditname);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00075}00075             \textcolor{keywordflow}{for} (vector<string>::iterator mvavar = features\_datareader.begin(); mvavar != features\_datareader.end(); mvavar++)}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00076}00076             \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00077}00077                 reader-\/>AddVariable(mvavar-\/>data(), \&(MVA\_feature\_var[mvavar-\/>data()]));}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00078}00078             \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00079}00079             reader-\/>BookMVA(methoditname, weightfilename);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00081}00081             \textcolor{comment}{// Checking that input tree is read from the right file, because histograms are written to a different file}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00082}00082             eventinputfile-\/>cd();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00083}00083             \textcolor{comment}{//Event-\/>SetName((string(Event-\/>GetName()) + "{}\_"{} + methoditname).data());}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00084}00084             Double\_t mvacut\_weight = 0, mva\_cut\_proba = 0, mva\_cut\_rarity = 0;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00085}00085             \textcolor{keywordtype}{char} *branch\_weight\_name = (string(\textcolor{stringliteral}{"{}mvacut\_"{}}) + methoditname).data();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00086}00086             TBranch *Branch\_Weight = Event-\/>Branch(branch\_weight\_name, \&mvacut\_weight);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00087}00087             \textcolor{keywordtype}{char} *branch\_proba\_name = (string(\textcolor{stringliteral}{"{}mvaproba\_"{}}) + methoditname).data();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00088}00088             TBranch *Branch\_Proba = Event-\/>Branch(branch\_proba\_name, \&mva\_cut\_proba);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00089}00089             \textcolor{keywordtype}{char} *branch\_rarity\_name = (string(\textcolor{stringliteral}{"{}mvararity\_"{}}) + methoditname).data();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00090}00090             TBranch *Branch\_Rarity = Event-\/>Branch(branch\_rarity\_name, \&mva\_cut\_rarity);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00091}00091             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} readerindex = 0; readerindex < event\_entries; readerindex++)}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00092}00092             \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00093}00093                 Event-\/>GetEntry(readerindex);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00094}00094                 \textcolor{keywordflow}{for} (vector<string>::iterator mvavar = features\_datareader.begin(); mvavar < features\_datareader.end(); mvavar++)}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00095}00095                 \{}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00096}00096                     MVA\_feature\_var[mvavar-\/>data()] = (Float\_t)Input\_feature\_var[distance(features\_datareader.begin(), mvavar)];}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00097}00097                 \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00098}00098                 mvacut\_weight = reader-\/>EvaluateMVA(methoditname);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00099}00099                 mva\_cut\_proba = reader-\/>GetProba(methoditname);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00100}00100                 mva\_cut\_rarity = reader-\/>GetRarity(methoditname);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00101}00101                 Branch\_Weight-\/>Fill();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00102}00102                 Branch\_Proba-\/>Fill();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00103}00103                 Branch\_Rarity-\/>Fill();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00104}00104             \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00105}00105             \mbox{\hyperlink{RootFileCreator_8h_aa3e46a745ce80ff63a74b9e37d190b85}{RootFileCreatorTree}}(Event, fileit-\/>second.first);}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00106}00106             Branch\_Weight-\/>ResetAddress();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00107}00107             Branch\_Proba-\/>ResetAddress();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00108}00108             Branch\_Rarity-\/>ResetAddress();}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00109}00109             \textcolor{comment}{// Freeing memory allocated for the reader}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00110}00110             \textcolor{keyword}{delete} reader;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00111}00111         \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00112}00112     \}}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00113}00113     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{MVACutOptimizerReader_8cpp_source_l00114}00114 \}}
+
+\end{DoxyCode}
