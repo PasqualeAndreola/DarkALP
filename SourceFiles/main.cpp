@@ -1043,7 +1043,7 @@ int main(int argc, char *argv[])
   }
 */
 /*
-  ROOT::RDataFrame *deftuple = new ROOT::RDataFrame("DecayTree", "InputFiles/DATA_SignalRegion_JpsiMVA_BDT_20072023.root");
+  ROOT::RDataFrame *deftuple = new ROOT::RDataFrame("DecayTree", "InputFiles/DATA_SignalRegion_JpsiMVA_BDT_17102023.root");
 
   vector<string> s_kpi_vars =    {"k_px", "k_py", "k_pz", "k_e",
                                   "pi_px", "pi_py", "pi_pz", "pi_e"
@@ -1071,7 +1071,7 @@ int main(int argc, char *argv[])
   ROOT::RDF::RSnapshotOptions snapopt;
   snapopt.fMode = "UPDATE";
   snapopt.fOverwriteIfExists = "TRUE";
-  deftuple_node->Snapshot("DecayTree", "InputFiles/DATA_SignalRegion_JpsiMVA_BDT_20072023_OmegaCUT.root");
+  deftuple_node->Snapshot("DecayTree", "InputFiles/DATA_SignalRegion_JpsiMVA_BDT_17102023_VARS.root");
 */
   unordered_map<string, vector<string>> vardef;
   /*vardef["b_m_omegaconstrained"] = {

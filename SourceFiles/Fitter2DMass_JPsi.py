@@ -21,7 +21,7 @@ import calendar
 import time
 
 # Write the structure for the table for latex
-with open("OutputFiles/LatexTables/PreliminaryFit/MVAScan/latex_table_nevts_uncert_vs_mvacut.tex", "w") as f:
+with open("AnalysisNote/LatexTables/PreliminaryFit/MVAScan/latex_table_nevts_uncert_vs_mvacut.tex", "w") as f:
     print('\\begin{table}[!h]', file=f)
     print('\centering', file=f)
     print('\\begin{adjustbox}{width=18cm, rotate=90}', file=f)
@@ -34,7 +34,7 @@ sigma_n_b_sigevents_list = []
 n_jpsi_sigevents_list = []
 sigma_n_jpsi_sigevents_list = []
 
-for mvabdt_cut in np.linspace(0.40, 0.55, num=16):
+for mvabdt_cut in np.linspace(0.35, 0.5, num=16):
     # Spaces (normalization ranges)
 
     # Mass Spaces
@@ -52,7 +52,7 @@ for mvabdt_cut in np.linspace(0.40, 0.55, num=16):
     # Data (data used as input and relative filters)
 
     # Dataset
-    file = uproot.open("InputFiles/DATA_SignalRegion_JpsiMVA_BDT_20072023_OmegaCUT.root")
+    file = uproot.open("InputFiles/DATA_SignalRegion_JpsiMVA_BDT_17102023_VARS.root")
     #file = uproot.open("InputFiles/JpsiMCStrippingFiltered.root")
     tree = file["DecayTree"]
     varstobeloaded = ["b_cons_Jpsixpiz_m_best", "x_cons_xpiz_m_best"]
