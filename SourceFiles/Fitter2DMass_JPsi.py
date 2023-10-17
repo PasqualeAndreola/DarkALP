@@ -52,7 +52,7 @@ for mvabdt_cut in np.linspace(0.35, 0.5, num=16):
     # Data (data used as input and relative filters)
 
     # Dataset
-    file = uproot.open("InputFiles/DATA_SignalRegion_JpsiMVA_BDT_17102023_VARS.root")
+    file = uproot.open("InputFiles/DATA_SignalRegion_JpsiMVA_BDT_20072023_OmegaCUT.root")
     #file = uproot.open("InputFiles/JpsiMCStrippingFiltered.root")
     tree = file["DecayTree"]
     varstobeloaded = ["b_cons_Jpsixpiz_m_best", "x_cons_xpiz_m_best"]
